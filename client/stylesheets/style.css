@@ -1,5 +1,12 @@
 body { padding-top: 70px; }
 
+.input-sm{
+    width: 100%;
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
 @-moz-document url-prefix() {
     fieldset {
         display: table-cell;
