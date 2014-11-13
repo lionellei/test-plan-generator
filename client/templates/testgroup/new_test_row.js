@@ -2,25 +2,24 @@ if (Meteor.isClient) {
     Template.new_test_row.events({
 
        "keyup .test_item_input": function (event, template) {
-           //console.log(event.target.name);
+            // Detect the "enter" key, via keyCode==13, for any of the input tag
+            // in the new_test_row
            if (event.keyCode == 13) {
-               /*
-               var test_item = {};
-               test_item[event.target.name]=event.target.value;
-               _id = Testitems.insert(test_item);
-               test_item = Testitems.findOne(_id);
-               console.log(test_item); */
                //console.log(event);
-               console.log(template);
-               console.log(template.firstNode.children);
-               cells = template.firstNode.children;
+               //console.log(template);
+               //console.log(template.firstNode.children);
                
-               // Loop through the cells, the first one is the test number
-               // which is managed by the program.
+               var test_item = {}; // Declare the test_item as dictionary
+               cells = template.firstNode.children; // template.firstNode=<tr> its childrens are all the <td> tags
+               
+               // Loop through the <td> tags to set the attributes of the test_item, 
+               // the first one is the test number which is managed by the program.
                for (var i = 1; i < cells.length; i++) {
-                   console.log(cells[i].firstElementChild.name);
-                   console.log(cells[i].firstElementChild.value);
+                   var key = cells[i].firstElementChild.name;
+                   var value = cells[i].firstElementChild.value;
+                    test_item[key] = value;
                }
+               Testitems.insert(test_item);
            }
        } 
 
