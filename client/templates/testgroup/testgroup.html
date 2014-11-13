@@ -23,42 +23,29 @@
 
             <!-- Table Body -->
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>CATHODE</td>
-                <td>DIO2</td>
-                <td class="bg-success">V</td>
-                <td class="bg-success">0.1</td>
-                <td class="bg-success">V</td>
-                <td class="bg-warning">V</td>
-                <td class="bg-warning">0.1</td>
-                <td class="bg-warning">mA</td>
-                <td class="bg-info">V</td>
-                <td class="bg-info">0.3</td>
-                <td class="bg-info">0.65</td>
-                <td class="bg-info">0.95</td>
-                <td class="bg-info">V</td>
-            </tr>
+                {{#each testitems}}
+                    {{> testitem}}
+                {{/each}}
 
-            <tr>
-                <td>2</td>
-                <td>ANODE</td>
-                <td>DIO2</td>
-                <td class="bg-success">V</td>
-                <td class="bg-success">0.1</td>
-                <td class="bg-success">V</td>
-                <td class="bg-warning">V</td>
-                <td class="bg-warning">0.1</td>
-                <td class="bg-warning">mA</td>
-                <td class="bg-info">V</td>
-                <td class="bg-info">0.3</td>
-                <td class="bg-info">0.65</td>
-                <td class="bg-info">0.95</td>
-                <td class="bg-info">V</td>
-            </tr>
+                <tr>
+                    <td>1</td>
+                    <td>CATHODE</td>
+                    <td>DIO2</td>
+                    <td class="bg-success">V</td>
+                    <td class="bg-success">0.1</td>
+                    <td class="bg-success">V</td>
+                    <td class="bg-warning">V</td>
+                    <td class="bg-warning">0.1</td>
+                    <td class="bg-warning">mA</td>
+                    <td class="bg-info">V</td>
+                    <td class="bg-info">0.3</td>
+                    <td class="bg-info">0.65</td>
+                    <td class="bg-info">0.95</td>
+                    <td class="bg-info">V</td>
+                </tr>
 
-            <!-- Always put an empty row for inserting -->
-            {{> new_test_row}}
+                <!-- Always put an empty row for inserting -->
+                {{> new_test_row}}
             </tbody>
 
         </table>
