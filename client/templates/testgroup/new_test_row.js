@@ -14,8 +14,12 @@ if (Meteor.isClient) {
                console.log(template);
                console.log(template.firstNode.children);
                cells = template.firstNode.children;
-               for (var i = 0; i < cells.length; i++) {
-                   console.log(cells[i].firstChild.value);
+               
+               // Loop through the cells, the first one is the test number
+               // which is managed by the program.
+               for (var i = 1; i < cells.length; i++) {
+                   console.log(cells[i].firstElementChild.name);
+                   console.log(cells[i].firstElementChild.value);
                }
            }
        } 
