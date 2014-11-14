@@ -1,0 +1,33 @@
+<template name="padsList">
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed table-bordered">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    <th>Pad#</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+                {{#each pads}}
+                    {{> pad}}
+                {{/each}}
+
+                <!-- Example Row -->
+                <tr>
+                    <td>Example</td>
+                    <td>AMON</td>
+                    <td>DC</td>
+                </tr>
+
+                <!-- Pads List Import Form -->
+            </tbody>
+
+        </table>
+        
+        {{> spreadsheetToMongodb__form 'padsInputForm' }}
+    </div>
+</template>
