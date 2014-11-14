@@ -21,35 +21,37 @@ Template.testitem.events({
             var pads = Pads.find().fetch();
 
             // TODO: Make it smarter without removing entire collection first.
-            Meteor.call('removeAllTestItems'); // temporary solution is to remove entire collection and then recreate it.
+            // temporary solution is to remove entire collection and then recreate it.
+            // This may cause problem.
+            // Meteor.call('removeAllTestItems');
+
 
             // Loops through all the pads copy the prototype test's value, except the pad name.
             for (var i = 0; i < pads.length; i++) {
+                // Only create the test_item for the pad if there is none already.
+                // Pads list sometimes will have same pads appear more than once.
+                // TODO: In reality, should check within the same testgroup instead of the entire collection.
                 pad = pads[i];
-                var test_item = {
-                    "pin": pad.name,
-                    "resource": prototype_test.resource,
-                    "source_type": prototype_test.source_type,
-                    "source_value": prototype_test.source_value,
-                    "source_unit": prototype_test.source_unit,
-                    "compliance_type": prototype_test.compliance_type,
-                    "compliance_value": prototype_test.compliance_value,
-                    "compliance_unit": prototype_test.compliance_unit,
-                    "measure_type": prototype_test.measure_type,
-                    "measure_min": prototype_test.measure_min,
-                    "measure_typ": prototype_test.measure_typ,
-                    "measure_max": prototype_test.measure_max,
-                    "measure_unit": prototype_test.measure_unit
-                };
-                Testitems.insert(test_item);
+                if (!!!Testitems.findOne({pad:pad.name})) {
+                    var test_item = {
+                        "pad": pad.name,
+                        "resource": prototype_test.resource,
+                        "source_type": prototype_test.source_type,
+                        "source_value": prototype_test.source_value,
+                        "source_unit": prototype_test.source_unit,
+                        "compliance_type": prototype_test.compliance_type,
+                        "compliance_value": prototype_test.compliance_value,
+                        "compliance_unit": prototype_test.compliance_unit,
+                        "measure_type": prototype_test.measure_type,
+                        "measure_min": prototype_test.measure_min,
+                        "measure_typ": prototype_test.measure_typ,
+                        "measure_max": prototype_test.measure_max,
+                        "measure_unit": prototype_test.measure_unit
+                    };
+                    Testitems.insert(test_item);
+                }
+
             }
-
         }
-    }
-});
-
-Meteor.methods({
-    removeAllTestItems: function () {
-        Testitems.remove({});
     }
 });
