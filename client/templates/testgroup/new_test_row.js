@@ -17,7 +17,8 @@ if (Meteor.isClient) {
                for (var i = 1; i < cells.length; i++) {
                    var key = cells[i].firstElementChild.name;
                    var value = cells[i].firstElementChild.value;
-                    test_item[key] = value;
+                   test_item[key] = value;
+                   cells[i].firstElementChild.value = ""; // clear the field
                }
                Testitems.insert(test_item);
            }
