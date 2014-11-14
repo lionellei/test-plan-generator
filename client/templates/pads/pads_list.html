@@ -1,5 +1,6 @@
 <template name="padsList">
     <div class="table-responsive">
+        <h1>These are all the pads</h1>
         <table class="table table-hover table-condensed table-bordered">
             <!-- Table Header -->
             <thead>
@@ -18,9 +19,9 @@
 
                 <!-- Example Row -->
                 <tr>
-                    <td>Example</td>
-                    <td>AMON</td>
-                    <td>DC</td>
+                    <td class="bg-info">Example</td>
+                    <td class="bg-info">AMON</td>
+                    <td class="bg-info">DC</td>
                 </tr>
 
                 <!-- Pads List Import Form -->
@@ -28,6 +29,8 @@
 
         </table>
         
-        {{> spreadsheetToMongodb__form 'padsInputForm' }}
+        <div>
+            {{> spreadsheetToMongodb__form 'padsInputForm' }}
+        </div>
     </div>
 </template>
