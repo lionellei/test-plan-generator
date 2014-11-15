@@ -57,7 +57,15 @@ Template.testitem.events({
 
     // Click to edit
     "click .editable": function(event, template){
-        // Set the Session variable Session["currentEditingCell"] to the tag id
+        // Each cell when clicked will create a session variable with key of the cell identifier with value true
+        // Why not just use a Session.get('currentEditingCell') to store the cell identifier?
+        // Because you want to set the particular key to false when the cell is focus out (when user clicks away)
+        // instead of setting Session.set('currentEditingCell', null). Because focus out will also get triggered when
+        // the user click another cell, and that cell's .rendered method will try to set Session['currentEditingCell']
+        // too, so there is chance for conflict.
+        var previousEditingCellIdentifier = Session.get("currentEditingCell");
+        Session.set(previousEditingCellIdentifier, false); // Disable editing for the previous cell.
+        Session.set(event.currentTarget.id, true);
         Session.set("currentEditingCell", event.currentTarget.id);
     }
 });
@@ -89,7 +97,13 @@ Template.testItemCell.helpers({
         // data passed in has the following form:
         // Object {value: "mA", cell_name: "source_unit", object_id: "483qbHfznNpLCrfGF"}
         var cell_identifier = data.cell_name + '+' + data.object_id;
-        return (Session.get("currentEditingCell") == cell_identifier);
+        return (Session.get(cell_identifier) == true);
+        // Each cell when clicked will create a session variable with key of the cell identifier with value true
+        // Why not just use a Session.get('currentEditingCell') to store the cell identifier?
+        // Because you want to set the particular key to false when the cell is focus out (when user clicks away)
+        // instead of setting Session.set('currentEditingCell', null). Because focus out will also get triggered when
+        // the user click another cell, and that cell's .rendered method will try to set Session['currentEditingCell']
+        // too, so there is chance for conflict.
     }
 });
 
@@ -111,8 +125,18 @@ Template.editing_cell.helpers({
     }
 });
 
+Template.editing_cell.events({
+   "focusout": function(event, template) {
+       previousKey = Session.get("currentEditingCell");
+       if (previousKey != null) {
+           Session.set(previousKey, false);
+       }
+   }
+});
+
+
 // Focus (put the cursor behind the text) the cell once it becomes editable
 Template.editing_cell.rendered = function () {
-    console.log(this);
-    // this.firstNode.focus();
+    //console.log(this);
+    this.firstNode.nextSibling.focus();
 };
