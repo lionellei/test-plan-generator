@@ -20,7 +20,7 @@ Template.testgroup.events({
                   + item.compliance_type+"cmp="+item.compliance_value+item.compliance_unit + ','
                   + "Cont "+item.pad+" ("+item.source_type+"src="+item.source_value+' '+item.source_unit+')' + ','
                   + item.measure_min + ',' + item.measure_typ + ',' + item.measure_max + ',' + item.measure_unit 
-                  + '\n';
+                  + '\n' ;
          data = data + row;
       }
       
