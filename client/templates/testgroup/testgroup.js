@@ -8,7 +8,8 @@ Template.testgroup.events({
    "click .example-info": function(){
        alert("This is just an example row.");
    },
-   
+
+   // Export the test plan to csv file.
    "click .export-button": function(){
       console.log("export button clicked");
       var testItems = Testitems.find().fetch();

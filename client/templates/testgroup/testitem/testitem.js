@@ -53,5 +53,66 @@ Template.testitem.events({
 
             }
         }
+    },
+
+    // Click to edit
+    "click .editable": function(event, template){
+        // Set the Session variable Session["currentEditingCell"] to the tag id
+        Session.set("currentEditingCell", event.currentTarget.id);
     }
 });
+
+
+//////////// Helpers ////////////////
+Template.testitem.helpers({
+    // Create the attributes for each cell in the testitem row:
+    "cellAttributes": function(cell_name) {
+        //console.log("test item field is"+cell_name);
+        return {
+            class: "editable text-center",
+            id: cell_name + '+' + this._id
+        };
+    }
+});
+
+
+
+/////////////////////// Partial Helpers ///////////////////////////////////
+// testitem
+//     --> testItemCell
+//           --> editing_cell
+///////////////////////////////////////////////////////////////////////////
+Template.testItemCell.helpers({
+    // Return whether the cell is being edited:
+    "cellIsEditing": function(data) {
+        // console.log(data);
+        // data passed in has the following form:
+        // Object {value: "mA", cell_name: "source_unit", object_id: "483qbHfznNpLCrfGF"}
+        var cell_identifier = data.cell_name + '+' + data.object_id;
+        return (Session.get("currentEditingCell") == cell_identifier);
+    }
+});
+
+Template.editing_cell.helpers({
+    "cellNameIsType": function(cell_name) {
+        if (cell_name == "source_type" || cell_name == "compliance_type" || cell_name == "measure_type") {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    "checkOptionSelection": function(value, option){
+        if (value==option) {
+            return {
+                selected: "selected"
+            }
+        }
+    }
+});
+
+// Focus (put the cursor behind the text) the cell once it becomes editable
+Template.editing_cell.rendered = function () {
+    console.log(this);
+    // this.firstNode.focus();
+};
