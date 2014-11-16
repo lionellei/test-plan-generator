@@ -1,3 +1,5 @@
+// TODO: Figure out why email won't send when deployed on cloud9's development server
+// Sending email works when deploy to meteor's free test server, but won't work on cloud9's preview server.
 Meteor.startup(function () {
     smtp = {
         username: 'lionel_lei@yahoo.com',   // eg: server@gentlenode.com
