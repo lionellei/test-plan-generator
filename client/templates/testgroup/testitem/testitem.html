@@ -1,3 +1,4 @@
+<!-- TODO: Need to figure out to have one testitem template to support different type of testgroup -->
 <template name="testitem">
     <!-- This is the template for each row -->
     <tr>
@@ -76,6 +77,7 @@
 
 
 <!-- Partials within this template, their helper methods are in the same .js file with the parents template -->
+<!-- TODO: These partials could be used by other testgroup template as well -->
 <template name="testItemCell">
         {{#if cellIsEditing this}}
             {{> editing_cell value=value cell_name=cell_name object_id=object_id}}
