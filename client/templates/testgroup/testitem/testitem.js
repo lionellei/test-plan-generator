@@ -76,8 +76,31 @@ Template.testitem.helpers({
     // Create the attributes for each cell in the testitem row:
     "cellAttributes": function(cell_name) {
         //console.log("test item field is"+cell_name);
+        var bgClass = "";
+        switch (cell_name) {
+            case "source_type":
+            case "source_value":
+            case "source_unit":
+                bgClass = "bg-success";
+                break;
+            case "compliance_type":
+            case "compliance_value":
+            case "compliance_unit":
+                bgClass = "bg-warning";
+                break;
+            case "measure_type":
+            case "measure_min":
+            case "measure_typ":
+            case "measure_max":
+            case "measure_unit":
+                bgClass = "bg-info";
+                break;
+            default :
+                bgClass = "bg-default";
+                break;
+        }
         return {
-            class: "editable text-center",
+            class: "editable text-center "+bgClass,
             id: cell_name + '+' + this._id
         };
     }
@@ -127,6 +150,44 @@ Template.editing_cell.helpers({
 
 Template.editing_cell.events({
    "focusout": function(event, template) {
+       previousKey = Session.get("currentEditingCell");
+       if (previousKey != null) {
+           Session.set(previousKey, false);
+       }
+   },
+
+   "keyup .editing-cell": function(event, template) {
+       if (event.keyCode === 13) {
+           // The 'this' object for this template holds the following info:
+           // Object {value: "CATHODE_L", cell_name: "pad", object_id: "NShKFazs6uWcACqkh"}
+
+           //TODO: Refactor this code into a method
+           if (event.currentTarget.value != this.value) {
+               testItem = Testitems.findOne(this.object_id);
+               testItem[this.cell_name] = event.currentTarget.value;
+               Testitems.update(this.object_id, testItem);
+           }
+
+           // disable the cell for editing once "enter" is pressed.
+           previousKey = Session.get("currentEditingCell");
+           if (previousKey != null) {
+               Session.set(previousKey, false);
+           }
+       }
+   },
+
+   "change .selecting-cell": function(event, template) {
+       // The 'this' object for this template holds the following info:
+       // Object {value: "CATHODE_L", cell_name: "pad", object_id: "NShKFazs6uWcACqkh"}
+
+       //TODO: Refactor this code into a method
+       if (event.currentTarget.value != this.value) {
+           testItem = Testitems.findOne(this.object_id);
+           testItem[this.cell_name] = event.currentTarget.value;
+           Testitems.update(this.object_id, testItem);
+       }
+
+       // disable the cell for editing once "enter" is pressed.
        previousKey = Session.get("currentEditingCell");
        if (previousKey != null) {
            Session.set(previousKey, false);

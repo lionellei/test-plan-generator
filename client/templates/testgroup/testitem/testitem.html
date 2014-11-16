@@ -78,7 +78,7 @@
 <!-- Partials within this template, their helper methods are in the same .js file with the parents template -->
 <template name="testItemCell">
         {{#if cellIsEditing this}}
-            {{> editing_cell value=value cell_name=cell_name}}
+            {{> editing_cell value=value cell_name=cell_name object_id=object_id}}
         {{else}}
             {{value}}
         {{/if}}
@@ -86,12 +86,12 @@
 
 <template name="editing_cell">
     {{#if cellNameIsType cell_name}}
-        <select value="{{value}}" name="source_type" class="form-control">
+        <select class="form-control selecting-cell" value="{{value}}" name={{cell_name}}>
             <option></option>
             <option {{checkOptionSelection value "V"}}>V</option>
             <option {{checkOptionSelection value "I"}}>I</option>
         </select>
     {{else}}
-        <input class="input-sm text-center" value="{{value}}" type="text" />
+        <input class="input-sm text-center editing-cell" name={{cell_name}} value="{{value}}" type="text" />
     {{/if}}
 </template>
