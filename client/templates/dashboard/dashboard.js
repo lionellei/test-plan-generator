@@ -4,7 +4,8 @@
 
 
 //////////// Partials /////////////////
-var chipNameSubmit = function(){
+var chipNameSubmit = function(chip_name){
+    console.log("chip name is "+chip_name);
     $('.chip-name-modal').modal('hide');
 };
 
@@ -13,13 +14,15 @@ Template.newTestPlanForm.events({
     // TODO: check if input field is empty.
     "keyup .chip-name-input": function(event, template) {
         if (event.keyCode==13) {
-            chipNameSubmit();
+            var chip_name = $('.chip-name-input')[0].value;
+            chipNameSubmit(chip_name);
         }
     },
 
     // User click submit button
     // TODO: check if input field is empty.
     "click .chip-name-input-submit": function(event, template) {
-        chipNameSubmit();
+        var chip_name = $('.chip-name-input')[0].value;
+        chipNameSubmit(chip_name);
     }
 });
