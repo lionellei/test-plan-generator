@@ -1,4 +1,36 @@
 <template name="dashboard">
     <h1>This is the dashboard.</h1>
-    <a class="btn btn-primary create-test-plan-btn" href="{{pathFor 'newTestPlan'}}">Create Test Plan</a>
+    <button type="button" class="btn btn-primary create-test-plan-btn" data-toggle="modal" data-target=".chip-name-modal">
+        Create Test Plan
+    </button>
+
+    <div class="modal fade chip-name-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{> newTestPlanForm}}
+            </div>
+        </div>
+    </div>
 </template>
+
+<!-- Partials -->
+<template name="newTestPlanForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Enter IC Name</h4>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="text" class="form-control chip-name-input" placeholder="eg. qCDRLP" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary chip-name-input-submit">Submit</button>
+    </div>
+</template>
+
