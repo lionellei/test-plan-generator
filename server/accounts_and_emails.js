@@ -39,7 +39,7 @@ Accounts.validateLoginAttempt(function(attempt){
     if (attempt.user && attempt.user.emails && !attempt.user.emails[0].verified ) {
         console.log('email not verified');
 
-        return false; // the login is aborted
+        return true; // TODO: change to false in production, so the login is aborted when email not verified.
     }
     return true;
 });
