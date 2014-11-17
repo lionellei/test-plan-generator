@@ -1,3 +1,57 @@
 <template name="testplanPage">
-    {{chipName}} Test Plan
+    
+    <!-- Information Panel -->
+    <div class="panel panel-default">
+        <!-- Panel Heading -->
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-4 col-md-4">
+                    <p class="h5"><strong>{{chipName}} Test Plan</strong></p>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <!-- Empty Column -->
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle btn-group-justified" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                        Unreleased
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 3</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 2</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 1</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 0</a></li>
+                      </ul>
+                    </div>
+                </div>        
+            </div>            
+        </div>
+        <!-- Panel Body -->
+        <div class="panel-body">
+            <p>Please complete the following steps. </p>
+            <p>After importing the <mark>Pin List</mark> and <mark>Register Table</mark>, some tests could be generated automatically.</p>
+            <div class="row">
+                <div class="col-sm-4">
+                    <p>
+                        <a href="{{pathFor 'padsList'}}" class="btn btn-primary btn-group-justified">
+                            Import Pin List <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>                        
+                    </p>
+                    <P>
+                        <button type="button" class="btn btn-primary btn-group-justified">
+                            Import Register Table <span class="glyphicon glyphicon-chevron-right"></span>
+                        </button>                        
+                    </P>
+                </div>
+            </div>
+        </div>
+        <!-- Panel Footer -->
+        <div class="panel-footer">
+            <button type="button" class="btn btn-xs btn-warning">Release</button>
+        </div>
+    </div>
+    <!-- End of Information Panel -->
+    
+    
 </template>
