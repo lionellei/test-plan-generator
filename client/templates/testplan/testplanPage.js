@@ -31,5 +31,20 @@ Template.newTestGroupForm.events({
    "change .select-custom-test": function() {
        // Toggle the 'showCustomTestNameInput' key:
        Session.set('showCustomTestNameInput', !Session.get('showCustomTestNameInput'));
+       
+       // Deselect other testplan templates when custom test is selected.
+       if (Session.get('showCustomTestNameInput')) {
+           $('#select-continuity-template').prop('checked', false);
+           $('#select-leakage-template').prop('checked', false);
+       }
+   },
+   
+   "change .select-template": function() {
+       // either one of the template checkbox is changed will trigger this event.
+       // and if any of them is "checked" then deselect the custom test through Session['showCustomTestNameInput']
+       if ($('#select-continuity-template').prop('checked') ||
+           $('#select-leakage-template')) {
+               Session.set('showCustomTestNameInput', false);
+           }
    }
 });
