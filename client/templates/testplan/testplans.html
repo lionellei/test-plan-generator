@@ -1,3 +1,7 @@
 <template name="testplans">
-    Show all the testplans here.
+    {{#each this}}
+        <p>
+            <a href="{{pathFor 'testplanPage' this}}">{{chipName}} Test Plan</a>
+        </p>
+    {{/each}}
 </template>
