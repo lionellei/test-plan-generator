@@ -13,6 +13,9 @@
 
             <!-- Table Body -->
             <tbody>
+                <!-- A hacky way to let spreadsheet-to-mongo package call back to know the chipName -->
+                {{setChipNameInSession}}
+                
                 <!-- the 'data' context from the router is 'this' in template helper -->
                 {{#each this}}
                     {{> pad}}
