@@ -106,6 +106,8 @@ var generateContinuityTests = function(testplanObj) {
                 // Create one testitem for source (+ current) test and one for sink (- current)
                 var source_test = {
                     "testgroupId": continuityTest._id, // Assign the testgroupId to identify this test item belongs to this test group. 
+                    "testgroupName": "Continuity", // Assign because router use testplans/:chipName/:testName to local this.
+                    "chipName": testplanObj.chipName, // Assign because router use testplans/:chipName/:testName to local this.
                     "pad": pad.name,
                     "resource": "AIO15", //TODO: temporary, remove later.
                     "source_type": "I",
