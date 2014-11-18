@@ -1,5 +1,9 @@
 // ********* Main testplanPage Template *************
-
+Template.testplanPage.helpers({
+    "testgroups": function() {
+        return Testgroups.find({chipName:this.chipName});
+    } 
+});
 
 
 // ********* Partials ******************

@@ -65,6 +65,11 @@
         <!-- Panel Body -->
         <div class="panel-body">
             <p>All the tests shown here:</p>
+            {{#each testgroups}}
+                <p>
+                    <a type="button" class="btn btn-success btn-group-justified" href="{{pathFor 'testgroup' this}}">{{name}}</a>
+                </p>
+            {{/each}}
             <p>
                 <button type="button" class="btn btn-primary btn-group-justified add-test-group-btn" data-toggle="modal" data-target=".add-test-group-modal"> 
                     <span class="glyphicon glyphicon-plus"></span> Add Test Group
