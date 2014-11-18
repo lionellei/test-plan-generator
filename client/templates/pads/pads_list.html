@@ -13,7 +13,8 @@
 
             <!-- Table Body -->
             <tbody>
-                {{#each pads}}
+                <!-- the 'data' context from the router is 'this' in template helper -->
+                {{#each this}}
                     {{> pad}}
                 {{/each}}
 

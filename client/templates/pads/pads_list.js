@@ -1,6 +1,14 @@
+
 Template.padsList.helpers({
+   /*
    "pads": function() {
-       return Pads.find();
+      //console(data);
+      return Pads.find();
+   }
+   */
+   log: function() {
+      console.log(this);
+      console.log(this.fetch());
    }
 });
 
