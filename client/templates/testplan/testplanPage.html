@@ -53,5 +53,45 @@
     </div>
     <!-- End of Information Panel -->
     
+    <!-- ********************* I am an invisible divider *********************** -->
     
+    <!-- Test Groups Panel -->
+    <div class="panel panel-default">
+        <!-- Panel Heading -->
+        <div class="panel-heading">
+            <strong class="text-center">Tests</strong>
+        </div>
+        
+        <!-- Panel Body -->
+        <div class="panel-body">
+            <p>All the tests shown here:</p>
+            <p>
+                <button type="button" class="btn btn-primary btn-group-justified add-test-group-btn" data-toggle="modal" data-target=".add-test-group-modal"> 
+                    <span class="glyphicon glyphicon-plus"></span> Add Test Group
+                </button>
+                
+                <!-- This will only shown when the above button is clicked. -->
+                <div class="modal fade add-test-group-modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            {{> newTestGroupForm}}
+                        </div>
+                    </div>
+                </div>
+            </p>
+        </div>
+    </div>
+</template>
+
+
+<!-- Partials --> 
+<template name="newTestGroupForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <p class="modal-title">Enter Test Name (e.g. continuity)</p>
+    </div>
+    <div class="modal-body">
+        blah blah blah ...
+        <input type="checkbox"> Continuity Template.
+    </div>
 </template>
