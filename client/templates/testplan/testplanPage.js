@@ -1,4 +1,4 @@
-// ********* Main Template *************
+// ********* Main testplanPage Template *************
 
 
 
@@ -46,5 +46,24 @@ Template.newTestGroupForm.events({
            $('#select-leakage-template')) {
                Session.set('showCustomTestNameInput', false);
            }
+   },
+   
+   "click #create-test-group-submit": function () {
+       if ($('.select-custom-test').prop('checked')) {
+           // Do something to create teh custom test group
+           console.log('Create custom test');
+       } else {
+           if ($('#select-continuity-template').prop('checked')) {
+               // Do something to create continuity tests
+               console.log('Create continuity test');
+           }
+           
+           if ($('#select-leakage-template').prop('checked')) {
+               // Do something to create leakage test group
+               console.log('Create leakage test');
+           }
+       }
+       
+       $('.add-test-group-modal').modal('hide');
    }
 });
