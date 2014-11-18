@@ -113,7 +113,6 @@ var generateContinuityTests = function(testplanObj) {
                     "testgroupName": "Continuity", // Assign because router use testplans/:chipName/:testName to local this.
                     "chipName": testplanObj.chipName, // Assign because router use testplans/:chipName/:testName to local this.
                     "pad": pad.name,
-                    "resource": "AIO15", //TODO: temporary, remove later.
                     "source_type": "I",
                     "source_value": "100",
                     "source_unit": "uA",
@@ -130,6 +129,7 @@ var generateContinuityTests = function(testplanObj) {
                 
                 var sink_test = source_test;
                 sink_test["source_value"] = "-100";
+                sink_test["compliance_value"] = "-2";
                 sink_test["measure_min"] = "-0.85";
                 sink_test["measure_typ"] = "-0.71";
                 sink_test["measure_max"] = "-0.35";
