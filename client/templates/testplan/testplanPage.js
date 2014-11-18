@@ -83,43 +83,52 @@ var getTestGroupByName = function(testGroupName, chipName, testplanId) {
     return testgroup;
 }
 
-var generateContinuityTests = function(chipObj) { 
+var generateContinuityTests = function(testplanObj) { 
     // chipObj has the following data:
     // Object { _id: "MQ9qAHguc24ip3gw5", chipName: "qTIAX1B" }
     // TODO: Does it need to take a collection as argument?
     
-    var pads = Pads.find({chipName:chipObj.chipName}).fetch();
+    var pads = Pads.find({chipName:testplanObj.chipName}).fetch();
     if (pads.length > 0) { //check if there is Pads list first!!
-        console.log("Generating continuity test for "+chipObj.chipName);
+        console.log("Generating continuity test for "+testplanObj.chipName);
         
         // First create or retrieve the testgroup with the given name
-        var continuityTest = getTestGroupByName("Continuity", chipObj.chipName, chipObj._id);
-        console.log(continuityTest);
+        // this is of type "Testgroups"
+        var continuityTest = getTestGroupByName("Continuity", testplanObj.chipName, testplanObj._id);
+       
         // Loops through all the pads
-        /*
         for (var i = 0; i < pads.length; i++) {
             // Only create the test_item for the pad if there is none already.
             // Pads list sometimes will have same pads appear more than once.
             // TODO: In reality, should check within the same testgroup instead of the entire collection.
             pad = pads[i];
-            if (!!!Testitems.findOne({pad:pad.name})) {
-                var test_item = {
+            if (!!!Testitems.findOne({pad:pad.name, testgroupId:continuityTest._id})) {
+                // Create one testitem for source (+ current) test and one for sink (- current)
+                var source_test = {
+                    "testgroupId": continuityTest._id, // Assign the testgroupId to identify this test item belongs to this test group. 
                     "pad": pad.name,
-                    "resource": prototype_test.resource,
-                    "source_type": prototype_test.source_type,
-                    "source_value": prototype_test.source_value,
-                    "source_unit": prototype_test.source_unit,
-                    "compliance_type": prototype_test.compliance_type,
-                    "compliance_value": prototype_test.compliance_value,
-                    "compliance_unit": prototype_test.compliance_unit,
-                    "measure_type": prototype_test.measure_type,
-                    "measure_min": prototype_test.measure_min,
-                    "measure_typ": prototype_test.measure_typ,
-                    "measure_max": prototype_test.measure_max,
-                    "measure_unit": prototype_test.measure_unit
+                    "resource": "AIO15", //TODO: temporary, remove later.
+                    "source_type": "I",
+                    "source_value": "100",
+                    "source_unit": "uA",
+                    "compliance_type": "V",
+                    "compliance_value": "2",
+                    "compliance_unit": "V",
+                    "measure_type": "V",
+                    "measure_min": "0.35",
+                    "measure_typ": "0.6",
+                    "measure_max": "0.97",
+                    "measure_unit": "V"
                 };
-                Testitems.insert(test_item);
+                Testitems.insert(source_test);
+                
+                var sink_test = source_test;
+                sink_test["source_value"] = "-100";
+                sink_test["measure_min"] = "-0.85";
+                sink_test["measure_typ"] = "-0.71";
+                sink_test["measure_max"] = "-0.35";
+                Testitems.insert(sink_test);
             }
-        } */
+        }
     }
 };
