@@ -73,6 +73,7 @@ Template.newTestGroupForm.events({
    }
 });
 
+/// *************** The heavey duty stuffs below ********************************
 var getTestGroupByName = function(testGroupName, chipName, testplanId) {
     var testgroup = Testgroups.findOne({name:testGroupName, testplanId:testplanId});
     if (!testgroup) { // No testgroup in this testplan that has the given name
@@ -80,7 +81,8 @@ var getTestGroupByName = function(testGroupName, chipName, testplanId) {
         testgroup = {
           name: testGroupName,
           chipName: chipName,
-          testplanId: testplanId
+          testplanId: testplanId,
+          setups: []
         };
         testgroup._id = Testgroups.insert(testgroup);
     }
@@ -99,6 +101,25 @@ var generateContinuityTests = function(testplanObj) {
         // First create or retrieve the testgroup with the given name
         // this is of type "Testgroups"
         var continuityTest = getTestGroupByName("Continuity", testplanObj.chipName, testplanObj._id);
+        
+        // Generate the setup
+        var supplyPads = Pads.find({chipName:testplanObj.chipName, type:"SUPPLY"}).fetch();
+        var setups = [];
+        for (var i = 0; i < supplyPads.length; i++) {
+            pad = supplyPads[i];
+            var setup = {
+                "pad": pad.name,
+                "source_type": "V",
+                "source_value": "0",
+                "source_unit": "V"
+            };
+            if (setups.indexOf(setup) < 0) { // will return -1 if not found.
+                // if that setup is not already in the array.
+                // Need to check this because the same pads may be listed multiple times in the pads list.
+                setups.push(setup);
+            }
+        }
+        Testgroups.update(continuityTest._id, {$set: {setups:setups}});
        
         // Loops through all the pads
         for (var i = 0; i < pads.length; i++) {
