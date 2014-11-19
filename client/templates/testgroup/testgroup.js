@@ -6,6 +6,10 @@ Template.testgroup.helpers({
    "showExampleRow": function() {
        // TODO: In reality only query within the test group instead of whole collection
        return !!!(Testitems.find().count() > 0);
+   },
+
+   "log": function() {
+       console.log(this.matcher._selector);
    }
 });
 

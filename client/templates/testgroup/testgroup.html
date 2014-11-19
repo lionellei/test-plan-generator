@@ -1,12 +1,37 @@
 <template name="testgroup">
-    <div>
-        <button type="button" class="btn btn-primary export-button">Export</button>
-    </div><br />
-    
-    <div class="table-responsive">
-        <table class="table table-hover table-condensed table-bordered">
-            <!-- Table Header -->
-            <thead>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong class="h2">{{this.matcher._selector.chipName}} {{this.matcher._selector.testgroupName}}</strong>
+            <button type="button" class="btn btn-primary export-button pull-right">Export</button>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong class="h4">Setup</strong>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">Pad</th>
+                        <th class="text-center">Source</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">Unit</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong class="h4">Tests</strong>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <!-- Table Header -->
+                <thead>
                 <tr>
                     <th class="text-center">Number</th>
                     <th class="text-center">Pad</th>
@@ -22,10 +47,10 @@
                     <th class="text-center bg-info">MAX</th>
                     <th class="text-center bg-info">Unit</th>
                 </tr>
-            </thead>
+                </thead>
 
-            <!-- Table Body -->
-            <tbody>
+                <!-- Table Body -->
+                <tbody>
                 {{#each this}}
                     {{> testitem}}
                 {{/each}}
@@ -52,8 +77,10 @@
 
                 <!-- Always put an empty row for inserting -->
                 {{> new_test_row}}
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
+        </div>
     </div>
+
 </template>

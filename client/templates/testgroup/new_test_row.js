@@ -8,7 +8,11 @@ if (Meteor.isClient) {
                //console.log(event);
                //console.log(template);
                //console.log(template.firstNode.children);
-               
+               var chipName = template.data.matcher._selector.chipName;
+               var testgroupName = template.data.matcher._selector.testgroupName;
+               var testgroupId = Testgroups.findOne({chipName:chipName, name:testgroupName})._id;
+
+
                var test_item = {}; // Declare the test_item as dictionary
                cells = template.firstNode.children; // template.firstNode=<tr> its childrens are all the <td> tags
                
@@ -20,6 +24,9 @@ if (Meteor.isClient) {
                    test_item[key] = value;
                    cells[i].firstElementChild.value = ""; // clear the field
                }
+               test_item["testgroupId"] = testgroupId;
+               test_item["testgroupName"] = testgroupName;
+               test_item["chipName"] = chipName;
                Testitems.insert(test_item);
            }
        } 

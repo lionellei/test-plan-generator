@@ -107,8 +107,6 @@ var generateContinuityTests = function(testplanObj) {
         var setups = [];
         for (var i = 0; i < supplyPads.length; i++) {
             pad = supplyPads[i];
-            
-            //var wanted = items.filter( function(item){return (item.age==18);} );
 
             if (setups.length == 0 | setups.filter(function(item){return (item.pad==pad.name);}).length == 0) {
                 // if that setup is not already in the array.
