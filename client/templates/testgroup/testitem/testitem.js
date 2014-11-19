@@ -1,3 +1,4 @@
+///////////////////// Events /////////////////////////////
 Template.testitem.events({
 
     // Delete Row

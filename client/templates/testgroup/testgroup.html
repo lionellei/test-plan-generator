@@ -25,12 +25,7 @@
 
                 <tbody>
                     {{#each setups}}
-                        <tr>
-                            <td class="text-center">{{pad}}</td>
-                            <td class="text-center">{{source_type}}</td>
-                            <td class="text-center">{{source_value}}</td>
-                            <td class="text-center">{{source_unit}}</td>
-                        </tr>
+                        {{> setup}}
                     {{/each}}
                 </tbody>
             </table>

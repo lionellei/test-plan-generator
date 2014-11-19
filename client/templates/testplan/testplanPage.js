@@ -115,7 +115,8 @@ var generateContinuityTests = function(testplanObj) {
                     "pad": pad.name,
                     "source_type": "V",
                     "source_value": "0",
-                    "source_unit": "V"
+                    "source_unit": "V",
+                    "_id": new Meteor.Collection.ObjectID()._str // Generate a unique ID so it could be updated in template
                 };
                 setups.push(setup);
             }
