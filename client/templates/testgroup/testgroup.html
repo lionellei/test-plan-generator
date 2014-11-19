@@ -1,4 +1,5 @@
 <template name="testgroup">
+    <!-- Test Group Title -->
     <div class="panel panel-default">
         <div class="panel-heading">
             <strong class="h2">{{this.matcher._selector.chipName}} {{this.matcher._selector.testgroupName}}</strong>
@@ -6,12 +7,13 @@
         </div>
     </div>
 
+    <!-- Test Group Global Setup -->
     <div class="panel panel-default">
         <div class="panel-heading">
             <strong class="h4">Setup</strong>
         </div>
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover table-condensed table-bordered">
                 <thead>
                     <tr>
                         <th class="text-center">Pad</th>
@@ -20,10 +22,22 @@
                         <th class="text-center">Unit</th>
                     </tr>
                 </thead>
+
+                <tbody>
+                    {{#each setups}}
+                        <tr>
+                            <td class="text-center">{{pad}}</td>
+                            <td class="text-center">{{source_type}}</td>
+                            <td class="text-center">{{source_value}}</td>
+                            <td class="text-center">{{source_unit}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
             </table>
         </div>
     </div>
 
+    <!-- Tests Table -->
     <div class="panel panel-default">
         <div class="panel-heading">
             <strong class="h4">Tests</strong>

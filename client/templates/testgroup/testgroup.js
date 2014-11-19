@@ -1,16 +1,18 @@
 Template.testgroup.helpers({
-   "testitems": function() {
-       return Testitems.find();
-   },
+    "log": function() {
+        console.log(this.matcher._selector);
+    },
 
    "showExampleRow": function() {
        // TODO: In reality only query within the test group instead of whole collection
-       return !!!(Testitems.find().count() > 0);
+       return !!!(Testitems.find({chipName:this.matcher._selector.chipName, testgroupName:this.matcher._selector.testgroupName}).count() > 0);
    },
 
-   "log": function() {
-       console.log(this.matcher._selector);
-   }
+    "setups": function() {
+        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
+        return testgroup.setups;
+    }
+
 });
 
 Template.testgroup.events({
