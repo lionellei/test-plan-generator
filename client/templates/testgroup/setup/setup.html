@@ -1,8 +1,24 @@
 <template name="setup">
     <tr>
-        <td {{cellAttributes "pad"}}>{{pad}}</td>
-        <td {{cellAttributes "source_type"}}>{{source_type}}</td>
-        <td {{cellAttributes "source_value"}}>{{source_value}}</td>
-        <td {{cellAttributes "source_unit"}}>{{source_unit}}</td>
+        <td {{cellAttributes "pad"}}>
+            <span>
+                {{> editable_cell value=pad cell_name="pad" object_id=this._id}}
+            </span>
+        </td>
+        <td {{cellAttributes "source_type"}}>
+            <span>
+                {{> editable_cell value=source_type cell_name="source_type" object_id=this._id}}
+            </span>
+        </td>
+        <td {{cellAttributes "source_value"}}>
+            <span>
+                {{> editable_cell value=source_value cell_name="source_value" object_id=this._id}}
+            </span>
+        </td>
+        <td {{cellAttributes "source_unit"}}>
+            <span>
+                {{> editable_cell value=source_unit cell_name="source_unit" object_id=this._id}}
+            </span>
+        </td>
     </tr>
 </template>
