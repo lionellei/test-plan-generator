@@ -74,6 +74,10 @@ Template.testitem.events({
 
 //////////// Helpers ////////////////
 Template.testitem.helpers({
+    "log": function() {
+      console.log(this);  
+    },
+    
     // Create the attributes for each cell in the testitem row:
     "cellAttributes": function(cell_name) {
         //console.log("test item field is"+cell_name);

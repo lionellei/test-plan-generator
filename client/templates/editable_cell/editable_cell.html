@@ -2,7 +2,7 @@
 <!-- TODO: These partials could be used by other testgroup template as well -->
 <template name="editable_cell">
         {{#if cellIsEditing this}}
-            {{> editing_cell value=value cell_name=cell_name object_id=object_id}}
+            {{> editing_cell value=value cell_name=cell_name object_id=object_id collection=collection}}
         {{else}}
             {{value}}
         {{/if}}

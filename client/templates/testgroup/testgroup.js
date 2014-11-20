@@ -25,7 +25,8 @@ Template.testgroup.events({
 
    // Export the test plan to csv file.
    "click .export-button": function(){
-      console.log("export button clicked");
+      // console.log("export button clicked");
+      // TODO: find just the test items for this particular test group.
       var testItems = Testitems.find().fetch();
       
       var data = ""; // use a string to form the CSV file
