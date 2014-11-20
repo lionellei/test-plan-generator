@@ -1,0 +1,21 @@
+<!-- Partials within this template, their helper methods are in the same .js file with the parents template -->
+<!-- TODO: These partials could be used by other testgroup template as well -->
+<template name="editable_cell">
+        {{#if cellIsEditing this}}
+            {{> editing_cell value=value cell_name=cell_name object_id=object_id}}
+        {{else}}
+            {{value}}
+        {{/if}}
+</template>
+
+<template name="editing_cell">
+    {{#if cellNameIsType cell_name}}
+        <select class="form-control selecting-cell" value="{{value}}" name={{cell_name}}>
+            <option></option>
+            <option {{checkOptionSelection value "V"}}>V</option>
+            <option {{checkOptionSelection value "I"}}>I</option>
+        </select>
+    {{else}}
+        <input class="input-sm text-center editing-cell" name={{cell_name}} value="{{value}}" type="text" />
+    {{/if}}
+</template>
