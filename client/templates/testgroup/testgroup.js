@@ -24,10 +24,13 @@ Template.testgroup.events({
    },
 
    // Export the test plan to csv file.
-   "click .export-button": function(){
+   "click .export-button": function(event, template){
       // console.log("export button clicked");
-      // TODO: find just the test items for this particular test group.
-      var testItems = Testitems.find().fetch();
+      var testItems = this.fetch(); // this is the data that passed by the router.
+      var testsetups = Testsetups.find({
+            chipName:this.matcher._selector.chipName,
+            testgroup_name: this.matcher._selector.testgroupName
+        }).fetch();
       
       var data = ""; // use a string to form the CSV file
       
@@ -37,8 +40,15 @@ Template.testgroup.events({
       
       // Test setup
       // Hardcode for now, TODO: make it programatically
-      var setup = "Setup" + '\n' + "Pad,Source,Unit" + '\n' + "VCC,0,V" + '\n' + "GND,0,V" + '\n' + '\n';
-      data = data + setup;
+      var setupHeader = "Setup" + '\n' + "Pad,Source,Unit" + '\n';
+      data = data + setupHeader;
+      var setupRows = "";
+      for (var i=0; i<testsetups.length; i++) {
+          setup = testsetups[i];
+          setupRow = setup.pad + ',' + setup.source_value + ',' + setup.source_unit + '\n';
+          setupRows = setupRows + setupRow;
+      }
+      data = data + setupRows;
       
       // Header row:
       var header = "Tests" + '\n' + "Pad,Source,Compliance,Measure,MIN,TYP,MAX,UNIT" + '\n';
@@ -55,6 +65,7 @@ Template.testgroup.events({
       }
       
       var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-      saveAs(blob, "testplan.csv");
+      var fileName = this.matcher._selector.chipName+"_"+this.matcher._selector.testgroupName+".csv";
+      saveAs(blob, fileName); 
    }
 });
