@@ -5,62 +5,62 @@
         <td class="text-center"><span>{{test_number}}</span></td>
         <td {{cellAttributes "pad"}}>
             <span>
-                {{> testItemCell value=pad cell_name="pad" object_id=this._id}}
+                {{> editable_cell value=pad cell_name="pad" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "source_type"}}>
             <span>
-                {{> testItemCell value=source_type cell_name="source_type" object_id=this._id}}
+                {{> editable_cell value=source_type cell_name="source_type" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "source_value"}}>
             <span>
-                {{> testItemCell value=source_value cell_name="source_value" object_id=this._id}}
+                {{> editable_cell value=source_value cell_name="source_value" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "source_unit"}}>
             <span>
-                {{> testItemCell value=source_unit cell_name="source_unit" object_id=this._id}}
+                {{> editable_cell value=source_unit cell_name="source_unit" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "compliance_type"}}>
             <span>
-                {{> testItemCell value=compliance_type cell_name="compliance_type" object_id=this._id}}
+                {{> editable_cell value=compliance_type cell_name="compliance_type" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "compliance_value"}}>
             <span>
-                {{> testItemCell value=compliance_value cell_name="compliance_value" object_id=this._id}}
+                {{> editable_cell value=compliance_value cell_name="compliance_value" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "compliance_unit"}}>
             <span>
-                {{> testItemCell value=compliance_unit cell_name="compliance_unit" object_id=this._id}}
+                {{> editable_cell value=compliance_unit cell_name="compliance_unit" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "measure_type"}}>
             <span>
-                {{> testItemCell value=measure_type cell_name="measure_type" object_id=this._id}}
+                {{> editable_cell value=measure_type cell_name="measure_type" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "measure_min"}}>
             <span>
-                {{> testItemCell value=measure_min cell_name="measure_min" object_id=this._id}}
+                {{> editable_cell value=measure_min cell_name="measure_min" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "measure_typ"}}>
             <span>
-                {{> testItemCell value=measure_typ cell_name="measure_typ" object_id=this._id}}
+                {{> editable_cell value=measure_typ cell_name="measure_typ" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "measure_max"}}>
             <span>
-                {{> testItemCell value=measure_max cell_name="measure_max" object_id=this._id}}
+                {{> editable_cell value=measure_max cell_name="measure_max" object_id=this._id}}
             </span>
         </td>
         <td {{cellAttributes "measure_unit"}}>
             <span>
-                {{> testItemCell value=measure_unit cell_name="measure_unit" object_id=this._id}}
+                {{> editable_cell value=measure_unit cell_name="measure_unit" object_id=this._id}}
             </span>
         </td>
 
@@ -68,27 +68,4 @@
         <td><span class="glyphicon glyphicon-flash prototype-button"></span></td>
         <td><span class="glyphicon glyphicon-trash delete-row"></span></td>
     </tr>
-</template>
-
-
-<!-- Partials within this template, their helper methods are in the same .js file with the parents template -->
-<!-- TODO: These partials could be used by other testgroup template as well -->
-<template name="testItemCell">
-        {{#if cellIsEditing this}}
-            {{> editing_cell value=value cell_name=cell_name object_id=object_id}}
-        {{else}}
-            {{value}}
-        {{/if}}
-</template>
-
-<template name="editing_cell">
-    {{#if cellNameIsType cell_name}}
-        <select class="form-control selecting-cell" value="{{value}}" name={{cell_name}}>
-            <option></option>
-            <option {{checkOptionSelection value "V"}}>V</option>
-            <option {{checkOptionSelection value "I"}}>I</option>
-        </select>
-    {{else}}
-        <input class="input-sm text-center editing-cell" name={{cell_name}} value="{{value}}" type="text" />
-    {{/if}}
 </template>

@@ -20,6 +20,7 @@ Template.editable_cell.helpers({
     }
 });
 
+//////////////// editing_cell //////////////////////////////////////////////
 Template.editing_cell.helpers({
     "cellNameIsType": function(cell_name) {
         if (cell_name == "source_type" || cell_name == "compliance_type" || cell_name == "measure_type") {
