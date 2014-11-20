@@ -104,7 +104,9 @@ var generateContinuityTests = function(testplanObj) {
         
         // Generate the setup
         var supplyPads = Pads.find({chipName:testplanObj.chipName, type:"SUPPLY"}).fetch();
-        var setups = [];
+        var setups = []; // Although we are using a mongo collection to store the setups instead of embedding
+                        // it in testgroup, still need the array in memory for faster checking if a setup for
+                        // a certain pad has already existed, instead of quering the collection every iteration.
         for (var i = 0; i < supplyPads.length; i++) {
             pad = supplyPads[i];
 
@@ -112,13 +114,18 @@ var generateContinuityTests = function(testplanObj) {
                 // if that setup is not already in the array.
                 // Need to check this because the same pads may be listed multiple times in the pads list.
                 var setup = {
+                    "testgroup_name": continuityTest.name,
+                    "testgroup_id": continuityTest._id,
+                    "chipName": testplanObj.chipName,
                     "pad": pad.name,
                     "source_type": "V",
                     "source_value": "0",
-                    "source_unit": "V",
-                    "_id": new Meteor.Collection.ObjectID()._str // Generate a unique ID so it could be updated in template
+                    "source_unit": "V"
                 };
-                setups.push(setup);
+                setups.push(setup); // Save in the memory for fast checking for duplicate pad setups.
+                
+                // Insert into collection:
+                Testsetups.insert(setup);
             }
         }
         Testgroups.update(continuityTest._id, {$set: {setups:setups}});

@@ -4,13 +4,16 @@ Template.testgroup.helpers({
     },
 
    "showExampleRow": function() {
-       // TODO: In reality only query within the test group instead of whole collection
        return !!!(Testitems.find({chipName:this.matcher._selector.chipName, testgroupName:this.matcher._selector.testgroupName}).count() > 0);
    },
 
     "setups": function() {
-        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
-        return testgroup.setups;
+        //TODO: figure out a way to return the testsetup by testgroup_id, it is done this way now because the route path
+        //      has :chipName and :testgroupName.
+        return Testsetups.find({
+            chipName:this.matcher._selector.chipName,
+            testgroup_name: this.matcher._selector.testgroupName
+        });
     }
 
 });
