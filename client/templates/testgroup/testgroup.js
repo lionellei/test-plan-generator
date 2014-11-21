@@ -54,11 +54,12 @@ Template.testgroup.events({
       var header = "Tests" + '\n' + "Pad,Source,Compliance,Measure,MIN,TYP,MAX,UNIT" + '\n';
       data = data + header;
       
+      var measLabelPrefix = this.matcher._selector.testgroupName.substring(0,4);
       for (var i=0; i<testItems.length; i++) {
          item = testItems[i];
          var row = item.pad + ',' + item.source_type+"src="+item.source_value+item.source_unit+','
                   + item.compliance_type+"cmp="+item.compliance_value+item.compliance_unit + ','
-                  + "Cont "+item.pad+" ("+item.source_type+"src="+item.source_value+' '+item.source_unit+')' + ','
+                  + measLabelPrefix+" "+item.pad+" ("+item.source_type+"src="+item.source_value+' '+item.source_unit+')' + ','
                   + item.measure_min + ',' + item.measure_typ + ',' + item.measure_max + ',' + item.measure_unit 
                   + '\n' ;
          data = data + row;

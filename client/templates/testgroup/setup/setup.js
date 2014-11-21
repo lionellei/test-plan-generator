@@ -17,7 +17,11 @@ Template.setup.events({
 
 ////////////////// Helpers ////////////////////////
 Template.setup.helpers({
-   // Create the attributes for each cell setup row:
+   "log": function() {
+       console.log(this);
+   },
+   
+// Create the attributes for each cell setup row:
    "cellAttributes": function(cell_name) {
        return {
            class: "editable text-center",
