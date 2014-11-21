@@ -12,7 +12,17 @@ Template.setup.events({
         Session.set(previousEditingCellIdentifier, false); // Disable editing for the previous cell.
         Session.set(event.currentTarget.id, true);
         Session.set("currentEditingCell", event.currentTarget.id);
-    }
+    },
+    
+    // Delete Row
+    "click .delete-row": function(event, template) {
+        // Template.data is the data context of the current template,
+        // it has the _id of the object.
+        var r = confirm("Deleting this row! Are you sure?");
+        if (r == true) {
+            Testsetups.remove(template.data._id);
+        }
+    },
 });
 
 ////////////////// Helpers ////////////////////////

@@ -20,6 +20,7 @@
                         <th class="text-center">Source</th>
                         <th class="text-center">Value</th>
                         <th class="text-center">Unit</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -27,6 +28,8 @@
                     {{#each setups}}
                         {{> setup}}
                     {{/each}}
+                    
+                    {{> new_setup_row}}
                 </tbody>
             </table>
         </div>
