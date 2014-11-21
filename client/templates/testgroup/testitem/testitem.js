@@ -13,45 +13,43 @@ Template.testitem.events({
 
     // Make the current row a prototype for the entire Pads list
     "click .prototype-button": function(event, template) {
-        var r = confirm("Copy this test to all pads? This will overwrite existing entries!");
+        var r = confirm("Copy this test to all pads?");
         if (r == true) {
-            // TODO: Need to check if there is Pads list first!!
-
             var prototype_row_id = template.data._id;
             var prototype_test = Testitems.findOne(prototype_row_id);
-            var pads = Pads.find().fetch();
+            var pads = Pads.find({chipName: prototype_test.chipName}).fetch();
 
-            // TODO: Make it smarter without removing entire collection first.
-            // temporary solution is to remove entire collection and then recreate it.
-            // This may cause problem.
-            // Meteor.call('removeAllTestItems');
-
-
-            // Loops through all the pads copy the prototype test's value, except the pad name.
-            for (var i = 0; i < pads.length; i++) {
-                // Only create the test_item for the pad if there is none already.
-                // Pads list sometimes will have same pads appear more than once.
-                // TODO: In reality, should check within the same testgroup instead of the entire collection.
-                pad = pads[i];
-                if (!!!Testitems.findOne({pad:pad.name})) {
-                    var test_item = {
-                        "pad": pad.name,
-                        "resource": prototype_test.resource,
-                        "source_type": prototype_test.source_type,
-                        "source_value": prototype_test.source_value,
-                        "source_unit": prototype_test.source_unit,
-                        "compliance_type": prototype_test.compliance_type,
-                        "compliance_value": prototype_test.compliance_value,
-                        "compliance_unit": prototype_test.compliance_unit,
-                        "measure_type": prototype_test.measure_type,
-                        "measure_min": prototype_test.measure_min,
-                        "measure_typ": prototype_test.measure_typ,
-                        "measure_max": prototype_test.measure_max,
-                        "measure_unit": prototype_test.measure_unit
-                    };
-                    Testitems.insert(test_item);
-                }
-
+            if (pads.length == 0) {
+                alert("There is no Pads List defined for this chip. Please import the Pads List first.");
+            } else {
+                // Loops through all the pads copy the prototype test's value, except the pad name.
+                // To prevent duplicate test on the same pad:
+                padNames = [];
+                for (var i = 0; i < pads.length; i++) {
+                    pad = pads[i];
+                    if (pad.name != prototype_test.pad & padNames.filter(function(name){return pad.name == name;}).length==0) {
+                        padNames.push(pad.name);
+                        var test_item = {
+                            "testgroupId": prototype_test.testgroupId, 
+                            "testgroupName": prototype_test.testgroupName, 
+                            "chipName": prototype_test.chipName, 
+                            "pad": pad.name,
+                            "resource": prototype_test.resource,
+                            "source_type": prototype_test.source_type,
+                            "source_value": prototype_test.source_value,
+                            "source_unit": prototype_test.source_unit,
+                            "compliance_type": prototype_test.compliance_type,
+                            "compliance_value": prototype_test.compliance_value,
+                            "compliance_unit": prototype_test.compliance_unit,
+                            "measure_type": prototype_test.measure_type,
+                            "measure_min": prototype_test.measure_min,
+                            "measure_typ": prototype_test.measure_typ,
+                            "measure_max": prototype_test.measure_max,
+                            "measure_unit": prototype_test.measure_unit
+                        };
+                        Testitems.insert(test_item);
+                    }
+                }                
             }
         }
     },
