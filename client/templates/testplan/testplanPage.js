@@ -57,13 +57,18 @@ Template.newTestGroupForm.events({
            // Do something to create teh custom test group
            console.log('Create custom test');
        } else {
-           if ($('#select-continuity-template').prop('checked')) {
-               generateContinuityTests(this);
+           if (Pads.find({chipName: this.chipName}).fetch().length==0) {
+               alert("Please import Pads List before creating tests from template.");
+           } else {
+               if ($('#select-continuity-template').prop('checked')) {
+                   generateContinuityTests(this);
+               }
+               
+               if ($('#select-leakage-template').prop('checked')) {
+                   generateLeakageTests(this);
+               }               
            }
-           
-           if ($('#select-leakage-template').prop('checked')) {
-               generateLeakageTests(this);
-           }
+
        }
        
        $('.add-test-group-modal').modal('hide');
@@ -100,9 +105,11 @@ var generateContinuityTests = function(testplanObj) {
         
         // Generate the setup
         var supplyPads = Pads.find({chipName:testplanObj.chipName, type:"SUPPLY"}).fetch();
-        var setups = []; // Although we are using a mongo collection to store the setups instead of embedding
-                        // it in testgroup, still need the array in memory for faster checking if a setup for
-                        // a certain pad has already existed, instead of quering the collection every iteration.
+        // Although we are using a mongo collection to store the setups instead of embedding
+        // it in testgroup, still need the array in memory for faster checking if a setup for
+        // a certain pad has already existed, instead of quering the collection every iteration.
+        var setups = Testsetups.find({testgroup_id:leakageTest._id}).fetch(); 
+        
         for (var i = 0; i < supplyPads.length; i++) {
             pad = supplyPads[i];
 
