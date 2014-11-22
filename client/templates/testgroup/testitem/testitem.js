@@ -66,6 +66,29 @@ Template.testitem.events({
         Session.set(previousEditingCellIdentifier, false); // Disable editing for the previous cell.
         Session.set(event.currentTarget.id, true);
         Session.set("currentEditingCell", event.currentTarget.id);
+    },
+    
+    // Row select checkbox
+    "change .row_select_checkbox": function (event, template) {
+        console.log(event.currentTarget.checked);
+        console.log(template.data._id);
+        if (event.currentTarget.checked) { //checked, add to array of selected rows ids
+            if(!Session.get('selectedRowsIds')) {
+                Session.set('selectedRowsIds', [template.data._id]);
+            } else {
+                var ids = Session.get('selectedRowsIds');
+                ids.push(template.data._id);
+                Session.set('selectedRowsIds', ids);
+            }
+        } else { //unchecked, remove from array of selected rows ids
+            if(Session.get('selectedRowsIds')) {
+                var ids = Session.get('selectedRowsIds');
+                index = ids.indexOf(template.data._id);
+                ids.splice(index,1);
+                Session.set('selectedRowsIds', ids);
+            }
+        }
+        console.log(Session.get('selectedRowsIds'));
     }
 });
 
