@@ -109,7 +109,7 @@ Template.editing_cell.events({
 // Focus (put the cursor behind the text) the cell once it becomes editable
 Template.editing_cell.rendered = function () {
     //console.log(this);
-    this.firstNode.nextSibling.focus();
+    this.firstNode.nextElementSibling.focus();
 };
 
 // update function
