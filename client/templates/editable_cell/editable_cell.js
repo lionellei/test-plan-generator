@@ -17,11 +17,15 @@ Template.editable_cell.helpers({
         // instead of setting Session.set('currentEditingCell', null). Because focus out will also get triggered when
         // the user click another cell, and that cell's .rendered method will try to set Session['currentEditingCell']
         // too, so there is chance for conflict.
-    }
+    }, 
 });
 
 //////////////// editing_cell //////////////////////////////////////////////
 Template.editing_cell.helpers({
+    "log": function () {
+        console.log(this);    
+    },
+    
     "cellNameIsType": function(cell_name) {
         if (cell_name == "source_type" || cell_name == "compliance_type" || cell_name == "measure_type") {
             return true;
@@ -36,6 +40,28 @@ Template.editing_cell.helpers({
                 selected: "selected"
             }
         }
+    },
+    
+    // Autocomplete settings
+    "my_settings": function() {
+        return {
+           position: "top",
+           limit: 5,
+           rules: [
+             {
+               collection: Pads,
+               field: "name",
+               options: 'i', //case insensitive
+               matchAll: true,
+               filter: {chipName: this.chipName },
+               template: Template.padAutoCompleteTemplate
+             }
+           ]
+        };
+    },
+    
+    "cellNameIs": function(cell_name, str) {
+        return (cell_name == str);
     }
 });
 

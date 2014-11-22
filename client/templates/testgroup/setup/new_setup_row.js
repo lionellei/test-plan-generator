@@ -30,3 +30,23 @@ Template.new_setup_row.events({
    } 
 
 });
+
+Template.new_setup_row.helpers({
+    // Autocomplete settings.
+    "settings": function () {
+        return {
+            position: "top",
+            limit: 5,
+            rules: [
+             {
+               collection: Pads,
+               field: "name",
+               options: 'i', //case insensitive
+               matchAll: true,
+               filter: { chipName: this.matcher._selector.chipName },
+               template: Template.padAutoCompleteTemplate
+             }
+            ]
+        }        
+    }
+});

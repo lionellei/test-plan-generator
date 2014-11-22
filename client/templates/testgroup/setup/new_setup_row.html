@@ -1,6 +1,7 @@
 <template name="new_setup_row">
     <tr>
-        <td><input name="pad" class="input-sm setup_item_input" type="text"/></td>
+        <!--<td><input name="pad" class="input-sm setup_item_input" type="text"/></td>-->
+        <td>{{> inputAutocomplete name="pad" settings=settings class="input-sm setup_item_input" placeholder="Pad Name ..."}}</td>
         <td class="bg-success">
             <select name="source_type" class="form-control">
                 <option></option>
