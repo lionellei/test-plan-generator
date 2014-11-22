@@ -114,6 +114,7 @@ Template.editing_cell.rendered = function () {
 
 // update function
 var updateCell = function(event, template, data) { // data is the data context in template.
+    ///console.log(data);
     if (event.currentTarget.value != data.value) { // check if there is change
         switch (data.collection) {
             case 'Testitems':
