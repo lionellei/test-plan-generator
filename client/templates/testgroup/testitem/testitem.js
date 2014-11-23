@@ -70,8 +70,8 @@ Template.testitem.events({
     
     // Row select checkbox
     "change .row_select_checkbox": function (event, template) {
-        console.log(event.currentTarget.checked);
-        console.log(template.data._id);
+        //console.log(event.currentTarget.checked);
+        //console.log(template.data._id);
         if (event.currentTarget.checked) { //checked, add to array of selected rows ids
             if(!Session.get('selectedRowsIds')) {
                 Session.set('selectedRowsIds', [template.data._id]);
@@ -88,7 +88,7 @@ Template.testitem.events({
                 Session.set('selectedRowsIds', ids);
             }
         }
-        console.log(Session.get('selectedRowsIds'));
+        //console.log(Session.get('selectedRowsIds'));
     }
 });
 
@@ -129,5 +129,14 @@ Template.testitem.helpers({
             class: "editable text-center "+bgClass,
             id: cell_name + '+' + this._id
         };
+    },
+    
+    // check if the checkbox needs to be checked
+    "checked": function () {
+        if (Session.get('selectedRowsIds') && Session.get('selectedRowsIds').indexOf(this._id)>=0 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
