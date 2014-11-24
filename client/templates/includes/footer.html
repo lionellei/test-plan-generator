@@ -37,25 +37,26 @@
             <div class="rows">
                 <div class="col-sm-6">
                     <h4>Change</h4>
-                    <select name="attributes_to_modify" class="form-control">
-                        <option></option>
-                        <option>Pad</option>
-                        <option>Source Type</option>
-                        <option>Source Value</option>
-                        <option>Source Unit</option>
-                        <option>Compliance Type</option>
-                        <option>Compliance Value</option>
-                        <option>Compliance Unit</option>
-                        <option>Measure Type</option>
-                        <option>MIN</option>
-                        <option>TYP</option>
-                        <option>MAX</option>
-                        <option>Measure Unit</option>
+                    <select name="attributes_to_modify" class="form-control attributes_to_modify" id="modify-attribues-select">
+                        <!-- use the label to store the key for the object -->
+                        <option label="none"></option>
+                        <option label="pad">Pad</option>
+                        <option label="source_type">Source Type</option>
+                        <option label="source_value">Source Value</option>
+                        <option label="source_unit">Source Unit</option>
+                        <option label="compliance_type">Compliance Type</option>
+                        <option label="compliance_value">Compliance Value</option>
+                        <option label="compliance_unit">Compliance Unit</option>
+                        <option label="measure_type">Measure Type</option>
+                        <option label="measure_min">MIN</option>
+                        <option label="measure_typ">TYP</option>
+                        <option label="measure_max">MAX</option>
+                        <option label="measure_unit">Measure Unit</option>
                     </select>    
                 </div>
                 <div class="col-sm-6">
                     <h4>To</h4>
-                    <input type="text" class="form-control" name="value"/>     
+                    <input type="text" class="form-control change_attribute_value_input" name="value"/>     
                 </div>
             </div>
         </div>
