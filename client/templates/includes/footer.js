@@ -9,11 +9,7 @@ Template.footer.helpers({
     
     // For the badge 
     "numRowsSelected": function () {
-        if (Session.get('selectedRowsIds') && Session.get('selectedRowsIds').length>0) {
-            return Session.get('selectedRowsIds').length;
-        } else {
-            return 0;
-        }
+        return numRowsSelected();
     }
 });
 
@@ -38,7 +34,11 @@ Template.modifyRowsModal.helpers({
         } else {
             return false;
         }
-    }    
+    }, 
+    
+    "numRowsSelected": function () {
+        return numRowsSelected();
+    }
 });
 
 Template.modifyRowsModal.events({
@@ -64,6 +64,14 @@ Template.modifyRowsModal.events({
 });
 
 //// ******************* The heavy lifting stuffs *******************************
+var numRowsSelected = function () {
+    if (Session.get('selectedRowsIds') && Session.get('selectedRowsIds').length>0) {
+        return Session.get('selectedRowsIds').length;
+    } else {
+        return 0;
+    }
+}
+
 var updateAttributesForTestItem = function(event, template) {
     var ids = Session.get('selectedRowsIds');
     var keyToChange = template.find(".attributes_to_modify").selectedOptions["0"].label;
