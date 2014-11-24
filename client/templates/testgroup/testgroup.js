@@ -14,11 +14,33 @@ Template.testgroup.helpers({
             chipName:this.matcher._selector.chipName,
             testgroup_name: this.matcher._selector.testgroupName
         });
+    },
+    
+    // if the users check the rows one by one, the select-all checkbox should be checked
+    // if all rows are selected.
+    "allRowsSelected": function () {
+        //console(this.fetch());
+        //TODO: may not be robust
+        if (this.fetch().length == Session.get('selectedRowsIds').length) {
+            return true;
+        } else {
+            return false;
+        } 
     }
 
 });
 
 Template.testgroup.events({
+    // Do not use change for this event, because the checkbox could be checked programmatically
+    // if all rows are checked one-by-one.
+    "click .select-all-rows": function(event, template) {
+        if (event.currentTarget.checked) {
+            Session.set('selectedRowsIds', this.fetch().map(function(test){return test._id}));
+        } else {
+            Session.set('selectedRowsIds', []);
+        }
+    },
+    
    "click .example-info": function(){
        alert("This is just an example row.");
    },
