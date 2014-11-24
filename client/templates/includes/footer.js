@@ -22,7 +22,22 @@ Template.footer.events({
                 Session.set('selectedRowsIds', []);
             }
         } 
-    } 
+    }, 
+    
+    "click .duplicate-selected-rows": function (event, template) {
+        if (Session.get('selectedRowsIds') && Session.get('selectedRowsIds').length>0) {
+            var r = confirm(Session.get('selectedRowsIds').length+" rows will be duplicated, are you sure?");
+            if (r) {
+                var ids = Session.get('selectedRowsIds');
+                for (var i=0; i<ids.length; i++) {
+                    var testitem = Testitems.findOne(ids[i]);
+                    //testitem_copy = testitem;
+                    delete testitem._id; // need to erase the _id field otherwise mongo prevents insertion.
+                    Testitems.insert(testitem);
+                }
+            }
+        }         
+    }
 });
 
 
