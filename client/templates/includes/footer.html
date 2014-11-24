@@ -26,6 +26,41 @@
     </div>
 </template>
 
+<!-- Template for the Modify Modal -->
 <template name="modifyRowsModal">
-    <h1>Modify Rows</h1>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <p class="modal-title h4">Select the attributes to modify for the selected rows. </p>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="rows">
+                <div class="col-sm-6">
+                    <h4>Change</h4>
+                    <select name="attributes_to_modify" class="form-control">
+                        <option></option>
+                        <option>Pad</option>
+                        <option>Source Type</option>
+                        <option>Source Value</option>
+                        <option>Source Unit</option>
+                        <option>Compliance Type</option>
+                        <option>Compliance Value</option>
+                        <option>Compliance Unit</option>
+                        <option>Measure Type</option>
+                        <option>MIN</option>
+                        <option>TYP</option>
+                        <option>MAX</option>
+                        <option>Measure Unit</option>
+                    </select>    
+                </div>
+                <div class="col-sm-6">
+                    <h4>To</h4>
+                    <input type="text" class="form-control" name="value"/>     
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="modify_rows_submit">Submit</button>
+    </div>
 </template>
