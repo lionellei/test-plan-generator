@@ -20,41 +20,79 @@ Template.footer.helpers({
 Template.footer.events({
     "click .delete-selected-rows": function (event, template) {
         if (Session.get('selectedRowsIds') && Session.get('selectedRowsIds').length>0) {
-            Meteor.call('removeSelectedTestItems', Session.get('selectedRowsIds'));
-            Session.set('selectedRowsIds', []);
+            var r = confirm(Session.get('selectedRowsIds').length+" rows will be removed, are you sure?");
+            if (r) {
+                Meteor.call('removeSelectedTestItems', Session.get('selectedRowsIds'));
+                Session.set('selectedRowsIds', []);
+            }
         } 
     } 
 });
 
 
 //********************* Sub Templates ****************************
+Template.modifyRowsModal.helpers({
+    "attributeToModifyIsType": function () {
+        if (Session.get('modifyAttributeIsType')) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
+});
+
 Template.modifyRowsModal.events({
     "change .attributes_to_modify": function (event, template) {
-        //console.log(event);
-        //console.log(template);
-        //console.log(this);
-        //console.log(event.currentTarget.selectedOptions);
-        console.log(event.currentTarget.selectedOptions["0"]);
-        console.log(event.currentTarget.selectedOptions["0"].label);
+        if (event.currentTarget.selectedOptions["0"].label == "source_type" ||
+            event.currentTarget.selectedOptions["0"].label == "compliance_type" ||
+            event.currentTarget.selectedOptions["0"].label == "measure_type") {
+            Session.set('modifyAttributeIsType', true);
+        } else {
+            Session.set('modifyAttributeIsType', false);
+        }
     }, 
     
     "keyup .change_attribute_value_input": function(event, template) {
         if (event.keyCode == 13) { //"enter" detected
-            //Use template.find instead of template.$, template.find returns an object that packs much
-            //more information then the jquery object.
-            //console.log(template.find(".attributes_to_modify").selectedOptions["0"].label);
-            //console.log(event.currentTarget.value);
-            var ids = Session.get('selectedRowsIds');
-            if (ids && ids.length>0) {
-                for (var i=0; i<ids.length; i++) {
-                    testitem = Testitems.findOne(ids[i]);
-                    //TODO: need to check of the key is selected.
-                    var keyToChange = template.find(".attributes_to_modify").selectedOptions["0"].label;
-                    //TODO: validate value.
-                    testitem[keyToChange] = event.currentTarget.value;
-                    Testitems.update(ids[i], testitem);
-                }
-            }
+            updateAttributesForTestItem(event, template);
         }
+    }, 
+    
+    "click .modify-rows-submit-btn": function(event, template) {
+        updateAttributesForTestItem(event, template);     
     }
 });
+
+//// ******************* The heavy lifting stuffs *******************************
+var updateAttributesForTestItem = function(event, template) {
+    var ids = Session.get('selectedRowsIds');
+    var keyToChange = template.find(".attributes_to_modify").selectedOptions["0"].label;
+    var inputField = template.find(".change_attribute_value_input");
+    if (keyToChange == "none") {
+        alert("Please select an attribute to change.");
+    } else {
+        if (ids && ids.length>0) {
+            if (inputField.value=="") {
+                var r = confirm("The input field is empty, this will erase the value of "+keyToChange+" for the selected rows. Continue?")
+                if (r) {
+                    commitChangeTestItem(ids, keyToChange, inputField);
+                }
+            } else {
+                commitChangeTestItem(ids, keyToChange, inputField);
+            }
+
+        }
+    }    
+}
+
+var commitChangeTestItem = function(ids, keyToChange, inputField) {
+    for (var i=0; i<ids.length; i++) {
+        testitem = Testitems.findOne(ids[i]);
+        if (testitem[keyToChange] != inputField.value) {
+            testitem[keyToChange] = inputField.value;
+            Testitems.update(ids[i], testitem);    
+        }
+    }
+    inputField.value=""; //clearing the input field after update is done.
+    $('.modify-rows-modal').modal('hide');
+}

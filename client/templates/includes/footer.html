@@ -56,12 +56,20 @@
                 </div>
                 <div class="col-sm-6">
                     <h4>To</h4>
-                    <input type="text" class="form-control change_attribute_value_input" name="value"/>     
+                    {{#if attributeToModifyIsType}}
+                        <select class="form-control change_attribute_value_input">
+                            <option></option>
+                            <option>V</option>
+                            <option>I</option>
+                        </select>
+                    {{else}}
+                        <input type="text" class="form-control change_attribute_value_input" name="value"/>     
+                    {{/if}}
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="modify_rows_submit">Submit</button>
+        <button type="button" class="btn btn-primary modify-rows-submit-btn">Submit</button>
     </div>
 </template>
