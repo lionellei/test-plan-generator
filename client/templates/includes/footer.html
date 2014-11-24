@@ -5,14 +5,27 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Edit <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Modify</a></li>
+                        <li><a href="#" type="button" data-toggle="modal" data-target=".modify-rows-modal" >Modify</a></li>
                         <li><a href="#">Duplicate</a></li>
                         <li><a href="#">Copy to all pads</a></li>
                         <li class="divider"></li>
-                        <li><a role="button" class="delete-selected-rows label label-danger">Delete <span class="badge">{{numRowsSelected}}</span></a></li>
+                        <li><a class="delete-selected-rows label label-danger">Delete selected <span class="badge">{{numRowsSelected}}</span></a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-    </nav>    
+    </nav>
+    
+    <!-- This will only show when the "Modify" button is clicked. -->
+    <div class="modal fade modify-rows-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{> modifyRowsModal}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="modifyRowsModal">
+    <h1>Modify Rows</h1>
 </template>
