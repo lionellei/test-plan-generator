@@ -140,7 +140,7 @@ var numRowsSelected = function () {
     } else {
         return 0;
     }
-}
+};
 
 var updateAttributesForTestItem = function(event, template) {
     var ids = Session.get('selectedRowsIds');
@@ -161,7 +161,7 @@ var updateAttributesForTestItem = function(event, template) {
 
         }
     }    
-}
+};
 
 var commitChangeTestItem = function(ids, keyToChange, inputField) {
     for (var i=0; i<ids.length; i++) {
@@ -173,4 +173,4 @@ var commitChangeTestItem = function(ids, keyToChange, inputField) {
     }
     inputField.value=""; //clearing the input field after update is done.
     $('.modify-rows-modal').modal('hide');
-}
+};
