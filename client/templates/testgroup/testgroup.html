@@ -9,14 +9,14 @@
             {{#each notes}}
                 {{> note}}
             {{/each}}
-            <button type="button" class="pull-right btn btn-link btn-primary btn-sm" data-toggle="modal" data-target=".add_note_modal">
+            <button type="button" class="pull-right btn btn-link btn-primary btn-sm" data-toggle="modal" data-target=".add-note-modal">
                 Add Note
             </button>
             <!-- This will only show when above button is clicked. -->
-            <div class="modal fade add_note_modal">
+            <div class="modal fade add-note-modal">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        {{> addNoteModal}}
+                        {{> addNoteModal currentTestgroup=currentTestgroup}} <!-- pass the current testgroup -->
                     </div>
                 </div>
             </div>
@@ -124,6 +124,6 @@
         <textarea class="form-control note-textarea" rows="3"></textarea>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary note_submit-button">Submit</button>
+        <button type="button" class="btn btn-primary note-submit-button">Submit</button>
     </div>
 </template>

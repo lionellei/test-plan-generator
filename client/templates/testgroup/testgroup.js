@@ -35,7 +35,21 @@ Template.testgroup.helpers({
     // Return all the notes collection
     "notes": function () {
         var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
-        return Notes.find({testgroupId:testgroup._id});
+        if (testgroup) {
+            return Notes.find({testgroupId:testgroup._id});
+        } else {
+            return [];
+        }
+
+    },
+
+    "currentTestgroup": function() {
+        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
+        if (testgroup) {
+            return testgroup;
+        } else {
+            return null;
+        }
     }
 
 });
@@ -108,11 +122,13 @@ Template.testgroup.events({
 Template.addNoteModal.events({
     // Only capture submit button click, don't handle the keyup "enter" case since it's a textarea.
     "click .note-submit-button": function(event, template) {
-        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
-        var note = {chipName:testgroup.chipName,
-                    testgroupName:testgroup.name,
-                    testgroupId:testgroup._id,
-                    note_text:event.currentTarget.value};
-        Notes.insert(note);        
+        //console.log(template.find(".note-textarea").value);
+        //console.log(this.currentTestgroup);
+        var note = {chipName:this.currentTestgroup.chipName,
+                    testgroupName:this.currentTestgroup.name,
+                    testgroupId:this.currentTestgroup._id,
+                    note_text:template.find(".note-textarea").value};
+        Notes.insert(note);
+        $('.add-note-modal').modal('hide');
     }
 });
