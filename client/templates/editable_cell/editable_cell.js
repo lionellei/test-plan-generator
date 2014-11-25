@@ -30,7 +30,6 @@ Template.editable_cell.helpers({
 
 Template.editable_cell.events({
     "click .editable": function(event, template){
-        console.log("clicked");
         // Each cell when clicked will create a session variable with key of the cell identifier with value true
         // Why not just use a Session.get('currentEditingCell') to store the cell identifier?
         // Because you want to set the particular key to false when the cell is focus out (when user clicks away)
@@ -138,7 +137,18 @@ Template.editing_cell.events({
     
     "click .note-cancel-button": function(event, template) {
         disableEditing();
+    }, 
+    
+    "click .note-delete-button": function(event, template) {
+        r = confirm("Sure you want to delete this note?");
+        if (r) {
+            Notes.remove(this.object_id);
+        }
+        disableEditing();
     }
+    ///////////////////////////////////////////////////////////
+    
+    
 });
 
 
