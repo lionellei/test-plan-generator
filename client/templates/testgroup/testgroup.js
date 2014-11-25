@@ -21,11 +21,21 @@ Template.testgroup.helpers({
     "allRowsSelected": function () {
         //console(this.fetch());
         //TODO: may not be robust
-        if (this.fetch().length == Session.get('selectedRowsIds').length) {
-            return true;
+        if (Session.get('selectedRowsIds')) {
+            if (this.fetch().length == Session.get('selectedRowsIds').length) {
+                return true;
+            } else {
+                return false;
+            } 
         } else {
             return false;
-        } 
+        }
+    },
+    
+    // Return all the notes collection
+    "notes": function () {
+        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
+        return Notes.find({testgroupId:testgroup._id});
     }
 
 });
@@ -91,4 +101,18 @@ Template.testgroup.events({
       var fileName = this.matcher._selector.chipName+"_"+this.matcher._selector.testgroupName+".csv";
       saveAs(blob, fileName); 
    }
+});
+
+
+///////////////////// Partials within this template //////////////////////////
+Template.addNoteModal.events({
+    // Only capture submit button click, don't handle the keyup "enter" case since it's a textarea.
+    "click .note-submit-button": function(event, template) {
+        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
+        var note = {chipName:testgroup.chipName,
+                    testgroupName:testgroup.name,
+                    testgroupId:testgroup._id,
+                    note_text:event.currentTarget.value};
+        Notes.insert(note);        
+    }
 });
