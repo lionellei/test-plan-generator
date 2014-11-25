@@ -5,7 +5,7 @@
             <!-- chipName is used by autocomlete to filter -->
             {{> editing_cell value=value cell_name=cell_name object_id=object_id collection=collection chipName=chipName}}
         {{else}}
-            <span style="white-space: pre">{{value}}</span>
+            <span {{cellAttributes cell_name}}>{{value}}</span>
         {{/if}}
 </template>
 
@@ -29,6 +29,10 @@
         {{else}}
             {{#if cellNameIs cell_name "note_text"}}
                 <textarea class="form-control note-textarea" rows="3" value="{{value}}"></textarea>
+                <br />
+                <button type="button" class="btn btn-default btn-xs note-update-button">Update</button> 
+                <button type="button" class="btn btn-default btn-xs note-cancel-button">Cancel</button>
+                <button type="button" class="pull-right btn btn-danger btn-xs note-delete-button">Delete</button>
             {{else}}
                 <input class="input-sm text-center editing-cell" name={{cell_name}} value="{{value}}" type="text" /> 
             {{/if}}

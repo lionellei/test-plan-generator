@@ -18,6 +18,30 @@ Template.editable_cell.helpers({
         // the user click another cell, and that cell's .rendered method will try to set Session['currentEditingCell']
         // too, so there is chance for conflict.
     }, 
+    
+    "cellAttributes": function(cell_name) {
+        return {
+           class: "editable",
+           style: "width:100%; white-space:pre", 
+           id: cell_name + '+' + this.object_id
+        };
+    }    
+});
+
+Template.editable_cell.events({
+    "click .editable": function(event, template){
+        console.log("clicked");
+        // Each cell when clicked will create a session variable with key of the cell identifier with value true
+        // Why not just use a Session.get('currentEditingCell') to store the cell identifier?
+        // Because you want to set the particular key to false when the cell is focus out (when user clicks away)
+        // instead of setting Session.set('currentEditingCell', null). Because focus out will also get triggered when
+        // the user click another cell, and that cell's .rendered method will try to set Session['currentEditingCell']
+        // too, so there is chance for conflict.
+        var previousEditingCellIdentifier = Session.get("currentEditingCell");
+        Session.set(previousEditingCellIdentifier, false); // Disable editing for the previous cell.
+        Session.set(event.currentTarget.id, true);
+        Session.set("currentEditingCell", event.currentTarget.id);
+    }
 });
 
 //////////////// editing_cell //////////////////////////////////////////////
@@ -66,13 +90,19 @@ Template.editing_cell.helpers({
 });
 
 Template.editing_cell.events({
-   "focusout": function(event, template) {
-       previousKey = Session.get("currentEditingCell");
-       if (previousKey != null) {
-           Session.set(previousKey, false);
-       }
+    
+    // Had to use two different events, one for editing_cell and one for selecting_cell
+    // Because if the cell is a textarea, the focusout event will intercept the update button click
+    // event. So for textarea the class is neither editing_cell nor selecting_cell so no focusout handling.
+   "focusout .editing-cell": function(event, template) {
+       disableEditing();
    },
 
+   "focusout .selecting-cell": function(event, template) {
+        disableEditing();
+   },
+   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
    "keyup .editing-cell": function(event, template) {
        if (event.keyCode === 13) {
             // The 'this' object for this template holds the following info:
@@ -83,10 +113,7 @@ Template.editing_cell.events({
             updateCell(event,template,this);
             
             // disable the cell for editing once "enter" is pressed.
-            previousKey = Session.get("currentEditingCell");
-            if (previousKey != null) {
-               Session.set(previousKey, false);
-            }
+            disableEditing();
        }
    },
 
@@ -98,11 +125,20 @@ Template.editing_cell.events({
         updateCell(event,template,this);
 
        // disable the cell for editing once "enter" is pressed.
-       previousKey = Session.get("currentEditingCell");
-       if (previousKey != null) {
-           Session.set(previousKey, false);
-       }
-   }
+        disableEditing();
+   },
+   
+    // For test notes input:
+    "click .note-update-button": function(event, template) {
+        updateCell(event, template, this);
+        
+        // disable the cell for editing once "enter" is pressed.
+        disableEditing();   
+    },
+    
+    "click .note-cancel-button": function(event, template) {
+        disableEditing();
+    }
 });
 
 
@@ -110,6 +146,14 @@ Template.editing_cell.events({
 Template.editing_cell.rendered = function () {
     //console.log(this);
     this.firstNode.nextElementSibling.focus();
+};
+
+// disable editing
+var disableEditing = function() {
+    var previousKey = Session.get("currentEditingCell");
+    if (previousKey != null) {
+       Session.set(previousKey, false);
+    }
 };
 
 // update function
@@ -128,7 +172,11 @@ var updateCell = function(event, template, data) { // data is the data context i
                 testsetup[data.cell_name] = event.currentTarget.value;
                 Testsetups.update(data.object_id, testsetup);
                 break;
-            
+                
+            case 'Notes':
+                console.log(data);
+                break;
+                
             default:
                 console.log('Need to provide update codes for the '+data.collection+" collection");
                 break;
