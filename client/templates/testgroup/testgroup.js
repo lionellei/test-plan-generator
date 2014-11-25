@@ -126,7 +126,41 @@ Template.testgroup.events({
       var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
       var fileName = this.matcher._selector.chipName+"_"+this.matcher._selector.testgroupName+".csv";
       saveAs(blob, fileName); 
-   }
+   },
+   
+    "click .delete-testgroup-button": function (template, event) {
+        //TODO: use a confirmation text input instead of alert box to make it more fool proof.
+        var r = confirm("All the data for "+this.matcher._selector.testgroupName+" will be ERASED permanently. Continue?");
+        if (r) {
+            var testgroup = findCurrentTestgroup(this);
+            var testplan = {chipName: Testplans.findOne(testgroup.testplanId).chipName};
+            
+            // Remove test notes:
+            var testNoteIds = Notes.find({testgroup_id:testgroup._id}).fetch().map(function (item) {
+                return item._id;
+            });
+            Meteor.call('removeSelectedTestNotes', testNoteIds);
+            
+            // Remove test setups:
+            var testSetupIds = Testsetups.find({testgroup_id:testgroup._id}).fetch().map(function (item) {
+                return item._id;
+            });
+            Meteor.call('removeSelectedTestSetups', testSetupIds);
+            
+            // Remove all tests:
+            var testItemIds = Testitems.find({testgroupId: testgroup._id}).fetch().map(function (item) {
+                return item._id;
+            });
+            Meteor.call('removeSelectedTestItems', testItemIds);
+            
+            // Remove the testgroup itself:
+            Testgroups.remove(testgroup._id);
+            
+            // Route to Test plan page:
+            Router.go('testplanPage', testplan);
+            
+        }
+    }
 });
 
 
@@ -144,3 +178,14 @@ Template.addNoteModal.events({
         $('.add-note-modal').modal('hide');
     }
 });
+
+
+////////////////////// Functions /////////////////////////////
+var findCurrentTestgroup = function(dataContext) {
+    var testgroup = Testgroups.findOne({chipName:dataContext.matcher._selector.chipName, name:dataContext.matcher._selector.testgroupName});
+    if (testgroup) {
+        return testgroup;
+    } else {
+        return null;
+    }
+};

@@ -52,10 +52,10 @@ Template.newTestGroupForm.events({
            }
    },
    
-   "click #create-test-group-submit": function () {
+   "click #create-test-group-submit": function (event, template) {
        if ($('.select-custom-test').prop('checked')) {
            // Do something to create teh custom test group
-           console.log('Create custom test');
+           createCustomTests(this, template.find(".custom-test-name").value);
        } else {
            if (Pads.find({chipName: this.chipName}).fetch().length==0) {
                alert("Please import Pads List before creating tests from template.");
@@ -88,6 +88,11 @@ var getTestGroupByName = function(testGroupName, chipName, testplanId) {
         testgroup._id = Testgroups.insert(testgroup);
     }
     return testgroup;
+}
+
+var createCustomTests = function(testplanObj, testName) {
+    console.log('Create custom test: '+testName);
+    var customTest = getTestGroupByName(testName, testplanObj.chipName, testplanObj._id);
 }
 
 var generateBasicTests = function(testplanObj, testName) { 
