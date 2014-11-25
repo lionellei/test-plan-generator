@@ -11,7 +11,7 @@
 
 <template name="editing_cell">
     {{#if cellNameIsType cell_name}}
-        <select class="form-control selecting-cell" value="{{value}}" name={{cell_name}}>
+        <select class="form-control selecting-cell get-cell-value" value="{{value}}" name={{cell_name}}>
             <option></option>
             <option {{checkOptionSelection value "V"}}>V</option>
             <option {{checkOptionSelection value "I"}}>I</option>
@@ -25,16 +25,16 @@
                     collection=collection
                     chipName=chipName
                     settings=my_settings 
-                    class="input-sm text-center editing-cell"}}
+                    class="input-sm text-center editing-cell get-cell-value"}}
         {{else}}
             {{#if cellNameIs cell_name "note_text"}}
-                <textarea class="form-control note-textarea" rows="3" value="{{value}}"></textarea>
+                <textarea class="form-control note-editing-textarea get-cell-value" rows="3" value="{{value}}"></textarea>
                 <br />
                 <button type="button" class="btn btn-default btn-xs note-update-button">Update</button> 
                 <button type="button" class="btn btn-default btn-xs note-cancel-button">Cancel</button>
                 <button type="button" class="pull-right btn btn-danger btn-xs note-delete-button">Delete</button>
             {{else}}
-                <input class="input-sm text-center editing-cell" name={{cell_name}} value="{{value}}" type="text" /> 
+                <input class="input-sm text-center editing-cell get-cell-value" name={{cell_name}} value="{{value}}" type="text" /> 
             {{/if}}
         {{/if}}
     {{/if}}
