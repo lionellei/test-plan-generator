@@ -6,23 +6,22 @@
             <button type="button" class="btn btn-primary export-button pull-right">Export</button>
         </div>
 
-        <div class="panel-body">
-            <ul class="list-group">
-                {{#each notes}}
-                    {{> note}}
-                {{/each}}
-            </ul>
+        <ul class="list-group">
+            {{#each notes}}
+                {{> note}}
+            {{/each}}
+            <li class="list-group-item">
+                <button type="button" class="btn btn-link btn-primary btn-sm" data-toggle="modal" data-target=".add-note-modal">
+                    Add Note
+                </button>
+            </li>
+        </ul>
 
-            <button type="button" class="pull-right btn btn-link btn-primary btn-sm" data-toggle="modal" data-target=".add-note-modal">
-                Add Note
-            </button>
-
-            <!-- This will only show when above button is clicked. -->
-            <div class="modal fade add-note-modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        {{> addNoteModal currentTestgroup=currentTestgroup}} <!-- pass the current testgroup -->
-                    </div>
+        <!-- This will only show when above button is clicked. -->
+        <div class="modal fade add-note-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    {{> addNoteModal currentTestgroup=currentTestgroup}} <!-- pass the current testgroup -->
                 </div>
             </div>
         </div>
