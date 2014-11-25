@@ -1,5 +1,6 @@
 <template name="note">
-    <li class="list-group-item">
-        <p style="white-space: pre">{{note_text}}</p>
+    <li {{cellAttributes "note_text"}}>
+        <!-- using white-space: pre will preserve white space within the <p> tags, so do not break the line -->
+        <p>{{> editable_cell value=note_text cell_name="note_text" object_id=this._id collection="Notes" chipName=this.chipName}}</p>
     </li>
 </template>

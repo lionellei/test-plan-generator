@@ -5,7 +5,7 @@
             <!-- chipName is used by autocomlete to filter -->
             {{> editing_cell value=value cell_name=cell_name object_id=object_id collection=collection chipName=chipName}}
         {{else}}
-            {{value}}
+            <span style="white-space: pre">{{value}}</span>
         {{/if}}
 </template>
 
@@ -27,7 +27,11 @@
                     settings=my_settings 
                     class="input-sm text-center editing-cell"}}
         {{else}}
-            <input class="input-sm text-center editing-cell" name={{cell_name}} value="{{value}}" type="text" /> 
+            {{#if cellNameIs cell_name "note_text"}}
+                <textarea class="form-control note-textarea" rows="3" value="{{value}}"></textarea>
+            {{else}}
+                <input class="input-sm text-center editing-cell" name={{cell_name}} value="{{value}}" type="text" /> 
+            {{/if}}
         {{/if}}
     {{/if}}
 </template>
