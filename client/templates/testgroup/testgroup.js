@@ -77,6 +77,10 @@ Template.testgroup.events({
             chipName:this.matcher._selector.chipName,
             testgroup_name: this.matcher._selector.testgroupName
         }).fetch();
+      var testNotes = Notes.find({
+            chipName:this.matcher._selector.chipName,
+            testgroupName: this.matcher._selector.testgroupName
+        }).fetch();
       
       var data = ""; // use a string to form the CSV file
       
@@ -84,8 +88,16 @@ Template.testgroup.events({
       var title = testItems[0].chipName + ' ' + testItems[0].testgroupName + '\n' + '\n';
       data = data + title;
       
+      // Test notes:
+      var noteHeader = "Notes" + '\n';
+      data = data + noteHeader;
+      var noteRows = "";
+      for (var i=0; i<testNotes.length; i++) {
+          noteRows = noteRows + testNotes[i].note_text + '\n';
+      }
+      data = data + noteRows + '\n';
+      
       // Test setup
-      // Hardcode for now, TODO: make it programatically
       var setupHeader = "Setup" + '\n' + "Pad,Source,Unit" + '\n';
       data = data + setupHeader;
       var setupRows = "";
@@ -94,7 +106,7 @@ Template.testgroup.events({
           setupRow = setup.pad + ',' + setup.source_value + ',' + setup.source_unit + '\n';
           setupRows = setupRows + setupRow;
       }
-      data = data + setupRows;
+      data = data + setupRows + '\n';
       
       // Header row:
       var header = "Tests" + '\n' + "Pad,Source,Compliance,Measure,MIN,TYP,MAX,UNIT" + '\n';
