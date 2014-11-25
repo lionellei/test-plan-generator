@@ -11,49 +11,6 @@ Template.testitem.events({
         }
     },
 
-    // Make the current row a prototype for the entire Pads list
-    "click .prototype-button": function(event, template) {
-        var r = confirm("Copy this test to all pads?");
-        if (r == true) {
-            var prototype_row_id = template.data._id;
-            var prototype_test = Testitems.findOne(prototype_row_id);
-            var pads = Pads.find({chipName: prototype_test.chipName}).fetch();
-
-            if (pads.length == 0) {
-                alert("There is no Pads List defined for this chip. Please import the Pads List first.");
-            } else {
-                // Loops through all the pads copy the prototype test's value, except the pad name.
-                // To prevent duplicate test on the same pad:
-                padNames = [];
-                for (var i = 0; i < pads.length; i++) {
-                    pad = pads[i];
-                    if (pad.name != prototype_test.pad & padNames.filter(function(name){return pad.name == name;}).length==0) {
-                        padNames.push(pad.name);
-                        var test_item = {
-                            "testgroupId": prototype_test.testgroupId, 
-                            "testgroupName": prototype_test.testgroupName, 
-                            "chipName": prototype_test.chipName, 
-                            "pad": pad.name,
-                            "resource": prototype_test.resource,
-                            "source_type": prototype_test.source_type,
-                            "source_value": prototype_test.source_value,
-                            "source_unit": prototype_test.source_unit,
-                            "compliance_type": prototype_test.compliance_type,
-                            "compliance_value": prototype_test.compliance_value,
-                            "compliance_unit": prototype_test.compliance_unit,
-                            "measure_type": prototype_test.measure_type,
-                            "measure_min": prototype_test.measure_min,
-                            "measure_typ": prototype_test.measure_typ,
-                            "measure_max": prototype_test.measure_max,
-                            "measure_unit": prototype_test.measure_unit
-                        };
-                        Testitems.insert(test_item);
-                    }
-                }                
-            }
-        }
-    },
-
     // Click to edit
     "click .editable": function(event, template){
         // Each cell when clicked will create a session variable with key of the cell identifier with value true
