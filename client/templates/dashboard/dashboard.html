@@ -21,7 +21,14 @@
         <p class="modal-title">Enter the chip name, i.e. qCDRLP, the test plan name will be generated automatically.</p>
     </div>
     <div class="modal-body">
-        {{> quickForm collection="Testplans" id="chipNameForm" type="insert" validation="submitThenKeyup"}}
+        {{#autoForm collection="Testplans" id="chipNameForm" type="insert" validation="submitThenKeyup"}}
+            <fieldset>
+                {{> afQuickField name='chipName'}}
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        {{/autoForm}}
+        <!--
+        {{> quickForm collection="Testplans" id="chipNameForm" type="insert" validation="submitThenKeyup"}} -->
     </div>
 </template>
 
