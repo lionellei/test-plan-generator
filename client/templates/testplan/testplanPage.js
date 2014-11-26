@@ -5,6 +5,16 @@ Template.testplanPage.helpers({
     } 
 });
 
+Template.testplanPage.events({
+    "click .export-testplan-button": function (event, template) {
+        var testgroups = Testgroups.find({testplanId:this._id}).fetch();
+        for (var i=0; i<testgroups.length; i++) {
+            var data =exportTestgroup(testgroups[i]);
+            console.log(data);
+        }
+    }
+});
+
 
 // ********* Partials ******************
 Template.newTestGroupForm.helpers({
