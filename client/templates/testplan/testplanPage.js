@@ -1,7 +1,11 @@
 // ********* Main testplanPage Template *************
 Template.testplanPage.helpers({
+    "log": function() {
+        console.log(this);    
+    },
+    
     "testgroups": function() {
-        return Testgroups.find({chipName:this.chipName});
+        return Testgroups.find({chipName:this.chipName, revision:this.revision});
     } 
 });
 
@@ -18,13 +22,17 @@ Template.testplanPage.events({
         }
         
         // Save to file on client
-        zip.saveAs(this.chipName+"_testplan.zip");
+        zip.saveAs(this.chipName+"_testplan_rev"+this.revision+".zip");
     }
 });
 
 
 // ********* Partials ******************
 Template.newTestGroupForm.helpers({
+    "log": function() {
+        console.log(this);    
+    },
+    
    "hiddenOrShow": function () {
        // Use .prob('checked') instead of .checked for the jquery selector
        /*
@@ -93,14 +101,15 @@ Template.newTestGroupForm.events({
 });
 
 /// *************** The heavey duty stuffs below ********************************
-var getTestGroupByName = function(testGroupName, chipName, testplanId) {
+var getTestGroupByName = function(testGroupName, chipName, testplanId, revision) {
     var testgroup = Testgroups.findOne({name:testGroupName, testplanId:testplanId});
     if (!testgroup) { // No testgroup in this testplan that has the given name
         // create it
         testgroup = {
           name: testGroupName,
           chipName: chipName,
-          testplanId: testplanId
+          testplanId: testplanId,
+          revision: revision
         };
         testgroup._id = Testgroups.insert(testgroup);
     }
@@ -109,7 +118,7 @@ var getTestGroupByName = function(testGroupName, chipName, testplanId) {
 
 var createCustomTests = function(testplanObj, testName) {
     console.log('Create custom test: '+testName);
-    var customTest = getTestGroupByName(testName, testplanObj.chipName, testplanObj._id);
+    var customTest = getTestGroupByName(testName, testplanObj.chipName, testplanObj._id, testplanObj.revision);
 }
 
 var generateBasicTests = function(testplanObj, testName) { 
@@ -123,7 +132,7 @@ var generateBasicTests = function(testplanObj, testName) {
         
         // First create or retrieve the testgroup with the given name
         // this is of type "Testgroups"
-        var basicTest = getTestGroupByName(testName, testplanObj.chipName, testplanObj._id);
+        var basicTest = getTestGroupByName(testName, testplanObj.chipName, testplanObj._id, testplanObj.revision);
         
         // Generate the setup
         var supplyPads = Pads.find({chipName:testplanObj.chipName, type:"SUPPLY"}).fetch();
@@ -145,6 +154,7 @@ var generateBasicTests = function(testplanObj, testName) {
                     "testgroup_name": basicTest.name,
                     "testgroup_id": basicTest._id,
                     "chipName": testplanObj.chipName,
+                    "revision": testplanObj.revision,
                     "pad": pad.name,
                     "source_type": configs.setups.source_type,
                     "source_value": configs.setups.source_value,
@@ -172,6 +182,7 @@ var generateBasicTests = function(testplanObj, testName) {
                         "testgroupId": basicTest._id, // Assign the testgroupId to identify this test item belongs to this test group. 
                         "testgroupName": testName, // Assign because router use testplans/:chipName/:testName to local this.
                         "chipName": testplanObj.chipName, // Assign because router use testplans/:chipName/:testName to local this.
+                        "revision": testplanObj.revision,
                         "pad": pad.name,
                         "source_type": testSection.source_type,
                         "source_value": testSection.source_value,

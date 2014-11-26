@@ -9,7 +9,10 @@ Template.new_setup_row.events({
            //console.log(template.firstNode.children);
            var chipName = template.data.matcher._selector.chipName;
            var testgroupName = template.data.matcher._selector.testgroupName;
-           var testgroupId = Testgroups.findOne({chipName:chipName, name:testgroupName})._id;
+           var revision = template.data.matcher._selector.revision
+           var testgroupId = Testgroups.findOne({   chipName:chipName, 
+                                                    name:testgroupName,
+                                                    revision:revision})._id;
 
 
            var setup = {}; // Declare the setup as dictionary
@@ -25,6 +28,7 @@ Template.new_setup_row.events({
            setup["testgroup_id"] = testgroupId;
            setup["testgroup_name"] = testgroupName;
            setup["chipName"] = chipName;
+           setup["revision"] = revision;
            Testsetups.insert(setup);
        }
    } 

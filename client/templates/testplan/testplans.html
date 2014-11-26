@@ -1,7 +1,7 @@
 <template name="testplans">
     {{#each this}}
         <p>
-            <a href="{{pathFor 'testplanPage' this}}">{{chipName}} Test Plan</a>
+            <a href="{{pathFor 'testplanPage' this}}">{{chipName}} Test Plan, Rev {{revision}}</a>
         </p>
     {{/each}}
 </template>

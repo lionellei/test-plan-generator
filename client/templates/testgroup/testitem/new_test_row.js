@@ -10,7 +10,10 @@ Template.new_test_row.events({
            //console.log(template.firstNode.children);
            var chipName = template.data.matcher._selector.chipName;
            var testgroupName = template.data.matcher._selector.testgroupName;
-           var testgroupId = Testgroups.findOne({chipName:chipName, name:testgroupName})._id;
+           var revision = template.data.matcher._selector.revision;
+           var testgroupId = Testgroups.findOne({chipName:chipName, 
+                                                name:testgroupName,
+                                                revision:revision})._id;
 
 
            var test_item = {}; // Declare the test_item as dictionary
@@ -27,6 +30,7 @@ Template.new_test_row.events({
            test_item["testgroupId"] = testgroupId;
            test_item["testgroupName"] = testgroupName;
            test_item["chipName"] = chipName;
+           test_item["revision"] = revision;
            Testitems.insert(test_item);
        }
    } 

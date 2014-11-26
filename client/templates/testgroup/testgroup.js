@@ -4,7 +4,9 @@ Template.testgroup.helpers({
     },
 
    "showExampleRow": function() {
-       return !!!(Testitems.find({chipName:this.matcher._selector.chipName, testgroupName:this.matcher._selector.testgroupName}).count() > 0);
+       return !!!(Testitems.find({chipName:this.matcher._selector.chipName, 
+                                testgroupName:this.matcher._selector.testgroupName,
+                                revision:Number(this.matcher._selector.revision)}).count() > 0);
    },
 
     "setups": function() {
@@ -12,7 +14,8 @@ Template.testgroup.helpers({
         //      has :chipName and :testgroupName.
         return Testsetups.find({
             chipName:this.matcher._selector.chipName,
-            testgroup_name: this.matcher._selector.testgroupName
+            testgroup_name: this.matcher._selector.testgroupName,
+            revision:Number(this.matcher._selector.revision)
         });
     },
     
@@ -34,7 +37,9 @@ Template.testgroup.helpers({
     
     // Return all the notes collection
     "notes": function () {
-        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
+        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, 
+                                            name:this.matcher._selector.testgroupName, 
+                                            revision:Number(this.matcher._selector.revision)});
         if (testgroup) {
             return Notes.find({testgroupId:testgroup._id});
         } else {
@@ -44,7 +49,9 @@ Template.testgroup.helpers({
     },
 
     "currentTestgroup": function() {
-        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, name:this.matcher._selector.testgroupName});
+        var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, 
+                                            name:this.matcher._selector.testgroupName,
+                                            revision:Number(this.matcher._selector.revision)});
         if (testgroup) {
             return testgroup;
         } else {
@@ -75,17 +82,19 @@ Template.testgroup.events({
       var testItems = this.fetch(); // this is the data that passed by the router.
       var testsetups = Testsetups.find({
             chipName:this.matcher._selector.chipName,
-            testgroup_name: this.matcher._selector.testgroupName
+            testgroup_name: this.matcher._selector.testgroupName,
+            revision:Number(this.matcher._selector.revision)
         }).fetch();
       var testNotes = Notes.find({
             chipName:this.matcher._selector.chipName,
-            testgroupName: this.matcher._selector.testgroupName
+            testgroupName: this.matcher._selector.testgroupName,
+            revision:Number(this.matcher._selector.revision)
         }).fetch();
       
       var data = ""; // use a string to form the CSV file
       
       // Title row:
-      var title = testItems[0].chipName + ' ' + testItems[0].testgroupName + '\n' + '\n';
+      var title = this.matcher._selector.chipName + ' ' + this.matcher._selector.testgroupName + ' ' + 'Rev '+ this.matcher._selector.revision + '\n' + '\n';
       data = data + title;
       
       // Test notes:
@@ -124,7 +133,7 @@ Template.testgroup.events({
       }
       
       var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-      var fileName = this.matcher._selector.chipName+"_"+this.matcher._selector.testgroupName+".csv";
+      var fileName = this.matcher._selector.chipName+"_"+this.matcher._selector.testgroupName+"_Rev"+this.matcher._selector.revision+".csv";
       saveAs(blob, fileName); 
    },
    
@@ -133,7 +142,7 @@ Template.testgroup.events({
         var r = confirm("All the data for "+this.matcher._selector.testgroupName+" will be ERASED permanently. Continue?");
         if (r) {
             var testgroup = findCurrentTestgroup(this);
-            var testplan = {chipName: Testplans.findOne(testgroup.testplanId).chipName};
+            var testplan = Testplans.findOne(testgroup.testplanId);
             
             // Remove test notes:
             var testNoteIds = Notes.find({testgroup_id:testgroup._id}).fetch().map(function (item) {
@@ -173,8 +182,10 @@ Template.addNoteModal.events({
         var note = {chipName:this.currentTestgroup.chipName,
                     testgroupName:this.currentTestgroup.name,
                     testgroupId:this.currentTestgroup._id,
+                    revision:this.currentTestgroup.revision,
                     note_text:template.find(".note-textarea").value};
         Notes.insert(note);
+        template.find(".note-textarea").value = "";
         $('.add-note-modal').modal('hide');
     }
 });
@@ -182,7 +193,10 @@ Template.addNoteModal.events({
 
 ////////////////////// Functions /////////////////////////////
 var findCurrentTestgroup = function(dataContext) {
-    var testgroup = Testgroups.findOne({chipName:dataContext.matcher._selector.chipName, name:dataContext.matcher._selector.testgroupName});
+    var testgroup = Testgroups.findOne({chipName:dataContext.matcher._selector.chipName, 
+                                        name:dataContext.matcher._selector.testgroupName,
+                                        revision:Number(dataContext.matcher._selector.revision)
+    });
     if (testgroup) {
         return testgroup;
     } else {

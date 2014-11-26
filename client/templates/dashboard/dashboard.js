@@ -23,7 +23,7 @@ AutoForm.hooks({
             $('.chip-name-modal').modal('hide');
 
             //result is the _id of the generated document.
-            var testplan = {chipName: Testplans.findOne(result).chipName};
+            var testplan = Testplans.findOne(result);
             Router.go('testplanPage', testplan);
         }
     }

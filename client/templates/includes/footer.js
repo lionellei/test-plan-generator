@@ -65,24 +65,9 @@ Template.footer.events({
                         pad = pads[i];
                         if (pad.name != prototype_test.pad & padNames.filter(function(name){return pad.name == name;}).length==0) {
                             padNames.push(pad.name);
-                            var test_item = {
-                                "testgroupId": prototype_test.testgroupId, 
-                                "testgroupName": prototype_test.testgroupName, 
-                                "chipName": prototype_test.chipName, 
-                                "pad": pad.name,
-                                "resource": prototype_test.resource,
-                                "source_type": prototype_test.source_type,
-                                "source_value": prototype_test.source_value,
-                                "source_unit": prototype_test.source_unit,
-                                "compliance_type": prototype_test.compliance_type,
-                                "compliance_value": prototype_test.compliance_value,
-                                "compliance_unit": prototype_test.compliance_unit,
-                                "measure_type": prototype_test.measure_type,
-                                "measure_min": prototype_test.measure_min,
-                                "measure_typ": prototype_test.measure_typ,
-                                "measure_max": prototype_test.measure_max,
-                                "measure_unit": prototype_test.measure_unit
-                            };
+                            var test_item = prototype_test;
+                            test_item["pad"] = pad.name;
+                            delete test_item._id;
                             Testitems.insert(test_item);
                         }
                     }                

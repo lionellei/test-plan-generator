@@ -8,7 +8,7 @@
       var data = ""; // use a string to form the CSV file
       
       // Title row:
-      var title = testgroup.chipName + ' ' + testgroup.name + '\n' + '\n';
+      var title = testgroup.chipName + ' ' + testgroup.name + ' ' + 'Rev '+testgroup.revision + '\n' + '\n';
       data = data + title;
       
       // Test notes:
