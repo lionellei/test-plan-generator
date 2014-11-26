@@ -7,11 +7,18 @@ Template.testplanPage.helpers({
 
 Template.testplanPage.events({
     "click .export-testplan-button": function (event, template) {
+        var zip = new ZipZap(); // provided by the udondan:ZipZap package
+        
         var testgroups = Testgroups.find({testplanId:this._id}).fetch();
+        
         for (var i=0; i<testgroups.length; i++) {
             var data =exportTestgroup(testgroups[i]);
-            console.log(data);
+            // add to zip file
+            zip.file(testgroups[i].name+".csv", data);
         }
+        
+        // Save to file on client
+        zip.saveAs(this.chipName+"_testplan.zip");
     }
 });
 
