@@ -21,20 +21,23 @@
                     {{> pad}}
                 {{/each}}
 
+                {{#if showExampleRow}}
                 <!-- Example Row -->
                 <tr>
                     <td class="bg-info">Example</td>
                     <td class="bg-info">AMON</td>
                     <td class="bg-info">DC</td>
                 </tr>
-
-                <!-- Pads List Import Form -->
+                {{/if}}
             </tbody>
 
         </table>
-        
+
+                    <!-- Pads List Import Form -->
+        {{#if isVersionZero}}
         <div>
             {{> spreadsheetToMongodb__form 'padsInputForm' }}
         </div>
+        {{/if}}
     </div>
 </template>

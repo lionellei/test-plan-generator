@@ -1,4 +1,3 @@
-
 Template.padsList.helpers({
    log: function() {
       console.log(this);
@@ -10,6 +9,22 @@ Template.padsList.helpers({
       //console.log(this.matcher._selector.chipName);
       Session.set('currentChipName', this.matcher._selector.chipName);
       console.log(Session.get('currentChipName'));
+   },
+
+   "isVersionZero": function() {
+      if (Number(Router.current().params.revision) == 0) {
+         return true;
+      } else {
+         return false;
+      }
+   },
+
+   "showExampleRow": function() {
+      if (this.fetch().length > 0) {
+         return false;
+      } else {
+         return true;
+      }
    }
 });
 
