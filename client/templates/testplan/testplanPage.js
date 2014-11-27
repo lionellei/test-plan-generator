@@ -108,7 +108,6 @@ Template.releaseForm.helpers({
 
 Template.releaseForm.events({
     "click #release-testplan-submit": function (event, template) {
-        console.log(this);
         var nextRevNumber = getNextRevNumberFor(this);
 
         // Copy the testplan object:
@@ -122,49 +121,71 @@ Template.releaseForm.events({
         
         // Copy the test groups:
         var testgroups = Testgroups.find({testplanId:this._id, revision:this.revision}).fetch();
-        console.log(testgroups);
-        
+
         for (var i=0; i<testgroups.length; i++) {
             // copy the test group object:
-            var testgroup = testgroups[i];
-            testgroup.testplanId = testplan_nextrev._id;
-            testgroup.revision = nextRevNumber;
-            delete testgroup._id;
+            //var testgroup = testgroups[i]; // Don't use this, strange binding occur that testgroup[i] will change once testgroup changes.
+            var testgroup = {
+                name: testgroups[i].name,
+                chipName: testgroups[i].chipName,
+                testplanId: testplan_nextrev._id,
+                revision: nextRevNumber
+            };
+
             var new_testgroup_id = Testgroups.insert(testgroup);
-            
+
             // Copy all the test notes:
             var notes = Notes.find({testgroupId:testgroups[i]._id}).fetch();
-            console.log(notes);
             for (var j=0; j<notes.length; j++) {
-                var note = notes[j];
-                note.testgroupId = new_testgroup_id;
-                note.revision = nextRevNumber;
-                delete note._id;
-                note._id = Notes.insert(note);
+                var note = {
+                    chipName: notes[j].chipName,
+                    testgroupName: notes[j].testgroupName,
+                    testgroupId: new_testgroup_id,
+                    revision: nextRevNumber,
+                    note_text: notes[j].note_text
+                };
+                Notes.insert(note);
             }
-            
-            /*
+
             // Copy all the test setups:
-            var setups = Testsetups.find({testgroupId:testgroups[i]._id}).fetch();
-            console.log(setups);
-            for (var j=0; j<setups.length; j++) {
-                var setup = setups[j];
-                setup.testgroup_id = new_testgroup_id;
-                setup.revision = nextRevNumber;
-                delete setup._id;
-                setup._id = Testsetups.insert(setup);
-            } 
-            
+            var setups = Testsetups.find({testgroup_id:testgroups[i]._id}).fetch();
+            for (var k=0; k<setups.length; k++) {
+                var setup = {
+                    "testgroup_name": setups[k].testgroup_name,
+                    "testgroup_id": new_testgroup_id,
+                    "chipName": setups[k].chipName,
+                    "revision": nextRevNumber,
+                    "pad": setups[k].pad,
+                    "source_type": setups[k].source_type,
+                    "source_value": setups[k].source_value,
+                    "source_unit": setups[k].source_unit
+                };
+                Testsetups.insert(setup);
+            }
+
             // Copy all the test items:
             var testitems = Testitems.find({testgroupId:testgroups[i]._id}).fetch();
-            console.log(testitems);
-            for (var j=0; j<testitems.length; j++) {
-                var testitem = testitems[j];
-                testitem.testgroupId = new_testgroup_id;
-                testitem.revision = nextRevNumber;
-                delete testitem._id;
-                testitem._id = Testitems.insert(testitem);
-            } */
+            for (var m=0; m<testitems.length; m++) {
+                var test = {
+                    "testgroupId": new_testgroup_id,
+                    "testgroupName": testitems[m].testgroupName, // Assign because router use testplans/:chipName/:testName to local this.
+                    "chipName": testitems[m].chipName, // Assign because router use testplans/:chipName/:testName to local this.
+                    "revision": nextRevNumber,
+                    "pad": testitems[m].pad,
+                    "source_type": testitems[m].source_type,
+                    "source_value": testitems[m].source_value,
+                    "source_unit": testitems[m].source_unit,
+                    "compliance_type": testitems[m].compliance_type,
+                    "compliance_value": testitems[m].compliance_value,
+                    "compliance_unit": testitems[m].compliance_unit,
+                    "measure_type": testitems[m].measure_type,
+                    "measure_min": testitems[m].measure_min,
+                    "measure_typ": testitems[m].measure_typ,
+                    "measure_max": testitems[m].measure_max,
+                    "measure_unit": testitems[m].measure_unit
+                };
+                Testitems.insert(test);
+            }
         }
         
         // Increment the latest_revision attribute of testplan rev 0.
@@ -174,7 +195,7 @@ Template.releaseForm.events({
         $('.release-form-modal').modal('hide');
         
         // Route to the newly created revision.
-        // Router.go('testplanPage', testplan_nextrev); 
+        Router.go('testplanPage', testplan_nextrev);
     }
 });
 
