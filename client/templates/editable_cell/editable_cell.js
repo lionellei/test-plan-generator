@@ -20,8 +20,12 @@ Template.editable_cell.helpers({
     }, 
     
     "cellAttributes": function(cell_name) {
+        var text_class = "";
+        if (this.revision == 0) {
+            text_class = "text-primary";
+        }
         return {
-           class: "editable",
+           class: "editable "+text_class,
            style: "width:100%; white-space:pre", 
            id: cell_name + '+' + this.object_id
         };
