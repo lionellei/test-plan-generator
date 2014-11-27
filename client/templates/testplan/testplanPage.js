@@ -34,8 +34,46 @@ Template.testplanPage.helpers({
 
     "isVersionZero": function() {
         return (this.revision == 0);
+    },
+
+    "revisions": function () {
+        return Testplans.find({chipName: this.chipName}).fetch();
+    },
+
+    // **** These are within the #each loop, so the "this" context is different.
+    "isThisVersionSelected": function () {
+        // this in this context is the testplan iteration
+        // console.log(Template.parentData(1));
+        return (this.revision == Template.parentData(1).revision);
+    },
+
+    "displayRevision": function () {
+        if (this.revision == 0) {
+            return "Working Copy (Rev 0)";
+        } else {
+            return "Rev "+this.revision;
+        }
     }
+
+    /* // Text styling seems to have no effect in <select> tag <options>
+    "revTextClass": function () {
+        console.log(this);
+        if (this.revision == 0) {
+            return "text-success";
+        } else {
+            if (this.revision == latestRevisionForTestplan(this)) {
+                return "text-primary bold";
+            } else {
+                return "text-muted";
+            }
+        }
+    } */
+    // **** //////////////////////////////////////////////////////////////
 });
+
+var latestRevisionForTestplan = function (testplan) {
+    return Testplans.findOne({chipName:testplan.chipName, revision:0}).latest_revision;
+};
 
 Template.testplanPage.events({
     "click .export-testplan-button": function (event, template) {
@@ -51,6 +89,15 @@ Template.testplanPage.events({
         
         // Save to file on client
         zip.saveAs(this.chipName+"_testplan_rev"+this.revision+".zip");
+    },
+
+    "change #testplan-revision-select": function (event, template) {
+        var destination = {
+            chipName: this.chipName,
+            revision: Number(event.currentTarget.selectedOptions[0].label)
+        };
+        Router.go('testplanPage', destination);
+        //console.log(event.currentTarget.selectedOptions[0].label);
     }
 });
 

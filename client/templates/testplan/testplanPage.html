@@ -3,18 +3,17 @@
     <div class="panel panel-default">
         <!-- Panel Heading -->
         <div class="panel-heading">
-            <strong class="h2"><span class="text-primary">{{chipName}}</span> Test Plan</strong>
-            <div class="dropdown pull-right">
-                <button class="btn btn-default dropdown-toggle btn-group-justified" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                    Unreleased
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 3</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 2</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 1</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 0</a></li>
-                </ul>
+            <div class="row">
+                <div class="col-sm-10">
+                    <strong class="h2"><span class="text-primary">{{chipName}}</span> Test Plan</strong>
+                </div>
+                <div class="col-sm-2">
+                    <select name="selected-revision" current_revision="{{revision}}" class="pull-right form-control select-revision" id="testplan-revision-select">
+                        {{#each revisions}}
+                            <option label="{{revision}}" selected="{{isThisVersionSelected}}">{{displayRevision}}</option>
+                        {{/each}}
+                    </select>
+                </div>
             </div>
         </div>
 
