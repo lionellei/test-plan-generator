@@ -10,11 +10,14 @@
             {{#each notes}}
                 {{> note}}
             {{/each}}
+
+            {{#if editable}}
             <li class="list-group-item">
                 <button type="button" class="btn btn-link btn-primary btn-sm" data-toggle="modal" data-target=".add-note-modal">
                     Add Note
                 </button>
             </li>
+            {{/if}}
         </ul>
 
         <!-- This will only show when above button is clicked. -->
@@ -40,7 +43,9 @@
                         <th class="text-center">Source</th>
                         <th class="text-center">Value</th>
                         <th class="text-center">Unit</th>
+                        {{#if editable}}
                         <th></th>
+                        {{/if}}
                     </tr>
                 </thead>
 
@@ -48,8 +53,10 @@
                     {{#each setups}}
                         {{> setup}}
                     {{/each}}
-                    
-                    {{> new_setup_row}}
+
+                    {{#if editable}}
+                        {{> new_setup_row}}
+                    {{/if}}
                 </tbody>
             </table>
         </div>
@@ -78,7 +85,9 @@
                     <th class="text-center bg-info">TYP</th>
                     <th class="text-center bg-info">MAX</th>
                     <th class="text-center bg-info">Unit</th>
+                    {{#if editable}}
                     <th><input type="checkbox" checked="{{allRowsSelected}}" class="select-all-rows"/></th>
+                    {{/if}}
                 </tr>
                 </thead>
 
@@ -108,13 +117,16 @@
                     </tr>
                 {{/if}}
 
-                <!-- Always put an empty row for inserting -->
-                {{> new_test_row}}
+                {{#if editable}}
+                    <!-- Always put an empty row for inserting -->
+                    {{> new_test_row}}
+                {{/if}}
                 </tbody>
             </table>
         </div>
     </div>
-    
+
+    {{#if editable}}
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingOne">
@@ -131,7 +143,7 @@
             </div>
         </div>
     </div>
-    
+    {{/if}}
 </template>
 
 <!-- ****************** Partials ******************** -->

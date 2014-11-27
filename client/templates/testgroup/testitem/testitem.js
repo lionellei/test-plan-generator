@@ -95,5 +95,13 @@ Template.testitem.helpers({
         } else {
             return false;
         }
+    },
+
+    "editable": function() {
+        if (this.revision == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 });

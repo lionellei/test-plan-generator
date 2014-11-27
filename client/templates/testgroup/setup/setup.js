@@ -37,5 +37,13 @@ Template.setup.helpers({
            class: "editable text-center",
            id: cell_name + '+' + this._id
        };
-   }
+   },
+
+    "editable": function() {
+        if (this.revision == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 });

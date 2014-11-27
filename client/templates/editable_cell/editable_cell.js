@@ -10,7 +10,7 @@ Template.editable_cell.helpers({
         // data passed in has the following form:
         // Object {value: "mA", cell_name: "source_unit", object_id: "483qbHfznNpLCrfGF"}
         var cell_identifier = data.cell_name + '+' + data.object_id;
-        return (Session.get(cell_identifier) == true);
+        return ((Session.get(cell_identifier) == true) && (this.revision == 0));
         // Each cell when clicked will create a session variable with key of the cell identifier with value true
         // Why not just use a Session.get('currentEditingCell') to store the cell identifier?
         // Because you want to set the particular key to false when the cell is focus out (when user clicks away)

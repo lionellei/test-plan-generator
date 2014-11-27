@@ -57,6 +57,14 @@ Template.testgroup.helpers({
         } else {
             return null;
         }
+    },
+
+    "editable": function() {
+        if (this.matcher._selector.revision == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 });
@@ -179,13 +187,15 @@ Template.addNoteModal.events({
     "click .note-submit-button": function(event, template) {
         //console.log(template.find(".note-textarea").value);
         //console.log(this.currentTestgroup);
-        var note = {chipName:this.currentTestgroup.chipName,
-                    testgroupName:this.currentTestgroup.name,
-                    testgroupId:this.currentTestgroup._id,
-                    revision:this.currentTestgroup.revision,
-                    note_text:template.find(".note-textarea").value};
-        Notes.insert(note);
-        template.find(".note-textarea").value = "";
+        if (template.find(".note-textarea").value != "") {
+            var note = {chipName:this.currentTestgroup.chipName,
+                testgroupName:this.currentTestgroup.name,
+                testgroupId:this.currentTestgroup._id,
+                revision:this.currentTestgroup.revision,
+                note_text:template.find(".note-textarea").value};
+            Notes.insert(note);
+            template.find(".note-textarea").value = "";
+        }
         $('.add-note-modal').modal('hide');
     }
 });

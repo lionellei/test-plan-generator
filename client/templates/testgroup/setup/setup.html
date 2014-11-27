@@ -2,26 +2,28 @@
     <tr>
         <td {{cellAttributes "pad"}}>
             <span>
-                {{> editable_cell value=pad cell_name="pad" object_id=this._id collection="Testsetups" chipName=this.chipName}}
+                {{> editable_cell value=pad cell_name="pad" object_id=this._id collection="Testsetups" chipName=this.chipName revision=this.revision}}
             </span>
         </td>
         <td {{cellAttributes "source_type"}}>
             <span>
-                {{> editable_cell value=source_type cell_name="source_type" object_id=this._id collection="Testsetups" chipName=this.chipName}}
+                {{> editable_cell value=source_type cell_name="source_type" object_id=this._id collection="Testsetups" chipName=this.chipName revision=this.revision}}
             </span>
         </td>
         <td {{cellAttributes "source_value"}}>
             <span>
-                {{> editable_cell value=source_value cell_name="source_value" object_id=this._id collection="Testsetups" chipName=this.chipName}}
+                {{> editable_cell value=source_value cell_name="source_value" object_id=this._id collection="Testsetups" chipName=this.chipName revision=this.revision}}
             </span>
         </td>
         <td {{cellAttributes "source_unit"}}>
             <span>
-                {{> editable_cell value=source_unit cell_name="source_unit" object_id=this._id collection="Testsetups" chipName=this.chipName}}
+                {{> editable_cell value=source_unit cell_name="source_unit" object_id=this._id collection="Testsetups" chipName=this.chipName revision=this.revision}}
             </span>
         </td>
-        
+
+        {{#if editable}}
         <!-- Row Action -->
         <td><button class="text-danger delete-row"><span>&times;</span></button></td>
+        {{/if}}
     </tr>
 </template>
