@@ -3,29 +3,21 @@
     <div class="panel panel-default">
         <!-- Panel Heading -->
         <div class="panel-heading">
-            <div class="row">
-                <div class="col-sm-4 col-md-4">
-                    <p class="h5"><strong>{{chipName}} Test Plan</strong></p>
-                </div>
-                <div class="col-sm-4 col-md-4">
-                    <!-- Empty Column -->
-                </div>
-                <div class="col-sm-4 col-md-4">
-                    <div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle btn-group-justified" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                        Unreleased
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 3</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 2</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 1</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 0</a></li>
-                      </ul>
-                    </div>
-                </div>        
-            </div>            
+            <strong class="h2"><span class="text-primary">{{chipName}}</span> Test Plan</strong>
+            <div class="dropdown pull-right">
+                <button class="btn btn-default dropdown-toggle btn-group-justified" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                    Unreleased
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 3</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 2</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 1</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Rev. 0</a></li>
+                </ul>
+            </div>
         </div>
+
         <!-- Panel Body -->
         <div class="panel-body">
             <p>Please complete the following steps. </p>
@@ -33,22 +25,28 @@
             <div class="row">
                 <div class="col-sm-4">
                     <p>
-                        <a href="{{pathFor 'padsList' this}}" class="btn btn-primary btn-group-justified">
-                            Import Pin List <span class="glyphicon glyphicon-chevron-right"></span>
+                        <a href="{{pathFor 'padsList' this}}" class="btn {{padsListButtonClass}} btn-group-justified">
+                            Pin List <span class="glyphicon glyphicon-chevron-right"></span>
                         </a>                        
                     </p>
                     <P>
-                        <button type="button" class="btn btn-primary btn-group-justified">
-                            Import Register Table <span class="glyphicon glyphicon-chevron-right"></span>
-                        </button>                        
+                        <a href="#" class="btn {{regTableButtonClass}} btn-group-justified">
+                            Register Table <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
                     </P>
                 </div>
             </div>
         </div>
         <!-- Panel Footer -->
         <div class="panel-footer">
-            <button type="button" class="btn btn-xs btn-warning release-testplan-button" data-toggle="modal" data-target=".release-form-modal">Release</button>
-            <button type="button" class="btn btn-xs btn-warning export-testplan-button">Export</button>
+            {{#if isVersionZero}}
+            <button type="button" class="btn btn-xs btn-warning release-testplan-button" data-toggle="modal" data-target=".release-form-modal">
+                <span class="glyphicon glyphicon-share"></span> Release
+            </button>
+            {{/if}}
+            <button type="button" class="btn btn-xs btn-primary export-testplan-button">
+                <span class="glyphicon glyphicon-cloud-download"></span> Export
+            </button>
         </div>
         <!-- This will only shown when the above button is clicked. -->
         <div class="modal fade release-form-modal">
@@ -75,14 +73,16 @@
             <p>All the tests shown here:</p>
             {{#each testgroups}}
                 <p>
-                    <a type="button" class="btn btn-success btn-group-justified" href="{{pathFor 'testgroup' this}}">{{name}}</a>
+                    <a type="button" class="btn {{testgroupButtonClass}} btn-group-justified" href="{{pathFor 'testgroup' this}}">{{name}}</a>
                 </p>
             {{/each}}
+
+            {{#if isVersionZero}}
             <p>
-                <button type="button" class="btn btn-primary btn-group-justified add-test-group-btn" data-toggle="modal" data-target=".add-test-group-modal"> 
+                <button type="button" class="btn btn-primary btn-group-justified add-test-group-btn" data-toggle="modal" data-target=".add-test-group-modal">
                     <span class="glyphicon glyphicon-plus"></span> Add Test Group
                 </button>
-                
+
                 <!-- This will only shown when the above button is clicked. -->
                 <div class="modal fade add-test-group-modal">
                     <div class="modal-dialog">
@@ -92,6 +92,8 @@
                     </div>
                 </div>
             </p>
+            {{/if}}
+
         </div>
     </div>
 </template>

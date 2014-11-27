@@ -6,7 +6,35 @@ Template.testplanPage.helpers({
     
     "testgroups": function() {
         return Testgroups.find({chipName:this.chipName, revision:this.revision});
-    } 
+    },
+
+    "testgroupButtonClass": function() {
+        if (this.revision == 0) {
+            return "btn-success";
+        } else {
+            return "btn-default";
+        }
+    },
+
+    "padsListButtonClass": function() {
+        if (this.revision == 0) {
+            return "btn-primary";
+        } else {
+            return "btn-default";
+        }
+    },
+
+    "regTableButtonClass": function() {
+        if (this.revision == 0) {
+            return "btn-primary";
+        } else {
+            return "btn-default";
+        }
+    },
+
+    "isVersionZero": function() {
+        return (this.revision == 0);
+    }
 });
 
 Template.testplanPage.events({
