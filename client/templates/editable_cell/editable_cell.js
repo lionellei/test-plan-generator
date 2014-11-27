@@ -110,10 +110,11 @@ Template.editing_cell.events({
        if (event.keyCode === 13) {
             // The 'this' object for this template holds the following info:
             // Object {value: "CATHODE_L", cell_name: "pad", object_id: "NShKFazs6uWcACqkh"}
-            // console.log(this);     
+            // console.log(this);
+            var inputText = template.find(".get-cell-value").value;
             
             // Call this function to do the heavy lifting of updating the cell.
-            updateCell(event,template,this);
+            updateCell(event,inputText,this);
             
             // disable the cell for editing once "enter" is pressed.
             disableEditing();
@@ -123,9 +124,9 @@ Template.editing_cell.events({
    "change .selecting-cell": function(event, template) {
        // The 'this' object for this template holds the following info:
        // Object {value: "CATHODE_L", cell_name: "pad", object_id: "NShKFazs6uWcACqkh"}
-
+       var inputText = template.find(".get-cell-value").value;
         // Call this function to do the heavy lifting of updating the cell.
-        updateCell(event,template,this);
+        updateCell(event,inputText,this);
 
        // disable the cell for editing once "enter" is pressed.
         disableEditing();
@@ -133,8 +134,8 @@ Template.editing_cell.events({
    
     ////////////// For test notes input //////////////////////
     "click .note-update-button": function(event, template) {
-        updateCell(event, template, this);
-        
+        updateCell(event, inputText, this);
+        var inputText = template.find(".get-cell-value").value;
         // disable the cell for editing once "enter" is pressed.
         disableEditing();   
     },
@@ -171,13 +172,14 @@ var disableEditing = function() {
 };
 
 // update function
-var updateCell = function(event, template, data) { // data is the data context in template.
+var updateCell = function(event, inputText, data) { // data is the data context in template.
     ///console.log(data);
     //if (event.currentTarget.value != data.value) { // check if there is change
     // Use this instead of the above line to accomdate that the update is not triggerred 
     // by the same currentTarget, i.e. via a button, where currentTarget is the button but
     // the value resides in another element.
-    if (template.find(".get-cell-value").value != data.value) {
+    if (inputText != data.value) {
+        console.log(inputText);
         switch (data.collection) {
             case 'Testitems':
                 testItem = Testitems.findOne(data.object_id);
@@ -193,7 +195,7 @@ var updateCell = function(event, template, data) { // data is the data context i
                 
             case 'Notes':
                 note = Notes.findOne(data.object_id);
-                note[data.cell_name] = template.find(".get-cell-value").value;
+                note[data.cell_name] = inputText;
                 Notes.update(data.object_id, note);
                 break;
                 
