@@ -10,7 +10,7 @@
                 <div class="col-sm-2">
                     <select name="selected-revision" current_revision="{{revision}}" class="pull-right form-control select-revision" id="testplan-revision-select">
                         {{#each revisions}}
-                            <option label="{{revision}}" selected="{{isThisVersionSelected}}">{{displayRevision}}</option>
+                            <option id="{{revision}}" selected="{{isThisVersionSelected}}">{{displayRevision}}</option>
                         {{/each}}
                     </select>
                 </div>

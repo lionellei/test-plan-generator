@@ -48,6 +48,7 @@ Template.testplanPage.helpers({
     },
 
     "displayRevision": function () {
+        // console.log(this);
         if (this.revision == 0) {
             return "Working Copy (Rev 0)";
         } else {
@@ -94,10 +95,10 @@ Template.testplanPage.events({
     "change #testplan-revision-select": function (event, template) {
         var destination = {
             chipName: this.chipName,
-            revision: Number(event.currentTarget.selectedOptions[0].label)
+            revision: Number(event.currentTarget.selectedOptions[0].id)
         };
         Router.go('testplanPage', destination);
-        //console.log(event.currentTarget.selectedOptions[0].label);
+        //console.log(event.currentTarget.selectedOptions[0].id);
     }
 });
 
