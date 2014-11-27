@@ -47,8 +47,16 @@
         </div>
         <!-- Panel Footer -->
         <div class="panel-footer">
-            <button type="button" class="btn btn-xs btn-warning">Release</button>
+            <button type="button" class="btn btn-xs btn-warning release-testplan-button" data-toggle="modal" data-target=".release-form-modal">Release</button>
             <button type="button" class="btn btn-xs btn-warning export-testplan-button">Export</button>
+        </div>
+        <!-- This will only shown when the above button is clicked. -->
+        <div class="modal fade release-form-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    {{> releaseForm}}
+                </div>
+            </div>
         </div>
     </div>
     <!-- End of Information Panel -->
@@ -107,5 +115,22 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="create-test-group-submit">Submit</button>
     </div>
-    
+</template>
+
+<template name="releaseForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Releasing {{chipName}} Test Plan <strong class="text-danger">Rev {{nextRevNumber}}</strong></h4>
+        <br />
+        <p>* Revision number will be automatically incremented. </p>
+        <p>* Released versions (any versions number > 0) are not editable, except for the release note.</p>
+        <p>* Version 0 will always be the editable version based on the latested released version.</p>
+    </div>
+    <div class="modal-body">
+        <p>Add release note...</p>
+        <textarea class="form-control release-note-textarea" rows="3"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="release-testplan-submit">Submit</button>
+    </div>
 </template>

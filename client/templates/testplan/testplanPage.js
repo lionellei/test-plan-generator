@@ -100,7 +100,89 @@ Template.newTestGroupForm.events({
    }
 });
 
+Template.releaseForm.helpers({  
+    "nextRevNumber": function () {
+        return getNextRevNumberFor(this);
+    }
+});
+
+Template.releaseForm.events({
+    "click #release-testplan-submit": function (event, template) {
+        console.log(this);
+        var nextRevNumber = getNextRevNumberFor(this);
+
+        // Copy the testplan object:
+        // var testplan_nextrev = this; // Do not do this, there is some strange binding that changing testplan_nextrev also changes "this"
+        var testplan_nextrev = {
+            chipName:this.chipName,
+            revision:nextRevNumber,
+            release_note: template.find(".release-note-textarea").value
+        };
+        testplan_nextrev._id = Testplans.insert(testplan_nextrev);
+        
+        // Copy the test groups:
+        var testgroups = Testgroups.find({testplanId:this._id, revision:this.revision}).fetch();
+        console.log(testgroups);
+        
+        for (var i=0; i<testgroups.length; i++) {
+            // copy the test group object:
+            var testgroup = testgroups[i];
+            testgroup.testplanId = testplan_nextrev._id;
+            testgroup.revision = nextRevNumber;
+            delete testgroup._id;
+            var new_testgroup_id = Testgroups.insert(testgroup);
+            
+            // Copy all the test notes:
+            var notes = Notes.find({testgroupId:testgroups[i]._id}).fetch();
+            console.log(notes);
+            for (var j=0; j<notes.length; j++) {
+                var note = notes[j];
+                note.testgroupId = new_testgroup_id;
+                note.revision = nextRevNumber;
+                delete note._id;
+                note._id = Notes.insert(note);
+            }
+            
+            /*
+            // Copy all the test setups:
+            var setups = Testsetups.find({testgroupId:testgroups[i]._id}).fetch();
+            console.log(setups);
+            for (var j=0; j<setups.length; j++) {
+                var setup = setups[j];
+                setup.testgroup_id = new_testgroup_id;
+                setup.revision = nextRevNumber;
+                delete setup._id;
+                setup._id = Testsetups.insert(setup);
+            } 
+            
+            // Copy all the test items:
+            var testitems = Testitems.find({testgroupId:testgroups[i]._id}).fetch();
+            console.log(testitems);
+            for (var j=0; j<testitems.length; j++) {
+                var testitem = testitems[j];
+                testitem.testgroupId = new_testgroup_id;
+                testitem.revision = nextRevNumber;
+                delete testitem._id;
+                testitem._id = Testitems.insert(testitem);
+            } */
+        }
+        
+        // Increment the latest_revision attribute of testplan rev 0.
+        Testplans.update(this._id, {$inc:{latest_revision:1}});
+        
+        // Hide modal
+        $('.release-form-modal').modal('hide');
+        
+        // Route to the newly created revision.
+        // Router.go('testplanPage', testplan_nextrev); 
+    }
+});
+
 /// *************** The heavey duty stuffs below ********************************
+var getNextRevNumberFor = function(dataContext){
+    return dataContext.latest_revision + 1;
+}
+
 var getTestGroupByName = function(testGroupName, chipName, testplanId, revision) {
     var testgroup = Testgroups.findOne({name:testGroupName, testplanId:testplanId});
     if (!testgroup) { // No testgroup in this testplan that has the given name
