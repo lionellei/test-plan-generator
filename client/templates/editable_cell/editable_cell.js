@@ -114,6 +114,8 @@ Template.editing_cell.events({
             var inputText = template.find(".get-cell-value").value;
             
             // Call this function to do the heavy lifting of updating the cell.
+           // TODO: after update there is "Exception in defer callback: Error: Can't select in removed DomRange"
+           // only happens when updating pad, so maybe due to autocomplete package.
             updateCell(event,inputText,this);
             
             // disable the cell for editing once "enter" is pressed.
@@ -179,7 +181,7 @@ var updateCell = function(event, inputText, data) { // data is the data context 
     // by the same currentTarget, i.e. via a button, where currentTarget is the button but
     // the value resides in another element.
     if (inputText != data.value) {
-        console.log(inputText);
+        //console.log(inputText);
         switch (data.collection) {
             case 'Testitems':
                 testItem = Testitems.findOne(data.object_id);
