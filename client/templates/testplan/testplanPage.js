@@ -382,7 +382,7 @@ var generateBasicTests = function(testplanObj, testName) {
     }
 };
 
-
+/*
 /////////////////// Configuration for test templates //////////////////
 var testGroupTemplateConfigs = {
     Leakage: {
@@ -464,4 +464,4 @@ var testGroupTemplateConfigs = {
             }
         ]
     }
-};   
+};   */

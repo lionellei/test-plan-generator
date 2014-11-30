@@ -65,7 +65,18 @@
     <!-- Tests Table -->
     <div class="panel panel-default">
         <div class="panel-heading">
-            <strong class="h4">Tests</strong>
+            <strong class="h4">Tests</strong> {{#if editable}}
+                <button type="button" class="btn btn-link btn-sm configure-header-button" data-toggle="modal" data-target=".header-config-modal">
+                    <span class="glyphicon glyphicon-wrench"></span> Configure Header
+                </button> {{/if}}
+            <!-- This will only show when above button is clicked. -->
+            <div class="modal fade header-config-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        {{> headerConfigModal}}
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-hover table-condensed table-bordered">
@@ -157,5 +168,19 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary note-submit-button">Submit</button>
+    </div>
+</template>
+
+<template name="headerConfigModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <p class="modal-title h4"> Add or remove columns </p>
+    </div>
+    <div class="modal-body">
+        {{log}}
+        ...
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary header-config-submit-button">Submit</button>
     </div>
 </template>

@@ -200,6 +200,12 @@ Template.addNoteModal.events({
     }
 });
 
+Template.headerConfigModal.helpers({
+    "log": function () {
+        console.log(this);
+    }
+});
+
 
 ////////////////////// Functions /////////////////////////////
 var findCurrentTestgroup = function(dataContext) {
