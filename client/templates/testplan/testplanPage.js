@@ -209,6 +209,15 @@ Template.releaseForm.events({
             };
 
             var new_testgroup_id = Testgroups.insert(testgroup);
+            
+            // Copy the test header configs:
+            var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroups[i]._id});
+            var newTestHeaderConfigs = {
+                columns: testHeaderConfigs.columns,  
+                testgroup_id: new_testgroup_id,
+                revision: nextRevNumber,
+            };
+            TestHeaderConfigs.insert(newTestHeaderConfigs);
 
             // Copy all the test notes:
             var notes = Notes.find({testgroupId:testgroups[i]._id}).fetch();
