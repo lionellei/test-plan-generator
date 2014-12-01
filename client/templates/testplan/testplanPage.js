@@ -298,6 +298,14 @@ var getTestGroupByName = function(testGroupName, chipName, testplanId, revision)
 var createCustomTests = function(testplanObj, testName) {
     console.log('Create custom test: '+testName);
     var customTest = getTestGroupByName(testName, testplanObj.chipName, testplanObj._id, testplanObj.revision);
+    
+    // Attach the default test header configs:
+    var headerConfigs = testHeaderDefaults;
+    headerConfigs["testgroup_name"] = testName;
+    headerConfigs["testgroup_id"] = customTest._id;
+    headerConfigs["chipName"] = testplanObj.chipName;
+    headerConfigs["revision"] = testplanObj.revision;
+    TestHeaderConfigs.insert(headerConfigs);
 }
 
 var generateBasicTests = function(testplanObj, testName) { 
