@@ -91,59 +91,9 @@ Template.testgroup.events({
 
    // Export the test plan to csv file.
    "click .export-button": function(event, template){
-      // console.log("export button clicked");
-      var testItems = this.fetch(); // this is the data that passed by the router.
-      var testsetups = Testsetups.find({
-            chipName:this.matcher._selector.chipName,
-            testgroup_name: this.matcher._selector.testgroupName,
-            revision:Number(this.matcher._selector.revision)
-        }).fetch();
-      var testNotes = Notes.find({
-            chipName:this.matcher._selector.chipName,
-            testgroupName: this.matcher._selector.testgroupName,
-            revision:Number(this.matcher._selector.revision)
-        }).fetch();
+      var testgroup = findCurrentTestgroup(this);
       
-      var data = ""; // use a string to form the CSV file
-      
-      // Title row:
-      var title = this.matcher._selector.chipName + ' ' + this.matcher._selector.testgroupName + ' ' + 'Rev '+ this.matcher._selector.revision + '\n' + '\n';
-      data = data + title;
-      
-      // Test notes:
-      var noteHeader = "Notes" + '\n';
-      data = data + noteHeader;
-      var noteRows = "";
-      for (var i=0; i<testNotes.length; i++) {
-          noteRows = noteRows + testNotes[i].note_text + '\n';
-      }
-      data = data + noteRows + '\n';
-      
-      // Test setup
-      var setupHeader = "Setup" + '\n' + "Pad,Source,Unit" + '\n';
-      data = data + setupHeader;
-      var setupRows = "";
-      for (var i=0; i<testsetups.length; i++) {
-          setup = testsetups[i];
-          setupRow = setup.pad + ',' + setup.source_value + ',' + setup.source_unit + '\n';
-          setupRows = setupRows + setupRow;
-      }
-      data = data + setupRows + '\n';
-      
-      // Header row:
-      var header = "Tests" + '\n' + "Pad,Source,Compliance,Measure,MIN,TYP,MAX,UNIT" + '\n';
-      data = data + header;
-      
-      var measLabelPrefix = this.matcher._selector.testgroupName.substring(0,4);
-      for (var i=0; i<testItems.length; i++) {
-         item = testItems[i];
-         var row = item.pad + ',' + item.source_type+"src="+item.source_value+item.source_unit+','
-                  + item.compliance_type+"cmp="+item.compliance_value+item.compliance_unit + ','
-                  + measLabelPrefix+" "+item.pad+" ("+item.source_type+"src="+item.source_value+' '+item.source_unit+')' + ','
-                  + item.measure_min + ',' + item.measure_typ + ',' + item.measure_max + ',' + item.measure_unit 
-                  + '\n' ;
-         data = data + row;
-      }
+      var data = exportTestgroup(testgroup);
       
       var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
       var fileName = this.matcher._selector.chipName+"_"+this.matcher._selector.testgroupName+"_Rev"+this.matcher._selector.revision+".csv";
