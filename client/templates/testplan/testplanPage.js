@@ -323,13 +323,21 @@ var generateBasicTests = function(testplanObj, testName) {
         // Get the config settings to populate this test:
         var configs = testGroupTemplateConfigs[testName];
         
+        // Attach the default test header configs:
+        var headerConfigs = configs.headerDefaults;
+        headerConfigs["testgroup_name"] = basicTest.name;
+        headerConfigs["testgroup_id"] = basicTest._id;
+        headerConfigs["chipName"] = testplanObj.chipName;
+        headerConfigs["revision"] = testplanObj.revision;
+        TestHeaderConfigs.insert(headerConfigs);
+        
         for (var i = 0; i < supplyPads.length; i++) {
             pad = supplyPads[i];
 
             if (setups.length == 0 | setups.filter(function(item){return (item.pad==pad.name);}).length == 0) {
                 // if that setup is not already in the array.
                 // Need to check this because the same pads may be listed multiple times in the pads list.
-                var setup = {
+                var setup = { // Make sure it matches headerConfigs.columns
                     "testgroup_name": basicTest.name,
                     "testgroup_id": basicTest._id,
                     "chipName": testplanObj.chipName,

@@ -25,7 +25,7 @@ Template.testgroup.helpers({
         //console(this.fetch());
         //TODO: may not be robust
         if (Session.get('selectedRowsIds')) {
-            if (this.fetch().length == Session.get('selectedRowsIds').length) {
+            if ((this.fetch().length == Session.get('selectedRowsIds').length) && (Session.get('selectedRowsIds').length>0)) {
                 return true;
             } else {
                 return false;

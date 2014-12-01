@@ -37,7 +37,9 @@ testGroupTemplateConfigs = {
                 measure_max: "300",
                 measure_unit: "uA"
             }
-        ]
+        ],
+        
+        headerDefaults: testHeaderDefaults
     },
 
     Continuity: {
@@ -77,6 +79,8 @@ testGroupTemplateConfigs = {
                 measure_max: "-0.35",
                 measure_unit: "V"
             }
-        ]
+        ],
+        
+        headerDefaults: testHeaderDefaults
     }
 };
