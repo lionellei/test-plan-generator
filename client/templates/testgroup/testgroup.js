@@ -65,6 +65,10 @@ Template.testgroup.helpers({
         } else {
             return false;
         }
+    },
+
+    "testHeaders": function () {
+        return testHeaderDefaults.columns;
     }
 
 });

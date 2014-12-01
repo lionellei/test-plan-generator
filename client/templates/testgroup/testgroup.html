@@ -84,6 +84,10 @@
                 <thead>
                 <tr>
                     <th class="text-center">Number</th>
+                    {{#each testHeaders}}
+                        {{> testHeader}}
+                    {{/each}}
+                    <!--
                     <th class="text-center">Pad</th>
                     <th class="text-center bg-success">Source</th>
                     <th class="text-center bg-success">Value</th>
@@ -96,6 +100,7 @@
                     <th class="text-center bg-info">TYP</th>
                     <th class="text-center bg-info">MAX</th>
                     <th class="text-center bg-info">Unit</th>
+                    -->
                     {{#if editable}}
                     <th><input type="checkbox" checked="{{allRowsSelected}}" class="select-all-rows"/></th>
                     {{/if}}
@@ -183,4 +188,10 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-primary header-config-submit-button">Submit</button>
     </div>
+</template>
+
+<template name="testHeader">
+    {{#if show}}
+        <th class="text-center" name="{{name}}">{{label}}</th>
+    {{/if}}
 </template>
