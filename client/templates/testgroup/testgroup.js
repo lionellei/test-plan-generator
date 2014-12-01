@@ -68,7 +68,8 @@ Template.testgroup.helpers({
     },
 
     "testHeaders": function () {
-        return testHeaderDefaults.columns;
+        testgroup = findCurrentTestgroup(this);
+        return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
     }
 
 });
@@ -218,6 +219,8 @@ Template.headerConfigModal.helpers({
 
 
 ////////////////////// Functions /////////////////////////////
+
+// Only usable inside the testgroup template, the dataContext needs to be "this" of testgroup template.
 var findCurrentTestgroup = function(dataContext) {
     var testgroup = Testgroups.findOne({chipName:dataContext.matcher._selector.chipName, 
                                         name:dataContext.matcher._selector.testgroupName,
