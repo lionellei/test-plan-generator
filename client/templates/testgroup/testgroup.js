@@ -162,6 +162,12 @@ Template.testgroup.events({
             });
             Meteor.call('removeSelectedTestNotes', testNoteIds);
             
+            // Remove test header configs:
+            var testHeaderConfigsIds = TestHeaderConfigs.find({testgroup_id:testgroup._id}).fetch().map(function (item) {
+                return item._id;
+            });
+            Meteor.call('removeSelectedTesHeaderConfigs', testHeaderConfigsIds);
+            
             // Remove test setups:
             var testSetupIds = Testsetups.find({testgroup_id:testgroup._id}).fetch().map(function (item) {
                 return item._id;
