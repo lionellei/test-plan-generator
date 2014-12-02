@@ -1,8 +1,16 @@
 <!-- TODO: Need to figure out to have one testitem template to support different type of testgroup -->
 <template name="testitem">
     <!-- This is the template for each row -->
+    {{log}}
     <tr>
         <td class="text-center"><span>{{test_number}}</span></td>
+        {{#each headerColumns testitem=this}}
+            {{log testitem}}
+            <td {{cellAttributes name}}>
+                 {{> editable_cell revision=this.revision value=name cell_name=name object_id=this._id collection="Testitems" chipName=this.chipName}}
+            </td>
+        {{/each}}
+        <!--
         <td {{cellAttributes "pad"}}>
             <span>
                 {{> editable_cell revision=this.revision value=pad cell_name="pad" object_id=this._id collection="Testitems" chipName=this.chipName}}
@@ -62,7 +70,7 @@
             <span>
                 {{> editable_cell revision=this.revision value=measure_unit cell_name="measure_unit" object_id=this._id collection="Testitems" chipName=this.chipName}}
             </span>
-        </td>
+        </td> -->
 
         {{#if editable}}
         <!-- Row Action Buttons -->

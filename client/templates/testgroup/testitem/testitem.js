@@ -54,6 +54,9 @@ Template.testitem.events({
 Template.testitem.helpers({
     "log": function() {
       console.log(this);  
+      if (testitem) {
+          console.log(testitem);
+      }
     },
     
     // Create the attributes for each cell in the testitem row:
@@ -103,5 +106,16 @@ Template.testitem.helpers({
         } else {
             return false;
         }
+    },
+    
+    "headerColumns": function () {
+        var columns = TestHeaderConfigs.findOne({testgroup_id: this.testgroupId}).columns;
+        return columns.filter(function(column) {
+            if (column.show) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 });
