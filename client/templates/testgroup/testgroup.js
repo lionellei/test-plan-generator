@@ -167,7 +167,7 @@ Template.headerConfigModal.events({
     },
 
     "click .header-config-submit-button": function (event, template) {
-        // After submit, update the columns of the test configs to match the Session variable. 
+        // After submit, update the columns of the test configs to match the Session variable.
         var testgroup = findCurrentTestgroup(this);
         var headerConfigs = TestHeaderConfigs.findOne({testgroup_id: testgroup._id});
         TestHeaderConfigs.update(headerConfigs._id, {$set: {columns:Session.get('headerColumns')}});

@@ -53,14 +53,11 @@ Template.testitem.events({
 //////////// Helpers ////////////////
 Template.testitem.helpers({
     "log": function() {
-      console.log(this);  
-      if (testitem) {
-          console.log(testitem);
-      }
+        console.log(this);
     },
     
     // Create the attributes for each cell in the testitem row:
-    "cellAttributes": function(cell_name) {
+    "cellAttributes": function(cell_name, object_id) {
         //console.log("test item field is"+cell_name);
         var bgClass = "";
         switch (cell_name) {
@@ -87,7 +84,7 @@ Template.testitem.helpers({
         }
         return {
             class: "editable text-center "+bgClass,
-            id: cell_name + '+' + this._id
+            id: cell_name + '+' + object_id
         };
     },
     
@@ -108,14 +105,24 @@ Template.testitem.helpers({
         }
     },
     
-    "headerColumns": function () {
+    "headerColumns": function (testitem) {
+        // console.log(testitem);
         var columns = TestHeaderConfigs.findOne({testgroup_id: this.testgroupId}).columns;
-        return columns.filter(function(column) {
+        var activeColumns = columns.filter(function(column) {
             if (column.show) {
                 return true;
             } else {
                 return false;
             }
         });
+        var modifiedActiveColumns = activeColumns.map(function (column) {
+            column["value"] = testitem[column.name];
+            column["revision"] = testitem.revision;
+            column["cell_name"] = column.name;
+            column["object_id"] = testitem._id;
+            column["chipName"] = testitem.chipName;
+            return column;
+        });
+        return modifiedActiveColumns;
     }
 });
