@@ -171,6 +171,7 @@
 
 <template name="headerConfigModal">
     {{initializeBootstrapTooltip}}
+    {{initializeHeaderSession}} <!-- Store the headerConfigs in the Session for easier user edit -->
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <p class="modal-title h4"> Add or remove columns </p>
@@ -208,7 +209,16 @@
                         {{> testHeaderConfig}}
                     {{/each}}
                     <!-- Row for adding -->
-                
+                    <tr>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-default btn-sm test-header-add-btn">
+                                <span class="glyphicon glyphicon-arrow-up"></span> Add
+                            </button>
+                        </td>
+                        <td class="text-center"><input name="name" class="input-sm test_header_input" type="text" /></td>
+                        <td class="text-center"><input name="label" class="input-sm test_header_input" type="text" /></td>
+                        <td class="text-center"><input name="allowed_value" class="input-sm test_header_input" type="text" /></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -220,9 +230,9 @@
 
 <template name="testHeaderConfig">
     <tr>
-        <td class="text-center"><input type="checkbox" checked="{{show}}"/></td>
-        <td class="text-center">{{name}}</td>
-        <td class="text-center">{{label}}</td>
-        <td class="text-center">{{allowed_value}}</td>
+        <td class="text-center"><input class="test-header-checkbox" name="{{name}}" id="{{headerCheckboxId}}" type="checkbox" checked="{{show}}"/></td>
+        <td class="text-center {{textClass}}">{{name}}</td>
+        <td class="text-center {{textClass}}">{{label}}</td>
+        <td class="text-center {{textClass}}">{{allowed_value}}</td>
     </tr>
 </template>

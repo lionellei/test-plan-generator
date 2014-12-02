@@ -161,34 +161,71 @@ Template.addNoteModal.events({
     }
 });
 
-Template.headerConfigModal.helpers({
-    "log": function () {
-        console.log(this);
+Template.headerConfigModal.events({
+    "click .test-header-add-btn": function () {
+
     }
 });
 
 Template.headerConfigModal.helpers({
+    "log": function () {
+        console.log(this);
+    },
+
     "initializeBootstrapTooltip": function () {
         //console.log("initializ tooltip");
         $('[data-toggle="tooltip"]').tooltip();
-    }, 
+    },
+
+    "initializeHeaderSession": function () {
+        var testgroup = findCurrentTestgroup(this);
+        Session.set('headerColumns', TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns);
+    },
     
     "testHeaderConfigs": function () {
-        var testgroup = findCurrentTestgroup(this);
-        return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
+        return Session.get('headerColumns');
     }
 });
 
 Template.testHeaderConfig.helpers({
     // TODO: programatically change the text color based on the checkbox status
-    /*
     "headerCheckboxId": function () {
         return "test_header_"+this.name;    
     },
     
     "textClass": function () {
-        console.log($('#test_header_'+this.name));
-    }*/ 
+        if (this.show) {
+            return "h4 text-primary";
+        } else {
+            return "text-muted";
+        }
+    }
+});
+
+Template.testHeaderConfig.events({
+    "change .test-header-checkbox": function (event, template) {
+        //console.log(event.currentTarget.name);
+        //console.log(event.currentTarget.id);
+        //console.log(Session.get('headerColumns'));
+
+        // All these just to change the item in an array.
+        // TODO: make sure the "name" key is unique within this array.
+        var columns = Session.get('headerColumns');
+        var column = columns.filter(function(element) {
+           if (element.name == event.currentTarget.name) {
+               return true;
+           } else {
+               return false;
+           }
+        })[0];
+        var columnIndex = columns.indexOf(column);
+        if (columnIndex !== -1) {
+            // toggle the "show" value.
+            column.show = !column.show;
+            columns[columnIndex] = column;
+            Session.set('headerColumns', columns);
+        }
+    }
 });
 
 ////////////////////// Functions /////////////////////////////
