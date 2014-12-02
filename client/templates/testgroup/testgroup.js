@@ -68,7 +68,7 @@ Template.testgroup.helpers({
     },
 
     "testHeaders": function () {
-        testgroup = findCurrentTestgroup(this);
+        var testgroup = findCurrentTestgroup(this);
         return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
     }
 
@@ -167,6 +167,29 @@ Template.headerConfigModal.helpers({
     }
 });
 
+Template.headerConfigModal.helpers({
+    "initializeBootstrapTooltip": function () {
+        //console.log("initializ tooltip");
+        $('[data-toggle="tooltip"]').tooltip();
+    }, 
+    
+    "testHeaderConfigs": function () {
+        var testgroup = findCurrentTestgroup(this);
+        return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
+    }
+});
+
+Template.testHeaderConfig.helpers({
+    // TODO: programatically change the text color based on the checkbox status
+    /*
+    "headerCheckboxId": function () {
+        return "test_header_"+this.name;    
+    },
+    
+    "textClass": function () {
+        console.log($('#test_header_'+this.name));
+    }*/ 
+});
 
 ////////////////////// Functions /////////////////////////////
 

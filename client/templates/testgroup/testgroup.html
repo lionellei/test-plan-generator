@@ -163,22 +163,66 @@
     </div>
 </template>
 
+<template name="testHeader">
+    {{#if show}}
+        <th class="text-center" name="{{name}}">{{label}}</th>
+    {{/if}}
+</template>
+
 <template name="headerConfigModal">
+    {{initializeBootstrapTooltip}}
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <p class="modal-title h4"> Add or remove columns </p>
     </div>
     <div class="modal-body">
-        {{log}}
-        ...
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            Select<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="select the columns you want in your table.">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </th>
+                        <th class="text-center">
+                            Key<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="The key for the database, don't use space">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </th>
+                        <th class="text-center">                            
+                            Label<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="The text to display for your table column header.">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </th>
+                        <th class="text-center">
+                            Allowed Value<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="Leave blank for any value, common-seperate for list of allowed values">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each testHeaderConfigs}}
+                        {{> testHeaderConfig}}
+                    {{/each}}
+                    <!-- Row for adding -->
+                
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary header-config-submit-button">Submit</button>
     </div>
 </template>
 
-<template name="testHeader">
-    {{#if show}}
-        <th class="text-center" name="{{name}}">{{label}}</th>
-    {{/if}}
+<template name="testHeaderConfig">
+    <tr>
+        <td class="text-center"><input type="checkbox" checked="{{show}}"/></td>
+        <td class="text-center">{{name}}</td>
+        <td class="text-center">{{label}}</td>
+        <td class="text-center">{{allowed_value}}</td>
+    </tr>
 </template>

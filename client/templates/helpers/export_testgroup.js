@@ -31,6 +31,7 @@
       }
       data = data + setupRows + '\n';
       
+      //TODO: header and rows need to depend on the header configs of the testgroup instead of hardcoded now.
       // Header row:
       var header = "Tests" + '\n' + "Pad,Source,Compliance,Measure,MIN,TYP,MAX,UNIT" + '\n';
       data = data + header;
