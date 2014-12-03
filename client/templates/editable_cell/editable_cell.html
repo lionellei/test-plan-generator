@@ -3,18 +3,22 @@
 <template name="editable_cell">
         {{#if cellIsEditing this}}
             <!-- chipName is used by autocomlete to filter -->
-            {{> editing_cell value=value cell_name=cell_name object_id=object_id collection=collection chipName=chipName}}
+            {{> editing_cell header=header value=value cell_name=cell_name object_id=object_id collection=collection chipName=chipName}}
         {{else}}
             <span {{cellAttributes cell_name}}>{{value}}</span>
         {{/if}}
 </template>
 
 <template name="editing_cell">
-    {{#if cellNameIsType cell_name}}
+    {{#if useSelectBox}}
         <select class="form-control selecting-cell get-cell-value" value="{{value}}" name={{cell_name}}>
             <option></option>
+            {{#each allowedValues}}
+                <option {{checkOptionSelection this.selectedOption this.option}}>{{this.option}}</option>
+            {{/each}}
+            <!--
             <option {{checkOptionSelection value "V"}}>V</option>
-            <option {{checkOptionSelection value "I"}}>I</option>
+            <option {{checkOptionSelection value "I"}}>I</option> -->
         </select>
     {{else}}
         {{#if cellNameIs cell_name "pad2"}}

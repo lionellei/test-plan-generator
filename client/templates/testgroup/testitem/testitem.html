@@ -5,7 +5,7 @@
         <td class="text-center"><span>{{test_number}}</span></td>
         {{#each headerColumns this}} <!-- pass the this to the headerColumns helper, and that helper is responsible to populating the attribute of "each" return item. -->
             <td {{cellAttributes name object_id}}>
-                 {{> editable_cell revision=revision value=value cell_name=cell_name object_id=object_id collection="Testitems" chipName=chipName}}
+                 {{> editable_cell header=this revision=revision value=value cell_name=cell_name object_id=object_id collection="Testitems" chipName=chipName}}
             </td>
         {{/each}}
 

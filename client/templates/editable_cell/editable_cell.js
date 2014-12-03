@@ -52,13 +52,28 @@ Template.editing_cell.helpers({
     "log": function () {
         console.log(this);    
     },
-    
-    "cellNameIsType": function(cell_name) {
-        if (cell_name == "source_type" || cell_name == "compliance_type" || cell_name == "measure_type") {
+
+    "useSelectBox": function() {
+        // console.log(this);
+        if (this.header.allowed_value.length > 0) {
             return true;
         } else {
             return false;
         }
+    },
+
+    "allowedValues": function() {
+        var selectedOption = this.value;
+        var returnArray = [];
+        if (this.header.allowed_value.length > 0) {
+            returnArray = this.header.allowed_value.split(',').map(function(item){
+                return {
+                    option:item,
+                    selectedOption:selectedOption
+                };
+            });
+        }
+        return returnArray;
     },
 
     "checkOptionSelection": function(value, option){
