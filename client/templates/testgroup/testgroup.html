@@ -222,6 +222,10 @@
                 </tbody>
             </table>
         </div>
+        
+        <!-- For adding registers in test item -->
+        {{> addRegister}}
+   
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary header-config-submit-button">Submit</button>
@@ -235,4 +239,42 @@
         <td class="text-center {{textClass}}">{{allowed_value}}</td>
         <td class="text-center"><input class="test-header-checkbox" name="{{name}}" id="{{headerCheckboxId}}" type="checkbox" checked="{{show}}"/></td>
     </tr>
+</template>
+
+<template name="addRegister">
+    <div class="panel-group" id="reg-accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#reg-accordion" href="#reg-collapseOne" aria-expanded="false" aria-controls="reg-collapseOne">
+                        Add Register Settings
+                    </a>
+                </h4>
+            </div>
+            <div id="reg-collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-condensed">
+                            <tbody>
+                                
+                                <tr>
+                                    <td>Analog Control Name</td>
+                                    <td>
+                                        {{> inputAutocomplete
+                                        settings=autocompleteSettings
+                                        class="input-sm text-center editing-cell get-cell-value"}}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default btn-sm add-register-button">
+                                            <span class="glyphicon glyphicon-arrow-up"></span> Add
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     
 </template>

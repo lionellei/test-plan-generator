@@ -161,6 +161,7 @@ Template.addNoteModal.events({
     }
 });
 
+//// ###########################################################################
 Template.headerConfigModal.events({
     "click .header-config-submit-button": function (event, template) {
         // After submit, update the columns of the test configs to match the Session variable.
@@ -205,7 +206,9 @@ Template.headerConfigModal.helpers({
         return Session.get('headerColumns');
     }
 });
+//// ###########################################################################
 
+//// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Template.testHeaderConfig.helpers({
     // TODO: programatically change the text color based on the checkbox status
     "headerCheckboxId": function () {
@@ -250,6 +253,29 @@ Template.testHeaderConfig.events({
         }
     }
 });
+///// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+///// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Template.addRegister.helpers({
+       // Autocomplete settings
+    "autocompleteSettings": function() {
+        return {
+           position: "top",
+           limit: 5,
+           rules: [
+             {
+               collection: Registers,
+               field: "control_name",
+               options: 'i', //case insensitive
+               matchAll: true,
+               filter: {chipName: "MZMDX1A" },
+               template: Template.registerAutoCompleteTemplate
+             }
+           ]
+        };
+    }, 
+});
+///// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ////////////////////// Functions /////////////////////////////
 
