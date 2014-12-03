@@ -38,6 +38,11 @@ Template.new_test_row.events({
 });
 
 Template.new_test_row.helpers({
+    "log": function () {
+        console.log(findCurrentTestgroup(this));
+    },
+
+    /*
     // Autocomplete settings.
     "settings": function () {
         return {
@@ -54,5 +59,123 @@ Template.new_test_row.helpers({
              }
             ]
         }        
+    },*/
+
+    // Create the attributes for each cell in the testitem row:
+    "cellAttributes": function(cell_name, object_id) {
+        //console.log("test item field is"+cell_name);
+        var bgClass = "";
+        switch (cell_name) {
+            case "source_type":
+            case "source_value":
+            case "source_unit":
+                bgClass = "bg-success";
+                break;
+            case "compliance_type":
+            case "compliance_value":
+            case "compliance_unit":
+                bgClass = "bg-warning";
+                break;
+            case "measure_type":
+            case "measure_min":
+            case "measure_typ":
+            case "measure_max":
+            case "measure_unit":
+                bgClass = "bg-info";
+                break;
+            default :
+                bgClass = "bg-default";
+                break;
+        }
+        return {
+            class: "editable text-center " + bgClass,
+            id: cell_name + '+' + object_id
+        };
+    },
+
+    "headerColumns": function () {
+        // console.log(this);
+        var chipName = this.matcher._selector.chipName;
+        var testgroup = findCurrentTestgroup(this);
+        var columns = TestHeaderConfigs.findOne({testgroup_id: testgroup._id}).columns;
+        var activeColumns = columns.filter(function(column) {
+            if (column.show) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        // attach chipName to each items in the array, to be used by the sub templates.
+        var modifiedActiveColumns = activeColumns.map(function(column) {
+            column["chipName"] = chipName;
+            // console.log(column);
+            return column;
+        });
+
+        return modifiedActiveColumns;
     }
 });
+
+/// ****************** Partials *****************************///
+Template.inputCell.helpers({
+    "log": function () {
+        console.log(this);
+    },
+
+    "useSelectBox": function() {
+        if (this.allowed_value.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    "selectOptions": function() {
+        if (this.allowed_value.length > 0) {
+            return this.allowed_value.split(',');
+        } else {
+            return [];
+        }
+    },
+
+    "settings": function () {
+        return {
+            position: "top",
+            limit: 5,
+            rules: [
+                {
+                    collection: Pads,
+                    field: "name",
+                    options: 'i', //case insensitive
+                    matchAll: true,
+                    filter: { chipName: this.chipName },
+                    template: Template.padAutoCompleteTemplate
+                }
+            ]
+        }
+    },
+
+    "padsAutoComplete": function () {
+        if (this.name == "pad" || this.name == "pad2") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+});
+
+////////////////////// Functions /////////////////////////////
+
+// Only usable inside the testgroup template, the dataContext needs to be "this" of testgroup template.
+var findCurrentTestgroup = function(dataContext) {
+    var testgroup = Testgroups.findOne({chipName:dataContext.matcher._selector.chipName,
+        name:dataContext.matcher._selector.testgroupName,
+        revision:Number(dataContext.matcher._selector.revision)
+    });
+    if (testgroup) {
+        return testgroup;
+    } else {
+        return null;
+    }
+};

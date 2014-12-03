@@ -78,3 +78,38 @@ homes.filter(function (el) {
  </span>
  </td> -->
  */
+
+/* // was in new_test_row.html, was replaced with a #each loop
+ <!--
+ <td class="text-center">{{> inputAutocomplete name="pad" settings=settings class="input-sm test_item_input" placeholder="Pad Name"}}</td>
+ <td class="bg-success">
+ <select name="source_type" class="form-control">
+ <option></option>
+ <option>V</option>
+ <option>I</option>
+ </select>
+ </td>
+ <td class="bg-success"><input name="source_value" class="input-sm test_item_input" type="text"/></td>
+ <td class="bg-success"><input name="source_unit" class="input-sm test_item_input" type="text"/></td>
+ <td class="bg-warning">
+ <select name="compliance_type" class="form-control">
+ <option></option>
+ <option>V</option>
+ <option>I</option>
+ </select>
+ </td>
+ <td class="bg-warning"><input name="compliance_value" class="input-sm test_item_input" type="text"/></td>
+ <td class="bg-warning"><input name="compliance_unit" class="input-sm test_item_input" type="text"/></td>
+ <td class="bg-info">
+ <select name="measure_type" class="form-control">
+ <option></option>
+ <option>V</option>
+ <option>I</option>
+ </select>
+ </td>
+ <td class="bg-info"><input name="measure_min" class="input-sm test_item_input" type="text"/></td>
+ <td class="bg-info"><input name="measure_typ" class="input-sm test_item_input" type="text"/></td>
+ <td class="bg-info"><input name="measure_max" class="input-sm test_item_input" type="text"/></td>
+ <td class="bg-info"><input name="measure_unit" class="input-sm test_item_input" type="text"/></td>
+ -->
+ */
