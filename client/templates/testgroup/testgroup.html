@@ -256,13 +256,23 @@
                     <div class="table-responsive">
                         <table class="table table-hover table-condensed">
                             <tbody>
-                                
+                                {{#each headerRegisters}}
+                                    <tr>
+                                        <td></td>
+                                        <td>{{name}}</td>
+                                        <td>
+                                            <button type="button" name="{{name}}" class="btn btn-xs btn-default delete-header-register-btn">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {{/each}}
                                 <tr>
                                     <td>Analog Control Name</td>
                                     <td>
                                         {{> inputAutocomplete
                                         settings=autocompleteSettings
-                                        class="input-sm text-center editing-cell get-cell-value"}}
+                                        class="input-sm text-center add-register-input"}}
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-default btn-sm add-register-button">

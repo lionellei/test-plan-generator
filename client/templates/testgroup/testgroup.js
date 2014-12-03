@@ -142,7 +142,11 @@ Template.testgroup.events({
 });
 
 
-///////////////////// Partials within this template //////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+///////////////////// Partials within this template ////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+//// ***************************************************************************
 Template.addNoteModal.events({
     // Only capture submit button click, don't handle the keyup "enter" case since it's a textarea.
     "click .note-submit-button": function(event, template) {
@@ -160,6 +164,7 @@ Template.addNoteModal.events({
         $('.add-note-modal').modal('hide');
     }
 });
+//// ***************************************************************************
 
 //// ###########################################################################
 Template.headerConfigModal.events({
@@ -199,7 +204,9 @@ Template.headerConfigModal.helpers({
 
     "initializeHeaderSession": function () {
         var testgroup = findCurrentTestgroup(this);
-        Session.set('headerColumns', TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns);
+        var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name});
+        Session.set('headerColumns', testHeaderConfigs.columns);
+        Session.set('headerRegisters', testHeaderConfigs.registers);
     },
     
     "testHeaderConfigs": function () {
@@ -259,6 +266,7 @@ Template.testHeaderConfig.events({
 Template.addRegister.helpers({
        // Autocomplete settings
     "autocompleteSettings": function() {
+        // console.log(this);
         return {
            position: "top",
            limit: 5,
@@ -268,12 +276,70 @@ Template.addRegister.helpers({
                field: "control_name",
                options: 'i', //case insensitive
                matchAll: true,
-               filter: {chipName: "MZMDX1A" },
+               filter: {chipName: this.matcher._selector.chipName },
                template: Template.registerAutoCompleteTemplate
              }
            ]
         };
     }, 
+    
+    "headerRegisters": function() {
+        if (Session.get('headerRegisters')) {
+            return Session.get('headerRegisters');
+        } else {
+            return [];
+        }
+    }
+});
+
+Template.addRegister.events({
+    "keyup .add-register-input": function (event, template) {
+        if (event.keyCode == 13) {
+            if (event.currentTarget.value != "") {
+                var headerRegisters;
+                if (Session.get('headerRegisters')) {
+                    headerRegisters = Session.get('headerRegisters');
+                } else {
+                    headerRegisters = [];
+                }
+                
+                // check duplicate entries
+                var control_names = headerRegisters.map(function (reg) {
+                    return reg.name;
+                });
+                if (control_names.indexOf(event.currentTarget.value) < 0) { // has not been added yet.
+                    var register = {
+                        //{name: "measure_unit", label:"Unit", allowed_value:"", show:true, custom:false}
+                        name: event.currentTarget.value,
+                        label: event.currentTarget.value,
+                        allowed_value:"",
+                        show: true,
+                        custom: true
+                    }
+                    headerRegisters.push(register);
+                    Session.set('headerRegisters', headerRegisters);
+                }
+            
+                event.currentTarget.value = "";
+            }           
+        }
+    },
+    
+    "click .delete-header-register-btn": function (event, template) {
+        //console.log(event.currentTarget.name);
+        var name = event.currentTarget.name;
+
+        var registers = Session.get('headerRegisters');
+        var regToRemove = registers.filter(function (reg) {
+            return reg.name == name;
+        })[0];
+        if (registers.indexOf(regToRemove) > -1) {
+            //console.log(registers.indexOf(regToRemove));
+            registers.splice(registers.indexOf(regToRemove),1);
+            Session.set('headerRegisters', registers);
+        }
+
+    }
 });
 ///// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
