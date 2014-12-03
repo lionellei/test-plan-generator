@@ -93,6 +93,20 @@ Template.modifyRowsModal.helpers({
     
     "numRowsSelected": function () {
         return numRowsSelected();
+    },
+
+    "headerColumns": function () {
+        var ids = Session.get('selectedRowsIds');
+        if (ids && ids.length > 0) {
+            var testgroupId = Testitems.findOne(ids[0]).testgroupId;
+            var headerColumnsToShow = TestHeaderConfigs.findOne({testgroup_id:testgroupId}).columns.filter(function (column) {
+                return column.show;
+            });
+            return headerColumnsToShow;
+        } else {
+            return [];
+        }
+
     }
 });
 

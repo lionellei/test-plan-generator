@@ -171,6 +171,7 @@ Template.headerConfigModal.events({
         var testgroup = findCurrentTestgroup(this);
         var headerConfigs = TestHeaderConfigs.findOne({testgroup_id: testgroup._id});
         TestHeaderConfigs.update(headerConfigs._id, {$set: {columns:Session.get('headerColumns')}});
+        $('.header-config-modal').modal('hide');
     }
 });
 

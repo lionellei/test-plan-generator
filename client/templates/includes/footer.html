@@ -59,18 +59,9 @@
                     <select name="attributes_to_modify" class="form-control attributes_to_modify" id="modify-attribues-select">
                         <!-- use the label to store the key for the object -->
                         <option label="none"></option>
-                        <option label="pad">Pad</option>
-                        <option label="source_type">Source Type</option>
-                        <option label="source_value">Source Value</option>
-                        <option label="source_unit">Source Unit</option>
-                        <option label="compliance_type">Compliance Type</option>
-                        <option label="compliance_value">Compliance Value</option>
-                        <option label="compliance_unit">Compliance Unit</option>
-                        <option label="measure_type">Measure Type</option>
-                        <option label="measure_min">MIN</option>
-                        <option label="measure_typ">TYP</option>
-                        <option label="measure_max">MAX</option>
-                        <option label="measure_unit">Measure Unit</option>
+                        {{#each headerColumns}}
+                            <option label="{{name}}">{{name}}</option>
+                        {{/each}}
                     </select>    
                 </div>
                 <div class="col-sm-6">
