@@ -1,0 +1,35 @@
+<template name="registersList">
+    <div class="table-responsive">
+        <h1>These are all the analog control registers</h1>
+        <table class="table table-hover table-condensed table-bordered">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    <th>Analog Control Name</th>
+                    <th>Size</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+                <!-- TODO: A hacky way to let spreadsheet-to-mongo package callback to know the chipName -->
+                {{setChipNameInSession}}
+                
+                <!-- the 'data' context from the router is 'this' in template helper -->
+                {{#each this}}
+                    {{> register}}
+                {{/each}}
+
+            </tbody>
+
+        </table>
+
+                    <!-- Pads List Import Form -->
+        {{#if isVersionZero}}
+        <div>
+            {{> spreadsheetToMongodb__form 'registersInputForm' }}
+        </div>
+        {{/if}}
+    </div>
+</template>

@@ -84,10 +84,14 @@
                 <thead>
                 <tr>
                     <th class="text-center">Number</th>
+                    {{#each testRegisters}}
+                        {{> testRegister}}
+                    {{/each}}
+                    
                     {{#each testHeaders}}
                         {{> testHeader}}
                     {{/each}}
-
+                    
                     {{#if editable}}
                     <th><input type="checkbox" checked="{{allRowsSelected}}" class="select-all-rows"/></th>
                     {{/if}}
@@ -100,7 +104,7 @@
                     {{> testitem}}
                 {{/each}}
 
-                <!-- This is an example row, only show when table is empty -->
+                <!-- This is an example row, only show when table is empty 
                 {{#if showExampleRow}}
                     <tr>
                         <td class="text-center">Example</td>
@@ -118,7 +122,7 @@
                         <td class="text-center bg-info">V</td>
                         <td><span class="glyphicon glyphicon-info-sign example-info"></span></td>
                     </tr>
-                {{/if}}
+                {{/if}} -->
 
                 {{#if editable}}
                     <!-- Always put an empty row for inserting -->
@@ -169,6 +173,10 @@
     {{/if}}
 </template>
 
+<template name="testRegister">
+    <th class="text-center" name="{{name}}">{{label}}</th>
+</template>
+
 <template name="headerConfigModal">
     {{initializeBootstrapTooltip}}
     {{initializeHeaderSession}} <!-- Store the headerConfigs in the Session for easier user edit -->
@@ -181,11 +189,6 @@
             <table class="table table-hover table-condensed table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center">
-                            Select<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="select the columns you want in your table.">
-                                <span class="glyphicon glyphicon-question-sign"></span>
-                            </button>
-                        </th>
                         <th class="text-center">
                             Key<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="The key for the database, don't use space">
                                 <span class="glyphicon glyphicon-question-sign"></span>
@@ -201,6 +204,11 @@
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </th>
+                        <th class="text-center">
+                            Select<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="top" title="select the columns you want in your table.">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </th>
                     </tr>
                 </thead>
 
@@ -210,18 +218,22 @@
                     {{/each}}
                     <!-- Row for adding -->
                     <tr>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-default btn-sm test-header-add-btn">
-                                <span class="glyphicon glyphicon-arrow-up"></span> Add
-                            </button>
-                        </td>
                         <td class="text-center"><input name="name" class="input-sm test_header_name_input" type="text" /></td>
                         <td class="text-center"><input name="label" class="input-sm test_header_label_input" type="text" /></td>
                         <td class="text-center"><input name="allowed_value" class="input-sm test_header_allowed_value_input" type="text" /></td>
+                        <td class="text-center">
+                        <button type="button" class="btn btn-default btn-sm test-header-add-btn">
+                                <span class="glyphicon glyphicon-arrow-up"></span> Add
+                            </button>
+                        </td>                    
                     </tr>
                 </tbody>
             </table>
         </div>
+        
+        <!-- For adding registers in test item -->
+        {{> addRegister}}
+   
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary header-config-submit-button">Submit</button>
@@ -230,9 +242,57 @@
 
 <template name="testHeaderConfig">
     <tr>
-        <td class="text-center"><input class="test-header-checkbox" name="{{name}}" id="{{headerCheckboxId}}" type="checkbox" checked="{{show}}"/></td>
         <td class="text-center {{textClass}}">{{name}}</td>
         <td class="text-center {{textClass}}">{{label}}</td>
         <td class="text-center {{textClass}}">{{allowed_value}}</td>
+        <td class="text-center"><input class="test-header-checkbox" name="{{name}}" id="{{headerCheckboxId}}" type="checkbox" checked="{{show}}"/></td>
     </tr>
+</template>
+
+<template name="addRegister">
+    <div class="panel-group" id="reg-accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#reg-accordion" href="#reg-collapseOne" aria-expanded="false" aria-controls="reg-collapseOne">
+                        Add Register Settings
+                    </a>
+                </h4>
+            </div>
+            <div id="reg-collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-condensed">
+                            <tbody>
+                                {{#each headerRegisters}}
+                                    <tr>
+                                        <td></td>
+                                        <td>{{name}}</td>
+                                        <td>
+                                            <button type="button" name="{{name}}" class="btn btn-xs btn-default delete-header-register-btn">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                                <tr>
+                                    <td>Analog Control Name</td>
+                                    <td>
+                                        {{> inputAutocomplete
+                                        settings=autocompleteSettings
+                                        class="input-sm text-center add-register-input"}}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default btn-sm add-register-button">
+                                            <span class="glyphicon glyphicon-arrow-up"></span> Add
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     
 </template>

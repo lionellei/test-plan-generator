@@ -59,6 +59,10 @@
                     <select name="attributes_to_modify" class="form-control attributes_to_modify" id="modify-attribues-select">
                         <!-- use the label to store the key for the object -->
                         <option label="none"></option>
+                        {{#each headerRegisters}}
+                            <option label="{{name}}">{{name}}</option>
+                        {{/each}}
+                        
                         {{#each headerColumns}}
                             <option label="{{name}}">{{name}}</option>
                         {{/each}}
@@ -66,14 +70,19 @@
                 </div>
                 <div class="col-sm-6">
                     <h4>To</h4>
-                    {{#if attributeToModifyIsType}}
+                    {{#if useSelectBox}}    
                         <select class="form-control change_attribute_value_input">
                             <option></option>
-                            <option>V</option>
-                            <option>I</option>
+                            {{#each allowedValues}}
+                                <option>{{this}}</option>
+                            {{/each}}
                         </select>
                     {{else}}
-                        <input type="text" class="form-control change_attribute_value_input" name="value"/>     
+                        {{#if useAutoComplete}}
+                            {{> inputAutocomplete name=name settings=autocompleteSettings class="input-sm change_attribute_value_input" placeholder="Pad Name"}}
+                        {{else}}
+                            <input type="text" class="form-control change_attribute_value_input" name="value"/>  
+                        {{/if}}
                     {{/if}}
                 </div>
             </div>

@@ -215,6 +215,7 @@ Template.releaseForm.events({
             var newTestHeaderConfigs = {
                 columns: testHeaderConfigs.columns,  
                 testgroup_id: new_testgroup_id,
+                testgroup_name: testgroup.name,
                 revision: nextRevNumber,
             };
             TestHeaderConfigs.insert(newTestHeaderConfigs);

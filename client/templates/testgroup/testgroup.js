@@ -70,6 +70,16 @@ Template.testgroup.helpers({
     "testHeaders": function () {
         var testgroup = findCurrentTestgroup(this);
         return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
+    },
+    
+    "testRegisters": function () {
+        var testgroup = findCurrentTestgroup(this);
+        var registers = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).registers;
+        if (registers) {
+            return registers;
+        } else {
+            return [];
+        }
     }
 
 });
@@ -142,7 +152,11 @@ Template.testgroup.events({
 });
 
 
-///////////////////// Partials within this template //////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+///////////////////// Partials within this template ////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+//// ***************************************************************************
 Template.addNoteModal.events({
     // Only capture submit button click, don't handle the keyup "enter" case since it's a textarea.
     "click .note-submit-button": function(event, template) {
@@ -160,13 +174,15 @@ Template.addNoteModal.events({
         $('.add-note-modal').modal('hide');
     }
 });
+//// ***************************************************************************
 
+//// ###########################################################################
 Template.headerConfigModal.events({
     "click .header-config-submit-button": function (event, template) {
         // After submit, update the columns of the test configs to match the Session variable.
         var testgroup = findCurrentTestgroup(this);
         var headerConfigs = TestHeaderConfigs.findOne({testgroup_id: testgroup._id});
-        TestHeaderConfigs.update(headerConfigs._id, {$set: {columns:Session.get('headerColumns')}});
+        TestHeaderConfigs.update(headerConfigs._id, {$set: {columns:Session.get('headerColumns'), registers:Session.get('headerRegisters')}});
         $('.header-config-modal').modal('hide');
     },
 
@@ -198,14 +214,18 @@ Template.headerConfigModal.helpers({
 
     "initializeHeaderSession": function () {
         var testgroup = findCurrentTestgroup(this);
-        Session.set('headerColumns', TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns);
+        var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name});
+        Session.set('headerColumns', testHeaderConfigs.columns);
+        Session.set('headerRegisters', testHeaderConfigs.registers);
     },
     
     "testHeaderConfigs": function () {
         return Session.get('headerColumns');
     }
 });
+//// ###########################################################################
 
+//// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Template.testHeaderConfig.helpers({
     // TODO: programatically change the text color based on the checkbox status
     "headerCheckboxId": function () {
@@ -250,6 +270,102 @@ Template.testHeaderConfig.events({
         }
     }
 });
+///// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+///// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Template.addRegister.helpers({
+       // Autocomplete settings
+    "autocompleteSettings": function() {
+        // console.log(this);
+        return {
+           position: "top",
+           limit: 5,
+           rules: [
+             {
+               collection: Registers,
+               field: "control_name",
+               options: 'i', //case insensitive
+               matchAll: true,
+               filter: {chipName: this.matcher._selector.chipName },
+               template: Template.registerAutoCompleteTemplate
+             }
+           ]
+        };
+    }, 
+    
+    "headerRegisters": function() {
+        if (Session.get('headerRegisters')) {
+            return Session.get('headerRegisters');
+        } else {
+            return [];
+        }
+    }
+});
+
+Template.addRegister.events({
+    "keyup .add-register-input": function (event, template) {
+        if (event.keyCode == 13) {
+            if (event.currentTarget.value != "") {
+                var headerRegisters;
+                if (Session.get('headerRegisters')) {
+                    headerRegisters = Session.get('headerRegisters');
+                } else {
+                    headerRegisters = [];
+                }
+                
+                // check duplicate entries
+                var control_names = headerRegisters.map(function (reg) {
+                    return reg.name;
+                });
+                if (control_names.indexOf(event.currentTarget.value) < 0) { // has not been added yet.
+                    // set allowed values
+                    var register = Registers.findOne({chipName: template.data.matcher._selector.chipName, control_name:event.currentTarget.value});
+                    var allowed_value = "";
+                    if (register.size == 1) {
+                        allowed_value = "0,1";
+                    } else {
+                        for (var i=0; i<Math.pow(2, register.size); i++ ) {
+                            allowed_value = allowed_value+i.toString();
+                            if (i!=Math.pow(2,register.size)-1) {
+                                allowed_value = allowed_value+",";
+                            }
+                        }
+                    }
+                    
+                    var header = {
+                        //{name: "measure_unit", label:"Unit", allowed_value:"", show:true, custom:false}
+                        name: event.currentTarget.value,
+                        label: event.currentTarget.value,
+                        allowed_value:allowed_value,
+                        show: true,
+                        custom: true
+                    }
+                    headerRegisters.push(header);
+                    Session.set('headerRegisters', headerRegisters);
+                }
+            
+                event.currentTarget.value = "";
+            }           
+        }
+    },
+    
+    "click .delete-header-register-btn": function (event, template) {
+        //console.log(event.currentTarget.name);
+        var name = event.currentTarget.name;
+
+        var registers = Session.get('headerRegisters');
+        var regToRemove = registers.filter(function (reg) {
+            return reg.name == name;
+        })[0];
+        if (registers.indexOf(regToRemove) > -1) {
+            //console.log(registers.indexOf(regToRemove));
+            registers.splice(registers.indexOf(regToRemove),1);
+            Session.set('headerRegisters', registers);
+        }
+
+    }
+});
+///// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ////////////////////// Functions /////////////////////////////
 
