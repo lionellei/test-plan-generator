@@ -70,6 +70,16 @@ Template.testgroup.helpers({
     "testHeaders": function () {
         var testgroup = findCurrentTestgroup(this);
         return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
+    },
+    
+    "testRegisters": function () {
+        var testgroup = findCurrentTestgroup(this);
+        var registers = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).registers;
+        if (registers) {
+            return registers;
+        } else {
+            return [];
+        }
     }
 
 });
@@ -172,7 +182,7 @@ Template.headerConfigModal.events({
         // After submit, update the columns of the test configs to match the Session variable.
         var testgroup = findCurrentTestgroup(this);
         var headerConfigs = TestHeaderConfigs.findOne({testgroup_id: testgroup._id});
-        TestHeaderConfigs.update(headerConfigs._id, {$set: {columns:Session.get('headerColumns')}});
+        TestHeaderConfigs.update(headerConfigs._id, {$set: {columns:Session.get('headerColumns'), registers:Session.get('headerRegisters')}});
         $('.header-config-modal').modal('hide');
     },
 
@@ -308,15 +318,29 @@ Template.addRegister.events({
                     return reg.name;
                 });
                 if (control_names.indexOf(event.currentTarget.value) < 0) { // has not been added yet.
-                    var register = {
+                    // set allowed values
+                    var register = Registers.findOne({chipName: template.data.matcher._selector.chipName, control_name:event.currentTarget.value});
+                    var allowed_value = "";
+                    if (register.size == 1) {
+                        allowed_value = "0,1";
+                    } else {
+                        for (var i=0; i<Math.pow(2, register.size); i++ ) {
+                            allowed_value = allowed_value+i.toString();
+                            if (i!=Math.pow(2,register.size)-1) {
+                                allowed_value = allowed_value+",";
+                            }
+                        }
+                    }
+                    
+                    var header = {
                         //{name: "measure_unit", label:"Unit", allowed_value:"", show:true, custom:false}
                         name: event.currentTarget.value,
                         label: event.currentTarget.value,
-                        allowed_value:"",
+                        allowed_value:allowed_value,
                         show: true,
                         custom: true
                     }
-                    headerRegisters.push(register);
+                    headerRegisters.push(header);
                     Session.set('headerRegisters', headerRegisters);
                 }
             
