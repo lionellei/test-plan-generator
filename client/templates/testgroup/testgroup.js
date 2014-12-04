@@ -69,12 +69,21 @@ Template.testgroup.helpers({
 
     "testHeaders": function () {
         var testgroup = findCurrentTestgroup(this);
-        return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
+
+        if (testgroup) {
+            return TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).columns;
+        } else {
+            return [];
+        }
     },
     
     "testRegisters": function () {
         var testgroup = findCurrentTestgroup(this);
-        var registers = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).registers;
+
+        if (testgroup) {
+            var registers = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name}).registers;
+        }
+
         if (registers) {
             return registers;
         } else {
@@ -214,9 +223,15 @@ Template.headerConfigModal.helpers({
 
     "initializeHeaderSession": function () {
         var testgroup = findCurrentTestgroup(this);
-        var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name});
-        Session.set('headerColumns', testHeaderConfigs.columns);
-        Session.set('headerRegisters', testHeaderConfigs.registers);
+
+        if (testgroup) {
+            var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroup._id, testgroup_name:testgroup.name});
+        }
+
+        if (testHeaderConfigs) {
+            Session.set('headerColumns', testHeaderConfigs.columns);
+            Session.set('headerRegisters', testHeaderConfigs.registers);
+        }
     },
     
     "testHeaderConfigs": function () {

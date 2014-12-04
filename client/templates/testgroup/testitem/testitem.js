@@ -108,21 +108,24 @@ Template.testitem.helpers({
     "headerColumns": function (testitem) {
         // console.log(testitem);
         var columns = TestHeaderConfigs.findOne({testgroup_id: this.testgroupId}).columns;
-        var activeColumns = columns.filter(function(column) {
-            if (column.show) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-        var modifiedActiveColumns = activeColumns.map(function (column) {
-            column["value"] = testitem[column.name];
-            column["revision"] = testitem.revision;
-            column["cell_name"] = column.name;
-            column["object_id"] = testitem._id;
-            column["chipName"] = testitem.chipName;
-            return column;
-        });
+        var modifiedActiveColumns = [];
+        if (columns) {
+            var activeColumns = columns.filter(function(column) {
+                if (column.show) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            modifiedActiveColumns = activeColumns.map(function (column) {
+                column["value"] = testitem[column.name];
+                column["revision"] = testitem.revision;
+                column["cell_name"] = column.name;
+                column["object_id"] = testitem._id;
+                column["chipName"] = testitem.chipName;
+                return column;
+            });
+        }
         return modifiedActiveColumns;
     },
     
@@ -131,15 +134,19 @@ Template.testitem.helpers({
         var registers = TestHeaderConfigs.findOne({testgroup_id: this.testgroupId}).registers;
         
         // always show all the registers
-        
-        var modifiedActiveColumns = registers.map(function (column) {
-            column["value"] = testitem[column.name];
-            column["revision"] = testitem.revision;
-            column["cell_name"] = column.name;
-            column["object_id"] = testitem._id;
-            column["chipName"] = testitem.chipName;
-            return column;
-        });
+        var modifiedActiveColumns = [];
+
+        if (registers) {
+            modifiedActiveColumns = registers.map(function (column) {
+                column["value"] = testitem[column.name];
+                column["revision"] = testitem.revision;
+                column["cell_name"] = column.name;
+                column["object_id"] = testitem._id;
+                column["chipName"] = testitem.chipName;
+                return column;
+            });
+        }
+
         return modifiedActiveColumns;
-    },
+    }
 });

@@ -120,7 +120,11 @@ Template.modifyRowsModal.helpers({
     },
     
     "useSelectBox": function() {
-        return Session.get('modifiedAttributeAllowedValue').length>0;
+        if (Session.get('modifiedAttributeAllowedValue')) {
+            return Session.get('modifiedAttributeAllowedValue').length>0;
+        } else {
+            return false;
+        }
     },
     
     "allowedValues": function() {

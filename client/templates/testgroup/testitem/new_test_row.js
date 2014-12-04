@@ -97,21 +97,29 @@ Template.new_test_row.helpers({
         // console.log(this);
         var chipName = this.matcher._selector.chipName;
         var testgroup = findCurrentTestgroup(this);
-        var columns = TestHeaderConfigs.findOne({testgroup_id: testgroup._id}).columns;
-        var activeColumns = columns.filter(function(column) {
-            if (column.show) {
-                return true;
-            } else {
-                return false;
-            }
-        });
 
-        // attach chipName to each items in the array, to be used by the sub templates.
-        var modifiedActiveColumns = activeColumns.map(function(column) {
-            column["chipName"] = chipName;
-            // console.log(column);
-            return column;
-        });
+        if (testgroup) {
+            var columns = TestHeaderConfigs.findOne({testgroup_id: testgroup._id}).columns;
+        }
+
+        var modifiedActiveColumns = [];
+
+        if (columns) {
+            var activeColumns = columns.filter(function(column) {
+                if (column.show) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            // attach chipName to each items in the array, to be used by the sub templates.
+            modifiedActiveColumns = activeColumns.map(function(column) {
+                column["chipName"] = chipName;
+                // console.log(column);
+                return column;
+            });
+        }
 
         return modifiedActiveColumns;
     },
@@ -120,16 +128,22 @@ Template.new_test_row.helpers({
         // console.log(this);
         var chipName = this.matcher._selector.chipName;
         var testgroup = findCurrentTestgroup(this);
-        var registers = TestHeaderConfigs.findOne({testgroup_id: testgroup._id}).registers;
+
+        if (testgroup) {
+            var registers = TestHeaderConfigs.findOne({testgroup_id: testgroup._id}).registers;
+        }
 
         // Always show all registers.
+        var modifiedActiveColumns = [];
 
-        // attach chipName to each items in the array, to be used by the sub templates.
-        var modifiedActiveColumns = registers.map(function(column) {
-            column["chipName"] = chipName;
-            // console.log(column);
-            return column;
-        });
+        if (registers) {
+            // attach chipName to each items in the array, to be used by the sub templates.
+            modifiedActiveColumns = registers.map(function(column) {
+                column["chipName"] = chipName;
+                // console.log(column);
+                return column;
+            });
+        }
 
         return modifiedActiveColumns;
     }
