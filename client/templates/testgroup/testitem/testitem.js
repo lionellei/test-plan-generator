@@ -124,5 +124,22 @@ Template.testitem.helpers({
             return column;
         });
         return modifiedActiveColumns;
-    }
+    },
+    
+    "headerRegisters": function (testitem) {
+        // console.log(testitem);
+        var registers = TestHeaderConfigs.findOne({testgroup_id: this.testgroupId}).registers;
+        
+        // always show all the registers
+        
+        var modifiedActiveColumns = registers.map(function (column) {
+            column["value"] = testitem[column.name];
+            column["revision"] = testitem.revision;
+            column["cell_name"] = column.name;
+            column["object_id"] = testitem._id;
+            column["chipName"] = testitem.chipName;
+            return column;
+        });
+        return modifiedActiveColumns;
+    },
 });

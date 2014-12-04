@@ -3,6 +3,14 @@
     <!-- This is the template for each row -->
     <tr>
         <td class="text-center"><span>{{test_number}}</span></td>
+        <!-- Registers -->
+        {{#each headerRegisters this}}
+            <td {{cellAttributes name object_id}}>
+                 {{> editable_cell header=this revision=revision value=value cell_name=cell_name object_id=object_id collection="Testitems" chipName=chipName}}
+            </td>
+        {{/each}}
+        
+        <!-- Other settings -->
         {{#each headerColumns this}} <!-- pass the this to the headerColumns helper, and that helper is responsible to populating the attribute of "each" return item. -->
             <td {{cellAttributes name object_id}}>
                  {{> editable_cell header=this revision=revision value=value cell_name=cell_name object_id=object_id collection="Testitems" chipName=chipName}}

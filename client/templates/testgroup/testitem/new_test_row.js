@@ -114,6 +114,24 @@ Template.new_test_row.helpers({
         });
 
         return modifiedActiveColumns;
+    },
+    
+    "headerRegisters": function () {
+        // console.log(this);
+        var chipName = this.matcher._selector.chipName;
+        var testgroup = findCurrentTestgroup(this);
+        var registers = TestHeaderConfigs.findOne({testgroup_id: testgroup._id}).registers;
+
+        // Always show all registers.
+
+        // attach chipName to each items in the array, to be used by the sub templates.
+        var modifiedActiveColumns = registers.map(function(column) {
+            column["chipName"] = chipName;
+            // console.log(column);
+            return column;
+        });
+
+        return modifiedActiveColumns;
     }
 });
 

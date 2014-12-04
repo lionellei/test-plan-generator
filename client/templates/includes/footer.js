@@ -106,19 +106,70 @@ Template.modifyRowsModal.helpers({
         } else {
             return [];
         }
-
+    },
+    
+    "headerRegisters": function () {
+        var ids = Session.get('selectedRowsIds');
+        if (ids && ids.length > 0) {
+            var testgroupId = Testitems.findOne(ids[0]).testgroupId;
+            var headerRegistersToShow = TestHeaderConfigs.findOne({testgroup_id:testgroupId}).registers;
+            return headerRegistersToShow;
+        } else {
+            return [];
+        }
+    },
+    
+    "useSelectBox": function() {
+        return Session.get('modifiedAttributeAllowedValue').length>0;
+    },
+    
+    "allowedValues": function() {
+        //console.log(Session.get('modifiedAttributeAllowedValue').split(","));
+        if (Session.get('modifiedAttributeAllowedValue')) {
+            return Session.get('modifiedAttributeAllowedValue').split(",");
+        } else {
+            return [];
+        }
     }
 });
 
 Template.modifyRowsModal.events({
     "change .attributes_to_modify": function (event, template) {
-        if (event.currentTarget.selectedOptions["0"].label == "source_type" ||
-            event.currentTarget.selectedOptions["0"].label == "compliance_type" ||
-            event.currentTarget.selectedOptions["0"].label == "measure_type") {
-            Session.set('modifyAttributeIsType', true);
-        } else {
-            Session.set('modifyAttributeIsType', false);
-        }
+        // Find the testgroup
+        var testgroup_id = Testgroups.findOne({
+                chipName:template.data.matcher._selector.chipName,
+                revision:template.data.matcher._selector.revision,
+                name: template.data.matcher._selector.testgroupName
+            })._id;
+        
+        // Find the headerConfigs of that testgroup
+        var headerConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroup_id});
+
+        // Grab the UI data
+        var selectedAttribute = event.currentTarget.selectedOptions["0"].label;
+        var allowed_value = "";
+        
+        // see if the selected attributes is in headerConfigs.columns
+        if (headerConfigs.columns.filter(function(column){
+            return column.name == selectedAttribute;
+        }).length>0) { 
+            allowed_value = headerConfigs.columns.filter(function(column){
+                return column.name == selectedAttribute;
+                })[0].allowed_value;
+        } 
+        
+        // see if the selected attributes is in headerConfigs.registers
+        if (headerConfigs.registers.filter(function(reg){
+            return reg.name == selectedAttribute;
+        }).length>0) { 
+            allowed_value = headerConfigs.registers.filter(function(reg){
+                return reg.name == selectedAttribute;
+                })[0].allowed_value;
+        } 
+        
+        // save the allowed value in session variable
+        Session.set('modifiedAttributeAllowedValue', allowed_value);
+        
     }, 
     
     "keyup .change_attribute_value_input": function(event, template) {

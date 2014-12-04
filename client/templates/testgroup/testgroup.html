@@ -84,14 +84,14 @@
                 <thead>
                 <tr>
                     <th class="text-center">Number</th>
+                    {{#each testRegisters}}
+                        {{> testRegister}}
+                    {{/each}}
+                    
                     {{#each testHeaders}}
                         {{> testHeader}}
                     {{/each}}
                     
-                    {{#each testRegisters}}
-                        {{> testRegister}}
-                    {{/each}}
-
                     {{#if editable}}
                     <th><input type="checkbox" checked="{{allRowsSelected}}" class="select-all-rows"/></th>
                     {{/if}}

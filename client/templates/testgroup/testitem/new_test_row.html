@@ -1,6 +1,10 @@
 <template name="new_test_row">
     <tr>
         <td class="text-center">New</td>
+        {{#each headerRegisters}}
+            {{> inputCell}}
+        {{/each}}
+        
         {{#each headerColumns}}
             {{> inputCell}}
         {{/each}}
