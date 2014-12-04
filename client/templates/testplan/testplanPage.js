@@ -212,7 +212,7 @@ Template.releaseForm.events({
             
             var new_testgroup_id = Testgroups.insert(testgroup);
             
-            // Copy the test header configs:
+            // Copy the test header configs and registers
             var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroups[i]._id});
             var newTestHeaderConfigs = {
                 columns: testHeaderConfigs.columns,  
@@ -220,6 +220,9 @@ Template.releaseForm.events({
                 testgroup_name: testgroup.name,
                 revision: nextRevNumber,
             };
+            if (testHeaderConfigs.registers) {
+                newTestHeaderConfigs["registers"] = testHeaderConfigs.registers;
+            }
             TestHeaderConfigs.insert(newTestHeaderConfigs);
 
             // Copy all the test notes:
@@ -272,7 +275,9 @@ Template.releaseForm.events({
                     "testgroupId": new_testgroup_id,
                     "testgroupName": testitems[m].testgroupName, // Assign because router use testplans/:chipName/:testName to local this.
                     "chipName": testitems[m].chipName, // Assign because router use testplans/:chipName/:testName to local this.
-                    "revision": nextRevNumber,
+                    "revision": nextRevNumber
+                };
+                /*
                     "pad": testitems[m].pad,
                     "source_type": testitems[m].source_type,
                     "source_value": testitems[m].source_value,
@@ -285,7 +290,20 @@ Template.releaseForm.events({
                     "measure_typ": testitems[m].measure_typ,
                     "measure_max": testitems[m].measure_max,
                     "measure_unit": testitems[m].measure_unit
-                };
+                */
+                
+                for (var n=0; n<newTestHeaderConfigs.columns.length; n++) {
+                    var key = newTestHeaderConfigs.columns[n].name;
+                    test[key] = testitems[m][key];
+                }
+                
+                if (newTestHeaderConfigs.registers) {
+                    for (var n=0; n<newTestHeaderConfigs.registers.length; n++) {
+                        var key = newTestHeaderConfigs.registers[n].name;
+                        test[key] = testitems[m][key];
+                    }
+                }
+                
                 Testitems.insert(test);
                 testNumber++;
             }
