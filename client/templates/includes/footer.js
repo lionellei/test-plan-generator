@@ -130,7 +130,33 @@ Template.modifyRowsModal.helpers({
         } else {
             return [];
         }
-    }
+    },
+    
+    "useAutoComplete": function() {
+        if (Session.get('selectedAttributeIsPad')) {
+            return Session.get('selectedAttributeIsPad');   
+        } else {
+            return false;
+        }
+    },
+    
+    "autocompleteSettings": function () {
+        //console.log(this);
+        return {
+            position: "top",
+            limit: 5,
+            rules: [
+                {
+                    collection: Pads,
+                    field: "name",
+                    options: 'i', //case insensitive
+                    matchAll: true,
+                    filter: { chipName: this.matcher._selector.chipName },
+                    template: Template.padAutoCompleteTemplate
+                }
+            ]
+        }
+    },
 });
 
 Template.modifyRowsModal.events({
@@ -159,16 +185,25 @@ Template.modifyRowsModal.events({
         } 
         
         // see if the selected attributes is in headerConfigs.registers
-        if (headerConfigs.registers.filter(function(reg){
-            return reg.name == selectedAttribute;
-        }).length>0) { 
-            allowed_value = headerConfigs.registers.filter(function(reg){
+        if (headerConfigs.registers) {
+            if (headerConfigs.registers.filter(function(reg){
                 return reg.name == selectedAttribute;
-                })[0].allowed_value;
-        } 
-        
+            }).length>0) { 
+                allowed_value = headerConfigs.registers.filter(function(reg){
+                    return reg.name == selectedAttribute;
+                    })[0].allowed_value;
+            } 
+        }
+
         // save the allowed value in session variable
         Session.set('modifiedAttributeAllowedValue', allowed_value);
+        
+        // See if the selected attributes are pad or pad2
+        if (selectedAttribute == "pad" || selectedAttribute == "pad2") { 
+            Session.set('selectedAttributeIsPad', true);
+        } else {
+            Session.set('selectedAttributeIsPad', false);
+        }
         
     }, 
     

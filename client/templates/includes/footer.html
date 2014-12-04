@@ -70,13 +70,6 @@
                 </div>
                 <div class="col-sm-6">
                     <h4>To</h4>
-                    <!--
-                    {{#if attributeToModifyIsType}}
-                        <select class="form-control change_attribute_value_input">
-                            <option></option>
-                            <option>V</option>
-                            <option>I</option>
-                        </select>-->
                     {{#if useSelectBox}}    
                         <select class="form-control change_attribute_value_input">
                             <option></option>
@@ -85,7 +78,11 @@
                             {{/each}}
                         </select>
                     {{else}}
-                        <input type="text" class="form-control change_attribute_value_input" name="value"/>     
+                        {{#if useAutoComplete}}
+                            {{> inputAutocomplete name=name settings=autocompleteSettings class="input-sm change_attribute_value_input" placeholder="Pad Name"}}
+                        {{else}}
+                            <input type="text" class="form-control change_attribute_value_input" name="value"/>  
+                        {{/if}}
                     {{/if}}
                 </div>
             </div>
