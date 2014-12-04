@@ -198,6 +198,8 @@ Template.releaseForm.events({
         // Copy the test groups:
         var testgroups = Testgroups.find({testplanId:this._id, revision:this.revision}).fetch();
 
+        var baseNumber = 4000; //1000 reserved for continuity, 2000 reserved for leakage, 3000 reserved for active leakage 
+                                // Need to increment this baseNumber based on testgroup.
         for (var i=0; i<testgroups.length; i++) {
             // copy the test group object:
             //var testgroup = testgroups[i]; // Don't use this, strange binding occur that testgroup[i] will change once testgroup changes.
@@ -207,7 +209,7 @@ Template.releaseForm.events({
                 testplanId: testplan_nextrev._id,
                 revision: nextRevNumber
             };
-
+            
             var new_testgroup_id = Testgroups.insert(testgroup);
             
             // Copy the test header configs:
@@ -251,8 +253,22 @@ Template.releaseForm.events({
 
             // Copy all the test items:
             var testitems = Testitems.find({testgroupId:testgroups[i]._id}).fetch();
+            var testNumber;
+            if (testgroup.name == "Continuity") {
+                testNumber = 1000+1;
+            }
+            else if (testgroup.name == "Leakage") {
+                testNumber = 2000+1;
+            }
+            else if (testgroup.name == "Active Leakage") {
+                testNumber = 3000+1;
+            }
+            else {
+                testNumber = baseNumber+1;
+            }
             for (var m=0; m<testitems.length; m++) {
                 var test = {
+                    "test_number": testNumber,
                     "testgroupId": new_testgroup_id,
                     "testgroupName": testitems[m].testgroupName, // Assign because router use testplans/:chipName/:testName to local this.
                     "chipName": testitems[m].chipName, // Assign because router use testplans/:chipName/:testName to local this.
@@ -271,8 +287,16 @@ Template.releaseForm.events({
                     "measure_unit": testitems[m].measure_unit
                 };
                 Testitems.insert(test);
+                testNumber++;
             }
-        }
+            
+            if (testgroup.name != "Continuity" && testgroup.name != "Leakage" && testgroup.name != "Active Leakage") {
+                // if test group is not one of the above, increment the base number
+                baseNumber = roundUp(testNumber);
+            }
+        } // End of testgroups loop
+        
+
         
         // Increment the latest_revision attribute of testplan rev 0.
         Testplans.update(this._id, {$inc:{latest_revision:1}});
@@ -286,9 +310,13 @@ Template.releaseForm.events({
 });
 
 /// *************** The heavey duty stuffs below ********************************
+var roundUp = function (value) {
+    return (~~((value + 99) / 100) * 100);
+};
+
 var getNextRevNumberFor = function(dataContext){
     return dataContext.latest_revision + 1;
-}
+};
 
 var getTestGroupByName = function(testGroupName, chipName, testplanId, revision) {
     var testgroup = Testgroups.findOne({name:testGroupName, testplanId:testplanId});

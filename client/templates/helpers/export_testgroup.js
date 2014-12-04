@@ -4,6 +4,7 @@
       var testItems = Testitems.find({testgroupId:testgroup._id}).fetch(); 
       var testsetups = Testsetups.find({testgroup_id:testgroup._id}).fetch();
       var testNotes = Notes.find({testgroupId:testgroup._id}).fetch();
+      var headerConfigs = TestHeaderConfigs.find({testgroup_id: testgroup._id});
       
       var data = ""; // use a string to form the CSV file
       
@@ -34,6 +35,7 @@
       //TODO: header and rows need to depend on the header configs of the testgroup instead of hardcoded now.
       // Header row:
       var header = "Tests" + '\n' + "Pad,Source,Compliance,Measure,MIN,TYP,MAX,UNIT" + '\n';
+      //var header = tableHeader(headerConfigs);
       data = data + header;
       
       var measLabelPrefix = testgroup.name.substring(0,4);
@@ -52,4 +54,8 @@
       var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
       var fileName = this.matcher._selector.chipName+"_"+this.matcher._selector.testgroupName+".csv";
       saveAs(blob, fileName); */
+   };
+   
+   var tableHeader = function(configs){
+      
    };
