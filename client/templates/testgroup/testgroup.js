@@ -198,17 +198,24 @@ Template.headerConfigModal.events({
     "click .test-header-add-btn": function (event, template) {
 
         //TODO: warn empty inputs:
-        var columns = Session.get('headerColumns');
-        var newColumn = {
-            name: $('.test_header_name_input')[0].value,
-            label: $('.test_header_label_input')[0].value,
-            allowed_value: $('.test_header_allowed_value_input')[0].value,
-            show: true,
-            custom: true
-        };
-        columns.push(newColumn);
-        Session.set('headerColumns', columns);
+        if ($('.test_header_name_input')[0].value == "" || $('.test_header_label_input')[0].value == "" ) {
+            alert("Both key and label are required.");
+        } else {
+            var columns = Session.get('headerColumns');
+            var newColumn = {
+                name: $('.test_header_name_input')[0].value,
+                label: $('.test_header_label_input')[0].value,
+                allowed_value: $('.test_header_allowed_value_input')[0].value,
+                show: true,
+                custom: true
+            };
+            columns.push(newColumn);
+            Session.set('headerColumns', columns);
+            $('.test_header_name_input')[0].value = "";
+            $('.test_header_label_input')[0].value = "";
+        }
     }
+    
 });
 
 Template.headerConfigModal.helpers({
@@ -283,6 +290,20 @@ Template.testHeaderConfig.events({
             columns[columnIndex] = column;
             Session.set('headerColumns', columns);
         }
+    }, 
+    
+    "click .delete-header-config-btn": function (event, template) {
+        //console.log(event.currentTarget.name);
+        var name = event.currentTarget.name;
+
+        var columns = Session.get('headerColumns');
+        var colToRemove = columns.filter(function (col) {
+            return col.name == name;
+        })[0];
+        if (columns.indexOf(colToRemove) > -1) {
+            columns.splice(columns.indexOf(colToRemove),1);
+            Session.set('headerColumns', columns);
+        }        
     }
 });
 ///// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -377,7 +398,6 @@ Template.addRegister.events({
             registers.splice(registers.indexOf(regToRemove),1);
             Session.set('headerRegisters', registers);
         }
-
     }
 });
 ///// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

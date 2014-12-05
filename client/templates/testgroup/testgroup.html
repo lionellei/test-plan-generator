@@ -218,8 +218,8 @@
                     {{/each}}
                     <!-- Row for adding -->
                     <tr>
-                        <td class="text-center"><input name="name" class="input-sm test_header_name_input" type="text" /></td>
-                        <td class="text-center"><input name="label" class="input-sm test_header_label_input" type="text" /></td>
+                        <td class="text-center"><input name="name" class="input-sm test_header_name_input" type="text" placeholder="key"/></td>
+                        <td class="text-center"><input name="label" class="input-sm test_header_label_input" type="text" placeholder="label"/></td>
                         <td class="text-center"><input name="allowed_value" class="input-sm test_header_allowed_value_input" type="text" /></td>
                         <td class="text-center">
                         <button type="button" class="btn btn-default btn-sm test-header-add-btn">
@@ -245,7 +245,14 @@
         <td class="text-center {{textClass}}">{{name}}</td>
         <td class="text-center {{textClass}}">{{label}}</td>
         <td class="text-center {{textClass}}">{{allowed_value}}</td>
-        <td class="text-center"><input class="test-header-checkbox" name="{{name}}" id="{{headerCheckboxId}}" type="checkbox" checked="{{show}}"/></td>
+        <td class="text-center">
+            <input class="test-header-checkbox" name="{{name}}" id="{{headerCheckboxId}}" type="checkbox" checked="{{show}}"/>
+            {{#if custom}}
+                <button type="button" name="{{name}}" class="btn btn-xs btn-default delete-header-config-btn">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            {{/if}}
+        </td>
     </tr>
 </template>
 
