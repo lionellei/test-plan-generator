@@ -42,15 +42,32 @@ Template.new_setup_row.helpers({
             position: "top",
             limit: 5,
             rules: [
-             {
-               collection: Pads,
-               field: "name",
-               options: 'i', //case insensitive
-               matchAll: true,
-               filter: { chipName: this.matcher._selector.chipName },
-               template: Template.padAutoCompleteTemplate
-             }
+                 {
+                   collection: Pads,
+                   field: "name",
+                   options: 'i', //case insensitive
+                   matchAll: true,
+                   filter: { chipName: this.matcher._selector.chipName },
+                   template: Template.padAutoCompleteTemplate
+                 },
             ]
         }        
+    },
+    
+    "regAutoCompleteSettings": function () {
+        return {
+            position: "top",
+            limit: 5,
+            rules: [
+                 {
+                   collection: Registers,
+                   field: "control_name",
+                   options: 'i', //case insensitive
+                   matchAll: true,
+                   filter: { chipName: this.matcher._selector.chipName },
+                   template: Template.registerAutoCompleteTemplate
+                 },
+            ]
+        }    
     }
 });

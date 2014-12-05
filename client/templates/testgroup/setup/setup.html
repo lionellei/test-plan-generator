@@ -5,6 +5,11 @@
                 {{> editable_cell value=pad cell_name="pad" object_id=this._id collection="Testsetups" chipName=this.chipName revision=this.revision}}
             </span>
         </td>
+        <td {{cellAttributes "register"}}>
+            <span>
+                {{> editable_cell value=register cell_name="register" object_id=this._id collection="Testsetups" chipName=this.chipName revision=this.revision}}
+            </span>
+        </td>
         <td {{cellAttributes "source_type"}}>
             <span>
                 {{> editable_cell value=source_type cell_name="source_type" object_id=this._id collection="Testsetups" chipName=this.chipName revision=this.revision}}

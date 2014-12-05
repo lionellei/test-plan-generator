@@ -247,6 +247,7 @@ Template.releaseForm.events({
                     "chipName": setups[k].chipName,
                     "revision": nextRevNumber,
                     "pad": setups[k].pad,
+                    "register": setups[k].register,
                     "source_type": setups[k].source_type,
                     "source_value": setups[k].source_value,
                     "source_unit": setups[k].source_unit
@@ -277,20 +278,6 @@ Template.releaseForm.events({
                     "chipName": testitems[m].chipName, // Assign because router use testplans/:chipName/:testName to local this.
                     "revision": nextRevNumber
                 };
-                /*
-                    "pad": testitems[m].pad,
-                    "source_type": testitems[m].source_type,
-                    "source_value": testitems[m].source_value,
-                    "source_unit": testitems[m].source_unit,
-                    "compliance_type": testitems[m].compliance_type,
-                    "compliance_value": testitems[m].compliance_value,
-                    "compliance_unit": testitems[m].compliance_unit,
-                    "measure_type": testitems[m].measure_type,
-                    "measure_min": testitems[m].measure_min,
-                    "measure_typ": testitems[m].measure_typ,
-                    "measure_max": testitems[m].measure_max,
-                    "measure_unit": testitems[m].measure_unit
-                */
                 
                 for (var n=0; n<newTestHeaderConfigs.columns.length; n++) {
                     var key = newTestHeaderConfigs.columns[n].name;

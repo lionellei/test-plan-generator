@@ -22,12 +22,12 @@
       data = data + noteRows + '\n';
       
       // Test setup
-      var setupHeader = "Setup" + '\n' + "Pad,Source,Unit" + '\n';
+      var setupHeader = "Setup" + '\n' + "Pad,Register,Source,Unit" + '\n';
       data = data + setupHeader;
       var setupRows = "";
       for (var i=0; i<testsetups.length; i++) {
           setup = testsetups[i];
-          setupRow = setup.pad + ',' + setup.source_value + ',' + setup.source_unit + '\n';
+          setupRow = setup.pad + ',' + setup.register + ',' + setup.source_value + ',' + setup.source_unit + '\n';
           setupRows = setupRows + setupRow;
       }
       data = data + setupRows + '\n';

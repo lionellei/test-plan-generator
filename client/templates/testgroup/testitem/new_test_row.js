@@ -44,22 +44,8 @@ Template.new_test_row.helpers({
 
     /*
     // Autocomplete settings.
-    "settings": function () {
-        return {
-            position: "top",
-            limit: 5,
-            rules: [
-             {
-               collection: Pads,
-               field: "name",
-               options: 'i', //case insensitive
-               matchAll: true,
-               filter: { chipName: this.matcher._selector.chipName },
-               template: Template.padAutoCompleteTemplate
-             }
-            ]
-        }        
-    },*/
+    // Could be found in Template.inputCell.helpers
+    */
 
     // Create the attributes for each cell in the testitem row:
     "cellAttributes": function(cell_name, object_id) {

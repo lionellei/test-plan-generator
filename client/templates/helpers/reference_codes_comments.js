@@ -113,3 +113,25 @@ homes.filter(function (el) {
  <td class="bg-info"><input name="measure_unit" class="input-sm test_item_input" type="text"/></td>
  -->
  */
+ 
+ /* // from testgroup.html
+                 <!-- This is an example row, only show when table is empty 
+                {{#if showExampleRow}}
+                    <tr>
+                        <td class="text-center">Example</td>
+                        <td class="text-center">CATHODE</td>
+                        <td class="text-center bg-success">I</td>
+                        <td class="text-center bg-success">1</td>
+                        <td class="text-center bg-success">mA</td>
+                        <td class="text-center bg-warning">V</td>
+                        <td class="text-center bg-warning">3</td>
+                        <td class="text-center bg-warning">V</td>
+                        <td class="text-center bg-info">V</td>
+                        <td class="text-center bg-info">1.5</td>
+                        <td class="text-center bg-info">1.75</td>
+                        <td class="text-center bg-info">2</td>
+                        <td class="text-center bg-info">V</td>
+                        <td><span class="glyphicon glyphicon-info-sign example-info"></span></td>
+                    </tr>
+                {{/if}} -->
+*/
