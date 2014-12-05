@@ -1,5 +1,6 @@
 testHeaderDefaults = {
     columns: [
+        {name: "order", label: "Order", allowed_value:"", show:true, custom:false},
         {name: "pad", label: "Pad", allowed_value:"", show: true, custom:false},
         {name: "pad2", label: "Pad2", allowed_value:"", show: false, custom:false}, // For resistance tests that involves two pads.
         {name: "source_type", label:"Source", allowed_value:"V,I", show: true, custom:false},
