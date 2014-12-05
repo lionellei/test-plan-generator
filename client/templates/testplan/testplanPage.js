@@ -452,6 +452,7 @@ var generateBasicTests = function(testplanObj, testName) {
         Testgroups.update(basicTest._id, {$set: {setups:setups}});
        
         // Loops through all the pads
+        var order = 0;
         for (var i = 0; i < pads.length; i++) {
             // Only create the test_item for the pad if there is none already.
             // Pads list sometimes will have same pads appear more than once.
@@ -462,7 +463,7 @@ var generateBasicTests = function(testplanObj, testName) {
                     var testSection = testSections[j];
                     
                     var test = {
-                        "order":(j+1).toString(),
+                        "order":(order*testSections.length+j+1),
                         "testgroupId": basicTest._id, // Assign the testgroupId to identify this test item belongs to this test group. 
                         "testgroupName": testName, // Assign because router use testplans/:chipName/:testName to local this.
                         "chipName": testplanObj.chipName, // Assign because router use testplans/:chipName/:testName to local this.
@@ -482,6 +483,7 @@ var generateBasicTests = function(testplanObj, testName) {
                     };
                     Testitems.insert(test);
                 }
+                order ++;
             }
         }
     }

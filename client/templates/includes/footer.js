@@ -95,6 +95,7 @@ Template.modifyRowsModal.helpers({
         return numRowsSelected();
     },
 
+    //TODO: this will throw exception when not in testgroup page.
     "headerColumns": function () {
         var ids = Session.get('selectedRowsIds');
         if (ids && ids.length > 0) {
@@ -107,7 +108,8 @@ Template.modifyRowsModal.helpers({
             return [];
         }
     },
-    
+
+    //TODO: this will throw exception when not in testgroup page.
     "headerRegisters": function () {
         var testitems = this.fetch();
         if (testitems.length > 0) {

@@ -23,7 +23,24 @@ Template.new_test_row.events({
            // the first one is the test number which is managed by the program.
            for (var i = 1; i < cells.length; i++) {
                var key = cells[i].firstElementChild.name;
-               var value = cells[i].firstElementChild.value;
+               var value;
+               if (key == "order") {
+                   if (cells[i].firstElementChild.value == "") {
+                       // if empty input for order, need to put a default incremented number
+                       // first find the last row.
+                       var lastItem = Testitems.find({testgroupId:testgroupId}, {$sort:{order:1}}).fetch().pop();
+                       if (!lastItem) {
+                           value = 1;
+                       } else {
+                           value = lastItem.order + 1;
+                       }
+                   } else {
+                       value = Number(cells[i].firstElementChild.value);
+                   }
+               } else {
+                   value = cells[i].firstElementChild.value;
+               }
+
                test_item[key] = value;
                cells[i].firstElementChild.value = ""; // clear the field
            }
