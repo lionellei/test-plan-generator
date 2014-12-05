@@ -72,13 +72,22 @@ Template.testplanPage.helpers({
     // **** //////////////////////////////////////////////////////////////
 });
 
-var latestRevisionForTestplan = function (testplan) {
-    return Testplans.findOne({chipName:testplan.chipName, revision:0}).latest_revision;
-};
 
 Template.testplanPage.events({
     "click .export-testplan-button": function (event, template) {
         var zip = new ZipZap(); // provided by the udondan:ZipZap package
+        
+        // Export Pin List:
+        var pin_list = exportPinList(event, template, this);
+        zip.file("Pin List.csv", pin_list);
+        
+        // Export Reg Table:
+        var reg_table = exportRegTable(event, template, this);
+        zip.file("Reg Table.csv", reg_table);
+        
+        // Export Revision Logs:
+        var rev_log = exportRevLog(event, template, this);
+        zip.file("Rev Log.csv", rev_log);
         
         var testgroups = Testgroups.find({testplanId:this._id}).fetch();
         
@@ -315,6 +324,42 @@ Template.releaseForm.events({
 });
 
 /// *************** The heavey duty stuffs below ********************************
+var exportPinList = function(event, template, testplanObj) {
+    var pads = Pads.find({chipName: testplanObj.chipName}).fetch();
+    var row = testplanObj.chipName+" Pin List \n";
+    row = row + "Pad #, Name, Type\n";
+    for (var i=0; i<pads.length; i++) {
+        row = row + pads[i].number + ',' + pads[i].name + ',' + pads[i].type + '\n'; 
+    }
+    return row;
+};
+
+var exportRegTable = function(event, template, testplanObj) {
+    var registers = Registers.find({chipName: testplanObj.chipName}).fetch();
+    var row = testplanObj.chipName+" Analog Control Table \n";
+    row = row + "Analog Register, Size, Description\n";
+    for (var i=0; i<registers.length; i++) {
+        row = row + registers[i].control_name + ',' + registers[i].size + ',' + registers[i].description + '\n'; 
+    }
+    return row;
+};
+
+var exportRevLog = function(event, template, testplanObj) {
+    var testplans = Testplans.find({chipName: testplanObj.chipName}, {sort: {revision: 1}}).fetch();
+    var row = testplanObj.chipName+" Test Plan Rev Logs \n";
+    row = row + "Revision, Note\n";
+    for (var i=0; i<testplans.length; i++) {
+        if (testplans[i].revision > 0) {
+            row = row + testplans[i].revision + ',' + testplans[i].release_note + '\n'; 
+        }
+    }
+    return row;
+};
+
+var latestRevisionForTestplan = function (testplan) {
+    return Testplans.findOne({chipName:testplan.chipName, revision:0}).latest_revision;
+};
+
 var roundUp = function (value) {
     return (~~((value + 99) / 100) * 100);
 };
