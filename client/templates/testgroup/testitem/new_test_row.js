@@ -21,7 +21,8 @@ Template.new_test_row.events({
            
            // Loop through the <td> tags to set the attributes of the test_item, 
            // the first one is the test number which is managed by the program.
-           for (var i = 1; i < cells.length; i++) {
+           // The last <td> tag is an empty tag
+           for (var i = 1; i < cells.length-1; i++) {
                var key = cells[i].firstElementChild.name;
                var value;
                if (key == "order") {
