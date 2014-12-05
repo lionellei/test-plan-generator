@@ -18,8 +18,8 @@ Template.new_setup_row.events({
            var setup = {}; // Declare the setup as dictionary
            cells = template.firstNode.children; // template.firstNode=<tr> its childrens are all the <td> tags
            
-
-           for (var i = 0; i < cells.length; i++) {
+            // The last <td> tag is an empty tag
+           for (var i = 0; i < cells.length-1; i++) {
                var key = cells[i].firstElementChild.name;
                var value = cells[i].firstElementChild.value;
                setup[key] = value;

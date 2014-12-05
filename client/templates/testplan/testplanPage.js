@@ -242,11 +242,24 @@ Template.releaseForm.events({
             
             // Copy the test header configs and registers
             var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroups[i]._id});
+
+            // change the "order" column "show" to false so that the order column is not shown in released test groups.
+            var modifiedColumns = testHeaderConfigs.columns;
+            var orderColumn = testHeaderConfigs.columns.filter(function(element) {
+                return element.name == "order";
+            })[0];
+            var columnIndex = testHeaderConfigs.columns.indexOf(orderColumn);
+            if (columnIndex !== -1) {
+                // toggle the "show" value.
+                orderColumn.show = false;
+                modifiedColumns[columnIndex] = orderColumn;
+            }
+
             var newTestHeaderConfigs = {
-                columns: testHeaderConfigs.columns,  
+                columns: modifiedColumns,
                 testgroup_id: new_testgroup_id,
                 testgroup_name: testgroup.name,
-                revision: nextRevNumber,
+                revision: nextRevNumber
             };
             if (testHeaderConfigs.registers) {
                 newTestHeaderConfigs["registers"] = testHeaderConfigs.registers;
@@ -284,7 +297,7 @@ Template.releaseForm.events({
             }
 
             // Copy all the test items:
-            var testitems = Testitems.find({testgroupId:testgroups[i]._id}).fetch();
+            var testitems = Testitems.find({testgroupId:testgroups[i]._id}, {sort: {order:1}}).fetch();
             var testNumber;
             if (testgroup.name == "Continuity") {
                 testNumber = 1000+1;
@@ -413,7 +426,7 @@ var createCustomTests = function(testplanObj, testName) {
     headerConfigs["chipName"] = testplanObj.chipName;
     headerConfigs["revision"] = testplanObj.revision;
     TestHeaderConfigs.insert(headerConfigs);
-}
+};
 
 var generateBasicTests = function(testplanObj, testName) { 
     // chipObj has the following data:
@@ -471,6 +484,7 @@ var generateBasicTests = function(testplanObj, testName) {
         Testgroups.update(basicTest._id, {$set: {setups:setups}});
        
         // Loops through all the pads
+        var order = 0;
         for (var i = 0; i < pads.length; i++) {
             // Only create the test_item for the pad if there is none already.
             // Pads list sometimes will have same pads appear more than once.
@@ -481,6 +495,7 @@ var generateBasicTests = function(testplanObj, testName) {
                     var testSection = testSections[j];
                     
                     var test = {
+                        "order":(order*testSections.length+j+1),
                         "testgroupId": basicTest._id, // Assign the testgroupId to identify this test item belongs to this test group. 
                         "testgroupName": testName, // Assign because router use testplans/:chipName/:testName to local this.
                         "chipName": testplanObj.chipName, // Assign because router use testplans/:chipName/:testName to local this.
@@ -500,6 +515,7 @@ var generateBasicTests = function(testplanObj, testName) {
                     };
                     Testitems.insert(test);
                 }
+                order ++;
             }
         }
     }

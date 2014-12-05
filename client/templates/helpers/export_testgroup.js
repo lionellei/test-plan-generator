@@ -1,7 +1,7 @@
 
    exportTestgroup = function(testgroup){ // Need to pass in the testgroup object
       //console.log("export button clicked");
-      var testItems = Testitems.find({testgroupId:testgroup._id}).fetch(); 
+      var testItems = Testitems.find({testgroupId:testgroup._id}, {sort: {order:1}}).fetch();
       var testsetups = Testsetups.find({testgroup_id:testgroup._id}).fetch();
       var testNotes = Notes.find({testgroupId:testgroup._id}).fetch();
       var headerConfigs = TestHeaderConfigs.findOne({testgroup_id: testgroup._id});
@@ -73,7 +73,9 @@
             // Column name is none of the above
             // then append the header if it's shown
             if (column.show) {
-               row = row + column.label + ',';
+               if (column.name != "order") {
+                  row = row + column.label + ',';
+               }
             }
          } else {
             // Column name is one of the above, they are required to come in order
@@ -126,7 +128,9 @@
             // Column name is none of the above
             // then append the header if it's shown
             if (column.show) {
-               row = row + item[column.name] + ',';
+               if (column.name != "order") {
+                  row = row + item[column.name] + ',';
+               }
             }
          } else {
             // Column name is one of the above, they are required to come in order

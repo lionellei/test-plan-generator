@@ -199,19 +199,24 @@ var updateCell = function(event, inputText, data) { // data is the data context 
         //console.log(inputText);
         switch (data.collection) {
             case 'Testitems':
-                testItem = Testitems.findOne(data.object_id);
-                testItem[data.cell_name] = event.currentTarget.value;
+                var testItem = Testitems.findOne(data.object_id);
+                if (data.cell_name == "order") {
+                    testItem[data.cell_name] = Number(event.currentTarget.value);
+                } else {
+                    testItem[data.cell_name] = event.currentTarget.value;
+                }
+
                 Testitems.update(data.object_id, testItem);
                 break;
                 
             case 'Testsetups':
-                testsetup = Testsetups.findOne(data.object_id);
+                var testsetup = Testsetups.findOne(data.object_id);
                 testsetup[data.cell_name] = event.currentTarget.value;
                 Testsetups.update(data.object_id, testsetup);
                 break;
                 
             case 'Notes':
-                note = Notes.findOne(data.object_id);
+                var note = Notes.findOne(data.object_id);
                 note[data.cell_name] = inputText;
                 Notes.update(data.object_id, note);
                 break;

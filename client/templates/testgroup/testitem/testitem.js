@@ -72,6 +72,8 @@ Template.testitem.helpers({
                 bgClass = "bg-warning";
                 break;
             case "measure_type":
+            case "marker":
+            case "calculate":
             case "measure_min":
             case "measure_typ":
             case "measure_max":
