@@ -15,18 +15,21 @@ Template.testplanPage.helpers({
             return "btn-default";
         }
     },
-
-    "padsListButtonClass": function() {
+    
+    "statusButtonClass": function(collection) {
         if (this.revision == 0) {
-            return "btn-primary";
-        } else {
-            return "btn-default";
-        }
-    },
-
-    "regTableButtonClass": function() {
-        if (this.revision == 0) {
-            return "btn-primary";
+            var stuffs;
+            if (collection == "Pads") {
+                stuffs = Pads.find({chipName:this.chipName}).fetch();
+            } 
+            else if (collection == "Registers") {
+                stuffs = Registers.find({chipName:this.chipName}).fetch();
+            }
+            if (stuffs && stuffs.length > 0) {
+                return "btn-success";
+            } else {
+                return "btn-primary";
+            }
         } else {
             return "btn-default";
         }
@@ -53,6 +56,22 @@ Template.testplanPage.helpers({
             return "Working Copy (Rev 0)";
         } else {
             return "Rev "+this.revision;
+        }
+    },
+    
+    "statusIcon": function (collection) {
+        var stuffs;
+        if (collection == "Pads") {
+            stuffs = Pads.find({chipName:this.chipName}).fetch();
+        } 
+        else if (collection == "Registers") {
+            stuffs = Registers.find({chipName:this.chipName}).fetch();
+        }
+        
+        if (stuffs && stuffs.length > 0) {
+            return "glyphicon-check";
+        } else {
+            return "glyphicon-unchecked";
         }
     }
 

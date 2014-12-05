@@ -5,7 +5,7 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-sm-10">
-                    <strong class="h2"><span class="text-primary">{{chipName}}</span> Test Plan</strong>
+                    <strong class="h2"><span class="text-primary">{{chipName}}</span> Test Plan</strong> <strong class="text-muted">[Rev. {{revision}}]</strong>
                 </div>
                 <div class="col-sm-2">
                     <select name="selected-revision" current_revision="{{revision}}" class="pull-right form-control select-revision" id="testplan-revision-select">
@@ -19,18 +19,25 @@
 
         <!-- Panel Body -->
         <div class="panel-body">
+            {{#if isVersionZero}}
             <p>Please complete the following steps. </p>
             <p>After importing the <mark>Pin List</mark> and <mark>Register Table</mark>, some tests could be generated automatically.</p>
+            {{else}}
+            
+                <strong class="text-danger h4">Release Note</strong>
+                <p class="text-danger">{{release_note}}</p>
+          
+            {{/if}}
             <div class="row">
                 <div class="col-sm-4">
                     <p>
-                        <a href="{{pathFor 'padsList' this}}" class="btn {{padsListButtonClass}} btn-group-justified">
-                            Pin List <span class="glyphicon glyphicon-chevron-right"></span>
+                        <a href="{{pathFor 'padsList' this}}" class="btn {{statusButtonClass "Pads"}} btn-group-justified">
+                            Pin List <span class="glyphicon {{statusIcon "Pads"}}"></span>
                         </a>                        
                     </p>
                     <P>
-                        <a href="{{pathFor 'registersList' this}}" class="btn {{regTableButtonClass}} btn-group-justified">
-                            Register Table <span class="glyphicon glyphicon-chevron-right"></span>
+                        <a href="{{pathFor 'registersList' this}}" class="btn {{statusButtonClass "Registers"}} btn-group-justified">
+                            Register Table <span class="glyphicon {{statusIcon "Registers"}}"></span>
                         </a>
                     </P>
                 </div>
