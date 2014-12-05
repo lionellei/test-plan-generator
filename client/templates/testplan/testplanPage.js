@@ -394,7 +394,7 @@ var createCustomTests = function(testplanObj, testName) {
     headerConfigs["chipName"] = testplanObj.chipName;
     headerConfigs["revision"] = testplanObj.revision;
     TestHeaderConfigs.insert(headerConfigs);
-}
+};
 
 var generateBasicTests = function(testplanObj, testName) { 
     // chipObj has the following data:
@@ -462,6 +462,7 @@ var generateBasicTests = function(testplanObj, testName) {
                     var testSection = testSections[j];
                     
                     var test = {
+                        "order":(j+1).toString(),
                         "testgroupId": basicTest._id, // Assign the testgroupId to identify this test item belongs to this test group. 
                         "testgroupName": testName, // Assign because router use testplans/:chipName/:testName to local this.
                         "chipName": testplanObj.chipName, // Assign because router use testplans/:chipName/:testName to local this.

@@ -109,13 +109,16 @@ Template.modifyRowsModal.helpers({
     },
     
     "headerRegisters": function () {
-        var ids = Session.get('selectedRowsIds');
-        if (ids && ids.length > 0) {
-            var testgroupId = Testitems.findOne(ids[0]).testgroupId;
-            var headerRegistersToShow = TestHeaderConfigs.findOne({testgroup_id:testgroupId}).registers;
-            return headerRegistersToShow;
-        } else {
-            return [];
+        var testitems = this.fetch();
+        if (testitems.length > 0) {
+            var ids = Session.get('selectedRowsIds');
+            if (ids && ids.length > 0) {
+                var testgroup_id = testitems[0].testgroupId;
+                var headerRegistersToShow = TestHeaderConfigs.findOne({testgroup_id:testgroup_id}).registers;
+                return headerRegistersToShow;
+            } else {
+                return [];
+            }
         }
     },
     
