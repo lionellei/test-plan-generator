@@ -341,48 +341,14 @@ Template.addRegister.helpers({
 Template.addRegister.events({
     "keyup .add-register-input": function (event, template) {
         if (event.keyCode == 13) {
-            if (event.currentTarget.value != "") {
-                var headerRegisters;
-                if (Session.get('headerRegisters')) {
-                    headerRegisters = Session.get('headerRegisters');
-                } else {
-                    headerRegisters = [];
-                }
-                
-                // check duplicate entries
-                var control_names = headerRegisters.map(function (reg) {
-                    return reg.name;
-                });
-                if (control_names.indexOf(event.currentTarget.value) < 0) { // has not been added yet.
-                    // set allowed values
-                    var register = Registers.findOne({chipName: template.data.matcher._selector.chipName, control_name:event.currentTarget.value});
-                    var allowed_value = "";
-                    if (register.size == 1) {
-                        allowed_value = "0,1";
-                    } else {
-                        for (var i=0; i<Math.pow(2, register.size); i++ ) {
-                            allowed_value = allowed_value+i.toString();
-                            if (i!=Math.pow(2,register.size)-1) {
-                                allowed_value = allowed_value+",";
-                            }
-                        }
-                    }
-                    
-                    var header = {
-                        //{name: "measure_unit", label:"Unit", allowed_value:"", show:true, custom:false}
-                        name: event.currentTarget.value,
-                        label: event.currentTarget.value,
-                        allowed_value:allowed_value,
-                        show: true,
-                        custom: true
-                    }
-                    headerRegisters.push(header);
-                    Session.set('headerRegisters', headerRegisters);
-                }
-            
-                event.currentTarget.value = "";
-            }           
+            addHeaderRegister(event.currentTarget.value, template);
+            event.currentTarget.value = "";
         }
+    },
+    
+    "click .add-register-button": function (event, template) {
+        addHeaderRegister($('.add-register-input')[0].value, template);
+        $('.add-register-input')[0].value = "";
     },
     
     "click .delete-header-register-btn": function (event, template) {
@@ -403,6 +369,47 @@ Template.addRegister.events({
 ///// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ////////////////////// Functions /////////////////////////////
+var addHeaderRegister = function(currentTargetValue, template) {
+    if (currentTargetValue != "") {
+        var headerRegisters;
+        if (Session.get('headerRegisters')) {
+            headerRegisters = Session.get('headerRegisters');
+        } else {
+            headerRegisters = [];
+        }
+        
+        // check duplicate entries
+        var control_names = headerRegisters.map(function (reg) {
+            return reg.name;
+        });
+        if (control_names.indexOf(currentTargetValue) < 0) { // has not been added yet.
+            // set allowed values
+            var register = Registers.findOne({chipName: template.data.matcher._selector.chipName, control_name:currentTargetValue});
+            var allowed_value = "";
+            if (register.size == 1) {
+                allowed_value = "0,1";
+            } else {
+                for (var i=0; i<Math.pow(2, register.size); i++ ) {
+                    allowed_value = allowed_value+i.toString();
+                    if (i!=Math.pow(2,register.size)-1) {
+                        allowed_value = allowed_value+",";
+                    }
+                }
+            }
+            
+            var header = {
+                //{name: "measure_unit", label:"Unit", allowed_value:"", show:true, custom:false}
+                name: currentTargetValue,
+                label: currentTargetValue,
+                allowed_value:allowed_value,
+                show: true,
+                custom: true
+            }
+            headerRegisters.push(header);
+            Session.set('headerRegisters', headerRegisters);
+        }
+    }  
+};
 
 // Only usable inside the testgroup template, the dataContext needs to be "this" of testgroup template.
 var findCurrentTestgroup = function(dataContext) {
