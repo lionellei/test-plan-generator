@@ -223,11 +223,24 @@ Template.releaseForm.events({
             
             // Copy the test header configs and registers
             var testHeaderConfigs = TestHeaderConfigs.findOne({testgroup_id:testgroups[i]._id});
+
+            // change the "order" column "show" to false so that the order column is not shown in released test groups.
+            var modifiedColumns = testHeaderConfigs.columns;
+            var orderColumn = testHeaderConfigs.columns.filter(function(element) {
+                return element.name == "order";
+            })[0];
+            var columnIndex = testHeaderConfigs.columns.indexOf(orderColumn);
+            if (columnIndex !== -1) {
+                // toggle the "show" value.
+                orderColumn.show = false;
+                modifiedColumns[columnIndex] = orderColumn;
+            }
+
             var newTestHeaderConfigs = {
-                columns: testHeaderConfigs.columns,  
+                columns: modifiedColumns,
                 testgroup_id: new_testgroup_id,
                 testgroup_name: testgroup.name,
-                revision: nextRevNumber,
+                revision: nextRevNumber
             };
             if (testHeaderConfigs.registers) {
                 newTestHeaderConfigs["registers"] = testHeaderConfigs.registers;
@@ -265,7 +278,7 @@ Template.releaseForm.events({
             }
 
             // Copy all the test items:
-            var testitems = Testitems.find({testgroupId:testgroups[i]._id}).fetch();
+            var testitems = Testitems.find({testgroupId:testgroups[i]._id}, {sort: {order:1}}).fetch();
             var testNumber;
             if (testgroup.name == "Continuity") {
                 testNumber = 1000+1;
