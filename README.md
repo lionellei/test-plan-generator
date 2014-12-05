@@ -19,6 +19,7 @@ The Cloud9 IDE team
 
 Features Road Map:
 1. support vector number. i.e., several rows have vector number and then a next couple of rows with test number for measurement.
+   should vector number be managed? Or let user input test vector?
 2. Allow inserting "wait time" in between test rows?
 3. Allow any input in measure_type
 4. Allow insert row divider so user could group rows. 
