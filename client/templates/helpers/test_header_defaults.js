@@ -10,7 +10,7 @@ testHeaderDefaults = {
         {name: "compliance_type", label:"Compliance", allowed_value:"V,I", show: true, custom:false},
         {name: "compliance_value", label:"Value", allowed_value:"", show:true, custom:false},
         {name: "compliance_unit", label:"Unit", allowed_value:"", show:true, custom:false},
-        {name: "measure_type", label:"Measure", allowed_value:"V,I", show:true, custom:false},
+        {name: "measure_type", label:"Measure", allowed_value:"", show:true, custom:false},
         {name: "marker", label:"Marker", allowed_value:"", show:false, custom:false},
         {name: "calculate", label:"Calculate", allowed_value:"", show:false, custom:false}, // For calculation based on other measurements.
         {name: "measure_min", label:"MIN", allowed_value:"", show:true, custom:false},
