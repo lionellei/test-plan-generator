@@ -1,7 +1,26 @@
 <template name="testplans">
-    {{#each this}}
-        <p>
-            <a href="{{pathFor 'testplanPage' this}}">{{chipName}} Test Plan, Rev {{revision}}</a>
-        </p>
+    {{#each chips}}
+        <div class="panel-group" id="{{chipName}}-accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#{{chipName}}-accordion" href="#{{chipName}}-collapseOne" aria-expanded="false" aria-controls="{{chipName}}-collapseOne">
+                            <span class="text-primary">{{chipName}} Test Plans </span><span class="badge"> {{versions.length}}</span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="{{chipName}}-collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        {{#each versions}}
+                            <ul>
+                                <li>
+                                    <a href="{{pathFor 'testplanPage' this}}">{{chipName}} Test Plan, Rev {{revision}}</a>
+                                </li>
+                            </ul>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
     {{/each}}
 </template>
