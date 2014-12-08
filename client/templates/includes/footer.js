@@ -97,13 +97,17 @@ Template.modifyRowsModal.helpers({
 
     //TODO: this will throw exception when not in testgroup page.
     "headerColumns": function () {
-        var ids = Session.get('selectedRowsIds');
-        if (ids && ids.length > 0) {
-            var testgroupId = Testitems.findOne(ids[0]).testgroupId;
-            var headerColumnsToShow = TestHeaderConfigs.findOne({testgroup_id:testgroupId}).columns.filter(function (column) {
-                return column.show;
-            });
-            return headerColumnsToShow;
+        if (Router._currentRoute.getName()=='testgroup') {
+            var ids = Session.get('selectedRowsIds');
+            if (ids && ids.length > 0) {
+                var testgroupId = Testitems.findOne(ids[0]).testgroupId;
+                var headerColumnsToShow = TestHeaderConfigs.findOne({testgroup_id:testgroupId}).columns.filter(function (column) {
+                    return column.show;
+                });
+                return headerColumnsToShow;
+            } else {
+                return [];
+            }
         } else {
             return [];
         }
@@ -111,16 +115,20 @@ Template.modifyRowsModal.helpers({
 
     //TODO: this will throw exception when not in testgroup page.
     "headerRegisters": function () {
-        var testitems = this.fetch();
-        if (testitems.length > 0) {
-            var ids = Session.get('selectedRowsIds');
-            if (ids && ids.length > 0) {
-                var testgroup_id = testitems[0].testgroupId;
-                var headerRegistersToShow = TestHeaderConfigs.findOne({testgroup_id:testgroup_id}).registers;
-                return headerRegistersToShow;
-            } else {
-                return [];
+        if (Router._currentRoute.getName()=='testgroup') {
+            var testitems = this.fetch();
+            if (testitems.length > 0) {
+                var ids = Session.get('selectedRowsIds');
+                if (ids && ids.length > 0) {
+                    var testgroup_id = testitems[0].testgroupId;
+                    var headerRegistersToShow = TestHeaderConfigs.findOne({testgroup_id:testgroup_id}).registers;
+                    return headerRegistersToShow;
+                } else {
+                    return [];
+                }
             }
+        } else {
+            return [];
         }
     },
     

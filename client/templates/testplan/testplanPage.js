@@ -1,7 +1,8 @@
 // ********* Main testplanPage Template *************
 Template.testplanPage.helpers({
     "log": function() {
-        console.log(this);    
+        console.log(this);  
+        console.log(Router._currentRoute.getName());
     },
     
     "testgroups": function() {
