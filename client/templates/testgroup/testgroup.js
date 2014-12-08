@@ -37,6 +37,7 @@ Template.testgroup.helpers({
     
     // Return all the notes collection
     "notes": function () {
+        /*
         var testgroup = Testgroups.findOne({chipName:this.matcher._selector.chipName, 
                                             name:this.matcher._selector.testgroupName, 
                                             revision:Number(this.matcher._selector.revision)});
@@ -44,7 +45,12 @@ Template.testgroup.helpers({
             return Notes.find({testgroupId:testgroup._id});
         } else {
             return [];
-        }
+        }*/
+        return Notes.find({
+            chipName:this.matcher._selector.chipName,
+            testgroupName: this.matcher._selector.testgroupName,
+            revision:Number(this.matcher._selector.revision)
+        });
 
     },
 

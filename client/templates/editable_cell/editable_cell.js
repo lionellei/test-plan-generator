@@ -151,8 +151,8 @@ Template.editing_cell.events({
    
     ////////////// For test notes input //////////////////////
     "click .note-update-button": function(event, template) {
-        updateCell(event, inputText, this);
         var inputText = template.find(".get-cell-value").value;
+        updateCell(event, inputText, this);
         // disable the cell for editing once "enter" is pressed.
         disableEditing();   
     },
