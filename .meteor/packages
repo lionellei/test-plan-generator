@@ -6,7 +6,6 @@
 meteor-platform
 mizzao:bootstrap-3
 iron:router
-sacha:spin
 accounts-password
 ian:accounts-ui-bootstrap-3
 krstffr:spreadsheet-to-mongodb
@@ -16,3 +15,5 @@ aldeed:autoform
 aldeed:collection2
 mizzao:autocomplete
 udondan:zipzap
+sacha:spin
+
