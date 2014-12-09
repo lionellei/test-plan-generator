@@ -16,15 +16,68 @@ Template.dashboard.created = function() {
 
 
 //////////// Partials /////////////////
+Template.newTestPlanForm.helpers({
+    "chipNameFormError": function () {
+        if (Session.get('chipNameFormError')) {
+            return Session.get('chipNameFormError');
+        } else {
+            return "";
+        }
+    }    
+});
+
 AutoForm.hooks({
     chipNameForm: {
-        onSuccess: function(operation, result, template){
-            // Dismiss the modal.
-            $('.chip-name-modal').modal('hide');
-
-            //result is the _id of the generated document.
-            var testplan = Testplans.findOne(result);
-            Router.go('testplanPage', testplan);
+        before: {
+            insert: function(doc, template) {
+                console.log("before insert");
+                console.log(doc);
+                var testplans = Testplans.find().fetch();
+                // Using underscore.js _.uniq function. It's quadratic time, not efficient for large array.
+                // TODO: improve above mentioned efficiency.
+                var lowerCaseChipNames = _.uniq(testplans.map(function(testplan){
+                    return testplan.chipName;
+                })).map(function (name) {
+                    return name.toLowerCase();
+                });
+                
+                if (!Meteor.user()) {
+                    alert('You must log in first!');
+                    return false;
+                }
+                
+                if (!doc.chipName) {
+                    // Empty string
+                    Session.set('chipNameFormError', "Chip Name is required!");
+                    return false;
+                }
+                else if (lowerCaseChipNames.indexOf(doc.chipName.toLowerCase()) > -1) {
+                    // Duplicate chipName.
+                    Session.set('chipNameFormError', "Test plans for this chip has already been created!");
+                    return false;
+                } 
+                else if (doc.chipName.length > 10) {
+                    Session.set('chipNameFormError', "Chip Name must be 10 characters or less");
+                    return false;
+                }
+                else {
+                    Session.set('chipNameFormError', "");
+                    return doc;
+                }
+                
+                return false;
+            }
+        },
+        
+        after: { // Doesn't got called.
+            insert: function (error, result, template) {
+                // Dismiss the modal.
+                $('.chip-name-modal').modal('hide');
+    
+                //result is the _id of the generated document.
+                var testplan = Testplans.findOne(result);
+                Router.go('testplanPage', testplan);
+            }
         }
     }
 });
