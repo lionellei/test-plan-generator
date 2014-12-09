@@ -12,9 +12,9 @@
             </div>
             <div class="collapse navbar-collapse" id="navigation">
                 <ul class="nav navbar-nav">
-                    <!-- TODO: These are for demo only -->
-                    <li><a href="{{pathFor 'testplans'}}">Test Plans</a></li>
-                    <!--<li><a href="{{pathFor 'testgroup'}}">Demo Test</a></li>-->
+                    {{#if currentUser}}
+                        <li><a href="{{pathFor 'testplans'}}">Test Plans</a></li>
+                    {{/if}}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {{> loginButtons}}
