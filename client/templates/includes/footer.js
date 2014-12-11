@@ -37,10 +37,12 @@ Template.footer.events({
             var r = confirm(Session.get('selectedRowsIds').length+" rows will be duplicated, are you sure?");
             if (r) {
                 var ids = Session.get('selectedRowsIds');
+                var lastItemOrder = Testitems.find({},{sort:{order: 1}}).fetch().pop().order; //The subscription is responsible for finding the correct test items.
                 for (var i=0; i<ids.length; i++) {
                     var testitem = Testitems.findOne(ids[i]);
                     //testitem_copy = testitem;
                     delete testitem._id; // need to erase the _id field otherwise mongo prevents insertion.
+                    testitem.order = lastItemOrder + i + 1;
                     Testitems.insert(testitem);
                 }
             }
@@ -61,6 +63,8 @@ Template.footer.events({
                     // Loops through all the pads copy the prototype test's value, except the pad name.
                     // To prevent duplicate test on the same pad:
                     padNames = [];
+                    var lastItemOrder = Testitems.find({},{sort:{order: 1}}).fetch().pop().order; //The subscription is responsible for finding the correct test items.
+                    var j = 0; //for non duplicate pad
                     for (var i = 0; i < pads.length; i++) {
                         pad = pads[i];
                         if (pad.name != prototype_test.pad & padNames.filter(function(name){return pad.name == name;}).length==0) {
@@ -68,7 +72,9 @@ Template.footer.events({
                             var test_item = prototype_test;
                             test_item["pad"] = pad.name;
                             delete test_item._id;
+                            test_item.order = lastItemOrder + j + 1;
                             Testitems.insert(test_item);
+                            j ++;
                         }
                     }                
                 }
