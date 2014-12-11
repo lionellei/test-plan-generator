@@ -213,6 +213,7 @@ Template.releaseForm.helpers({
 
 Template.releaseForm.events({
     "click #release-testplan-submit": function (event, template) {
+        console.log(this);
         var nextRevNumber = getNextRevNumberFor(this);
 
         // Copy the testplan object:
@@ -258,6 +259,7 @@ Template.releaseForm.events({
 
             var newTestHeaderConfigs = {
                 columns: modifiedColumns,
+                chipName:testHeaderConfigs.chipName,
                 testgroup_id: new_testgroup_id,
                 testgroup_name: testgroup.name,
                 revision: nextRevNumber

@@ -30,10 +30,24 @@ Meteor.publish("setups", function(chipName, testgroupName, revision) {
     });
 });
 
+Meteor.publish("setupsForWholeTestplan", function(chipName, revision) {
+    return Testsetups.find({
+        chipName:chipName,
+        revision:revision
+    });
+});
+
 Meteor.publish("notes", function(chipName, testgroupName, revision) {
     return Notes.find({
         chipName:chipName,
         testgroupName:testgroupName,
+        revision:revision
+    });
+});
+
+Meteor.publish("notesForWholeTestplan", function(chipName, revision) {
+    return Notes.find({
+        chipName:chipName,
         revision:revision
     });
 });
@@ -46,10 +60,25 @@ Meteor.publish("testHeaderConfigs", function (chipName, testgroup_name, revision
     });
 });
 
+Meteor.publish("testHeaderConfigsForWholeTestplan", function (chipName, revision) {
+    // Need this publication for "release" in testplan level.
+    return TestHeaderConfigs.find({
+        chipName: chipName,
+        revision: revision
+    });
+});
+
 Meteor.publish("testitems", function (chipName, testgroupName, revision) {
     return Testitems.find({
         chipName:chipName,
         testgroupName:testgroupName,
+        revision:revision
+    });
+});
+
+Meteor.publish("testitemsForWholeTestplan", function (chipName, revision) {
+    return Testitems.find({
+        chipName:chipName,
         revision:revision
     });
 });
