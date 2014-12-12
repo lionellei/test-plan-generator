@@ -207,13 +207,15 @@ var updateCell = function(event, inputText, data) { // data is the data context 
                     testItem[data.cell_name] = event.currentTarget.value;
                 }
 
-                Testitems.update(data.object_id, testItem);
+                //Testitems.update(data.object_id, testItem);
+                Meteor.call('testitemsUpdate', data.object_id, testItem);
                 break;
                 
             case 'Testsetups':
                 var testsetup = Testsetups.findOne(data.object_id);
                 testsetup[data.cell_name] = event.currentTarget.value;
-                Testsetups.update(data.object_id, testsetup);
+                // Testsetups.update(data.object_id, testsetup);
+                Meteor.call('testsetupsUpdate', data.object_id, testsetup);
                 break;
                 
             case 'Notes':
