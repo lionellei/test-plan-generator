@@ -21,6 +21,18 @@ Meteor.startup(function() {
     };
 });
 
+// Validate username, sending a specific error message on failure.
+Accounts.validateNewUser(function (user) {
+    if (/^[^@\s]+@finisar.com$/i.test(user.emails[0].address)) {
+        console.log("finisar email detected.");
+        return true;
+    } else {
+        console.log("non finisar email detected");
+        console.log(user.emails[0].address);
+        throw new Meteor.Error(403, "Must sign up using a Finisar email address!");
+    }
+});
+
 Accounts.onCreateUser(function(options, user) {
     user.profile = {};
 
