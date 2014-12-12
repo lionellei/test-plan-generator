@@ -165,6 +165,7 @@ Template.editing_cell.events({
         r = confirm("Sure you want to delete this note?");
         if (r) {
             Notes.remove(this.object_id);
+            // Meteor.call('notesRemove', this.object_id);
         }
         disableEditing();
     }
@@ -218,7 +219,10 @@ var updateCell = function(event, inputText, data) { // data is the data context 
             case 'Notes':
                 var note = Notes.findOne(data.object_id);
                 note[data.cell_name] = inputText;
-                Notes.update(data.object_id, note);
+                Meteor.call('notesUpdate', data.object_id, note);
+                // Use methods, because restricted collection does not allow replace document.
+                // And using $set, does not allow using data.cell_name for key.
+                // Notes.update(data.object_id, note);  
                 break;
                 
             default:

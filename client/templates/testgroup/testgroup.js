@@ -178,15 +178,32 @@ Template.addNoteModal.events({
         //console.log(template.find(".note-textarea").value);
         //console.log(this.currentTestgroup);
         if (template.find(".note-textarea").value != "") {
+            /*
+            Meteor.call('notesInsert', 
+                this.currentTestgroup.chipName, 
+                this.currentTestgroup.name, 
+                this.currentTestgroup._id, 
+                this.currentTestgroup.revision, 
+                template.find(".note-textarea").value,
+                function(error, result) {
+                    if (result) {
+                        template.find(".note-textarea").value = "";
+                        $('.add-note-modal').modal('hide');
+                    }
+                    if (error) {
+                        console.log(error.reason);
+                    }
+                });
+            */
             var note = {chipName:this.currentTestgroup.chipName,
-                testgroupName:this.currentTestgroup.name,
-                testgroupId:this.currentTestgroup._id,
-                revision:this.currentTestgroup.revision,
-                note_text:template.find(".note-textarea").value};
+                        testgroupName: this.currentTestgroup.name,
+                        testgroupId:this.currentTestgroup._i,
+                        revision:this.currentTestgroup.revision,
+                        note_text:template.find(".note-textarea").value};
             Notes.insert(note);
             template.find(".note-textarea").value = "";
+            $('.add-note-modal').modal('hide');
         }
-        $('.add-note-modal').modal('hide');
     }
 });
 //// ***************************************************************************
