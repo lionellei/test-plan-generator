@@ -2,6 +2,10 @@ Meteor.publish("testplans", function() {
     return Testplans.find();
 });
 
+Meteor.publish("currentTestplan", function(chipName, revision) {
+    return Testplans.find({chipName:chipName, revision:revision});
+});
+
 Meteor.publish("pads", function(chipName) {
     return Pads.find({chipName:chipName});
 });

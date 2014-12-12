@@ -131,7 +131,7 @@ Template.testgroup.events({
         if (r) {
             var testgroup = findCurrentTestgroup(this);
             var testplan = Testplans.findOne(testgroup.testplanId);
-            
+
             // Remove test notes:
             var testNoteIds = Notes.find({testgroup_id:testgroup._id}).fetch().map(function (item) {
                 return item._id;
