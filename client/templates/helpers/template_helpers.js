@@ -1,4 +1,51 @@
 // Register helpers that could be used in all templates
+Template.registerHelper("currentUserEmail", function () {
+    return Meteor.user().emails[0].address;
+});
+
+Template.registerHelper("emailStatusClass", function () {
+    if (Meteor.user() && Meteor.user().emails[0]) {
+        if (Meteor.user().emails[0].verified) {
+            return "glyphicon glyphicon-ok text-success";
+        } else {
+            return "label label-danger";
+        }
+    } else {
+        return "";
+    }
+});
+
+Template.registerHelper("emailStatusText", function() {
+    if (Meteor.user() && Meteor.user().emails[0]) {
+        if (Meteor.user().emails[0].verified) {
+            return "";
+        } else {
+            return "unverified";
+        }
+    } else {
+        return "";
+    }
+});
+
+Template.registerHelper("emailStatusInfo", function() {
+    if (Meteor.user() && Meteor.user().emails[0]) {
+        if (Meteor.user().emails[0].verified) {
+            return "";
+        } else {
+            return "A verification link has been sent to the above email. If you have not received it, please check your junk mail box or contact lionel.li@finisar.com for further assistance.";
+        }
+    } else {
+        return "";
+    }
+});
+
+Template.registerHelper("isVerifiedUser", function () {
+    if (Meteor.user() && Meteor.user().emails[0] && Meteor.user().emails[0].verified) {
+        return true;
+    } else {
+        return false;
+    }
+});
 
 /*
 Template.registerHelper(

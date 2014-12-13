@@ -1,8 +1,33 @@
 <template name="dashboard">
-    <h1>This is the dashboard.</h1>
-    <button type="button" class="btn btn-primary create-test-plan-btn" data-toggle="modal" data-target=".chip-name-modal">
-        Create Test Plan
-    </button>
+    <!-- Account Panel -->
+    <div class="panel panel-default">
+        <!-- Panel Heading -->
+        <div class="panel-heading">
+            <strong>Account</strong>
+        </div>
+        <!-- Panel Body -->
+        <div class="panel-body">
+            <p><span class="text-primary">{{currentUserEmail}}</span> <span class="{{emailStatusClass}}">{{emailStatusText}}</span></p>
+            <small>{{emailStatusInfo}}</small>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Test Plans</strong>
+        </div>
+        <div class="panel-body">
+            {{#if isVerifiedUser}}
+                {{> testplans}}
+
+                <button type="button" class="btn btn-primary create-test-plan-btn" data-toggle="modal" data-target=".chip-name-modal">
+                    Create Test Plan
+                </button>
+            {{else}}
+                <p class="text-danger">Your email is not verified. Please verify it before accessing this content.</p>
+            {{/if}}
+        </div>
+    </div>
 
     <!-- This will only show when the above button is clicked. -->
     <div class="modal fade chip-name-modal">
