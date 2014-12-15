@@ -40,6 +40,7 @@ Template.testplanPage.helpers({
         return (this.revision == 0);
     },
 
+
     "revisions": function () {
         return Testplans.find({chipName: this.chipName}).fetch();
     },
@@ -133,6 +134,33 @@ Template.testplanPage.events({
 
 
 // ********* Partials ******************
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& deleteTestPlanForm &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+Template.deleteTestPlanForm.helpers({
+    "isVersionZeroAndThereAreOtherVersions": function () {
+        return (this.revision == 0 && this.latest_revision > 0);
+    },
+
+    "notVersionZeroOrThereIsNoOtherVersion": function () {
+        return !(this.revision == 0 && this.latest_revision > 0);
+    }
+});
+
+Template.deleteTestPlanForm.events({
+    "click #cancel-delete-testplan": function (event, template) {
+        $('.delete-test-plan-modal').modal('hide');
+    },
+
+    "click #confirm-delete-testplan": function (event, template) {
+
+    }
+});
+
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& deleteTestPlanForm &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ newTestGroupForm ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Template.newTestGroupForm.helpers({
     "log": function() {
         console.log(this);    
@@ -204,7 +232,10 @@ Template.newTestGroupForm.events({
        $('.add-test-group-modal').modal('hide');
    }
 });
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ newTestGroupForm ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+//################################## releaseForm ##################################################
 Template.releaseForm.helpers({  
     "nextRevNumber": function () {
         return getNextRevNumberFor(this);
@@ -357,6 +388,7 @@ Template.releaseForm.events({
         Router.go('testplanPage', testplan_nextrev);
     }
 });
+//################################## releaseForm ##################################################
 
 /// *************** The heavey duty stuffs below ********************************
 var exportPinList = function(event, template, testplanObj) {

@@ -102,10 +102,61 @@
 
         </div>
     </div>
+
+    <!-- Dangerous Actions -->
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Dangerous Actions
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <button type="button" class="btn btn-danger btn-sm delete-testplan-button" data-toggle="modal" data-target=".delete-test-plan-modal">
+                        DELETE TEST PLAN
+                    </button>
+                </div>
+
+                <!-- This will only shown when the above button is clicked. -->
+                <div class="modal fade delete-test-plan-modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            {{> deleteTestPlanForm}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 
-<!-- Partials --> 
+<!-- Partials -->
+<template name="deleteTestPlanForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"><span class="text-primary">{{chipName}} Test Plan [Rev.{{revision}}]</span> will be <span class="text-danger">DELETED PERMANENTLY</span></h4>
+    </div>
+    <div class="modal-body">
+        {{#if isVersionZeroAndThereAreOtherVersions}}
+            <p>This is the working copy, it is removable only when all other revisions are removed.</p>
+        {{else}}
+            <p>Type <span class="text-danger">"delete"</span> in the box to confirm. This action is irreversible!</p>
+            <p><input type="text" class="confirm-delete-text-box" style="width:100%"></p>
+        {{/if}}
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="cancel-delete-testplan">Cancel</button>
+        {{#if notVersionZeroOrThereIsNoOtherVersion}}
+            <button type="button" class="btn btn-danger pull-right" id="confirm-delete-testplan">DELETE</button>
+        {{/if}}
+    </div>
+</template>
+
 <template name="newTestGroupForm">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
