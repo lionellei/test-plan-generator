@@ -25,7 +25,13 @@
 
         </table>
 
-                    <!-- Pads List Import Form -->
+        <div class="well">
+            <p>Copy and paste the register table from Excel into the following box. <span class="text-danger">Do NOT COPY the table header!</span></p>
+            <p>The table must have the following columns, in such order.</p>
+            <p>If you need to make changes, modify the table in Excel and paste in the box again.</p>
+        </div>
+
+        <!-- Pads List Import Form -->
         {{#if isVersionZero}}
         <div>
             {{> spreadsheetToMongodb__form 'registersInputForm' }}
