@@ -132,6 +132,9 @@ Template.testgroup.events({
             var testgroup = findCurrentTestgroup(this);
             var testplan = Testplans.findOne(testgroup.testplanId);
 
+            deleteTestGroup(testgroup, testplan);
+
+            /*
             // Remove test notes:
             var testNoteIds = Notes.find({testgroup_id:testgroup._id}).fetch().map(function (item) {
                 return item._id;
@@ -157,7 +160,7 @@ Template.testgroup.events({
             Meteor.call('removeSelectedTestItems', testItemIds);
             
             // Remove the testgroup itself:
-            Testgroups.remove(testgroup._id);
+            Testgroups.remove(testgroup._id);*/
             
             // Route to Test plan page:
             Router.go('testplanPage', testplan);

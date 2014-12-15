@@ -104,30 +104,15 @@
     </div>
 
     <!-- Dangerous Actions -->
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Dangerous Actions
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
-                    <button type="button" class="btn btn-danger btn-sm delete-testplan-button" data-toggle="modal" data-target=".delete-test-plan-modal">
-                        DELETE TEST PLAN
-                    </button>
-                </div>
+    <button type="button" class="btn btn-danger btn-sm delete-testplan-button" data-toggle="modal" data-target=".delete-test-plan-modal">
+        DELETE TEST PLAN
+    </button>
 
-                <!-- This will only shown when the above button is clicked. -->
-                <div class="modal fade delete-test-plan-modal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            {{> deleteTestPlanForm}}
-                        </div>
-                    </div>
-                </div>
+    <!-- This will only shown when the above button is clicked. -->
+    <div class="modal fade delete-test-plan-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{> deleteTestPlanForm}}
             </div>
         </div>
     </div>

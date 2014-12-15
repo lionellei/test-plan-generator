@@ -138,25 +138,30 @@ Template.testplanPage.events({
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& deleteTestPlanForm &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 Template.deleteTestPlanForm.helpers({
     "isVersionZeroAndThereAreOtherVersions": function () {
-        return (this.revision == 0 && this.latest_revision > 0);
+        return (this.revision == 0 && Testplans.find({chipName:this.chipName}).fetch().length > 1);
     },
 
     "notVersionZeroOrThereIsNoOtherVersion": function () {
-        return !(this.revision == 0 && this.latest_revision > 0);
+        return !(this.revision == 0 && Testplans.find({chipName:this.chipName}).fetch().length > 1);
     }
 });
 
 Template.deleteTestPlanForm.events({
     "click #cancel-delete-testplan": function (event, template) {
         $('.delete-test-plan-modal').modal('hide');
+        template.find(".confirm-delete-text-box").value = "";
     },
 
     "click #confirm-delete-testplan": function (event, template) {
-
+        var input = template.find(".confirm-delete-text-box").value;
+        if (input && input.toLowerCase()=="delete") {
+            //console.log(this);
+            deleteTestPlan(this);
+            Router.go('dashboard');
+            $('.delete-test-plan-modal').modal('hide');
+        }
     }
 });
-
-
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& deleteTestPlanForm &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 
