@@ -211,6 +211,34 @@ Template.addNoteModal.events({
 });
 //// ***************************************************************************
 
+//// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Template.testHeader.helpers({
+    "headerColor": function () {
+        switch(this.name) {
+            case 'source_type':
+            case 'source_value':
+            case 'source_unit':
+                return "bg-success";
+                break;
+            case 'compliance_type':
+            case 'compliance_value':
+            case 'compliance_unit':
+                return "bg-warning";
+                break;
+            case 'measure_type':
+            case 'measure_min':
+            case 'measure_typ':
+            case 'measure_max':
+            case 'measure_unit':
+                return "bg-info";
+                break;
+            default:
+                break;
+        }
+    }
+});
+//// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 //// ###########################################################################
 Template.headerConfigModal.events({
     "click .header-config-submit-button": function (event, template) {

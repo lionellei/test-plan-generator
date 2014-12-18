@@ -68,7 +68,7 @@
         <div class="panel-heading">
             <strong class="h4">Tests</strong> {{#if editable}}
                 <button type="button" class="btn btn-link btn-sm configure-header-button" data-toggle="modal" data-target=".header-config-modal">
-                    <span class="glyphicon glyphicon-wrench"></span> Configure Header
+                    <span class="glyphicon glyphicon-wrench"></span> Add/Remove Columns
                 </button> {{/if}}
             <!-- This will only show when above button is clicked. -->
             <div class="modal fade header-config-modal">
@@ -150,7 +150,7 @@
 
 <template name="testHeader">
     {{#if show}}
-        <th class="text-center" name="{{name}}">{{label}}</th>
+        <th class="text-center {{headerColor}}" name="{{name}}">{{label}}</th>
     {{/if}}
 </template>
 
