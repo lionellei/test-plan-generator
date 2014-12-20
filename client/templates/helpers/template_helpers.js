@@ -47,6 +47,18 @@ Template.registerHelper("isVerifiedUser", function () {
     }
 });
 
+Template.registerHelper("isAdmin", function () {
+    return Meteor.user() && Meteor.user().emails[0].address=="lionel.li@finisar.com";
+});
+
+Template.registerHelper("navbarStyle", function() {
+    if (Router._currentRoute.getName() == 'admin') {
+        return 'navbar-default';
+    } else {
+        return 'navbar-inverse';
+    }
+});
+
 /*
 Template.registerHelper(
     "cellIsEditing", function(data) {

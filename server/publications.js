@@ -87,4 +87,11 @@ Meteor.publish("testitemsForWholeTestplan", function (chipName, revision) {
     });
 });
 
+Meteor.publish("userData", function () {
+  if (this.userId) {
+    return Meteor.users.find();
+  } else {
+    this.ready();
+  }
+});
                                 

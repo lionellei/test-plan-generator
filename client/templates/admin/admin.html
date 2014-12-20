@@ -1,0 +1,34 @@
+<template name="admin">
+    <h2><span class='text-danger'>Admin Control Panel</span></h2>
+    <!-- Users Panel -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <p>Users</p>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">Email Address</th>
+                        <th class="text-center">Verified?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each users}}
+                        {{#each emails}}
+                            <tr>
+                                <td class="text-center">
+                                    {{address}}
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm {{toggleVerifyButtonStyle verified}} admin-toggle-verify-button" id="{{address}}">{{toggleVerifyButtonText verified}}</button>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{/each}}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</template>
