@@ -94,4 +94,66 @@ Meteor.publish("userData", function () {
     this.ready();
   }
 });
+
+// ####################### Publication for renameTestplan route ########################
+Meteor.publish("testplansForChip", function(chipName) {
+    if (this.userId) {
+        return Testplans.find({
+            chipName:chipName
+        });
+    } else {
+        return [];
+    }
+});
+
+Meteor.publish("testgroupsforChip", function(chipName) {
+    if (this.userId) {
+        return Testgroups.find({
+            chipName:chipName
+        });
+    } else {
+        return [];
+    }
+});
+
+Meteor.publish("testHeaderConfigsForChip", function(chipName) {
+    if (this.userId) {
+        return TestHeaderConfigs.find({
+            chipName:chipName
+        });
+    } else {
+        return [];
+    }
+});
+
+Meteor.publish("setupsForChip", function(chipName) {
+    if (this.userId) {
+        return Testsetups.find({
+            chipName:chipName
+        });
+    } else {
+        return [];
+    }
+});
+
+Meteor.publish("notesForChip", function(chipName) {
+    if (this.userId) {
+        return Notes.find({
+            chipName:chipName
+        });
+    } else {
+        return [];
+    }
+});
+
+Meteor.publish("testitemsForChip", function(chipName) {
+    if (this.userId) {
+        return Testitems.find({
+            chipName:chipName
+        });
+    } else {
+        return [];
+    }
+});
+// ####################### Publication for renameTestplan route ########################            
                                 

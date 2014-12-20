@@ -25,3 +25,11 @@ Template.testplans.helpers({
         return testplansGroupedbyChip;
     }
 });
+
+Template.testplans.events({
+    "click .change-chip-name-button": function (event, template) {
+        console.log(template.this);
+        console.log(template.data);
+        console.log(this);
+    }
+});

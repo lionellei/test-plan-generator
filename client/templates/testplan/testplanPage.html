@@ -45,14 +45,17 @@
         </div>
         <!-- Panel Footer -->
         <div class="panel-footer">
+            <button type="button" class="btn btn-xs btn-primary export-testplan-button">
+                <span class="glyphicon glyphicon-cloud-download"></span> Export
+            </button>
             {{#if isVersionZero}}
             <button type="button" class="btn btn-xs btn-warning release-testplan-button" data-toggle="modal" data-target=".release-form-modal">
                 <span class="glyphicon glyphicon-share"></span> Release
             </button>
-            {{/if}}
-            <button type="button" class="btn btn-xs btn-primary export-testplan-button">
-                <span class="glyphicon glyphicon-cloud-download"></span> Export
-            </button>
+            <a href="{{pathFor 'renameTestplan' this}}" class="btn btn-xs btn-default rename-testplan-button">
+                Rename
+            </a>
+            {{/if}}            
         </div>
         <!-- This will only shown when the above button is clicked. -->
         <div class="modal fade release-form-modal">
