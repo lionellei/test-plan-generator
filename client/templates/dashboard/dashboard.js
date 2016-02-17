@@ -60,7 +60,7 @@ AutoForm.hooks({
                     Session.set('chipNameFormError', "Chip Name must be 10 characters or less");
                     return false;
                 }
-                else if (doc.chipName.indexOf('!')) {
+                else if (doc.chipName.indexOf('!')<=0) {
                     // '!' not allowed in chip name, otherwise the reveal panel won't revweal
                     Session.set('chipNameFormError', "! is not allowed in the chip name");
                     return false;
