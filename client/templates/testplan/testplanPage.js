@@ -521,6 +521,8 @@ var generateBasicTests = function(testplanObj, testName) {
                 Testsetups.insert(setup);
             }
         }
+        console.log("Updating test group with setups:");
+        console.log(setups);
         Testgroups.update(basicTest._id, {$set: {setups:setups}});
        
         // Loops through all the pads
