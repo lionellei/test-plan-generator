@@ -528,6 +528,8 @@ var generateBasicTests = function(testplanObj, testName) {
         for (var i = 0; i < pads.length; i++) {
             // Only create the test_item for the pad if there is none already.
             // Pads list sometimes will have same pads appear more than once.
+            console.log("adding test number: " + order);
+            console.log("adding test for pad:" + pads.name);
             var pad = pads[i];
             if (!!!Testitems.findOne({pad:pad.name, testgroupId:basicTest._id})) {
                 var testSections = configs.testSections;
@@ -553,6 +555,8 @@ var generateBasicTests = function(testplanObj, testName) {
                         "measure_max": testSection.measure_max,
                         "measure_unit": testSection.measure_unit
                     };
+                    console.log("inserting test item:");
+                    console.log(test);
                     Testitems.insert(test);
                 }
                 order ++;
